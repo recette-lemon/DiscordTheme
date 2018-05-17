@@ -1,0 +1,95 @@
+[class*="wordmark-"]{
+	pointer-events:all !important;
+	cursor:pointer;
+}
+[class*="app-"]{
+	overflow:hidden;
+}
+#theme-menu{
+	position:absolute;
+	top:0; left:0;
+	z-index:100;
+	width:100%;
+	height:100%;
+	display:flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background-color:rgba(0,0,0,0.7) !important;
+	transform: translateY(-100%);
+	transition:transform 125ms ease-in-out;
+}
+#theme-menu.visible{
+	transform: translateY(0%);
+}
+#theme-menu *{
+	box-sizing:border-box;
+}
+
+#theme-menu .games-list-element{
+	width:100%;
+	height:100%;
+	padding:20px;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+}
+#theme-menu .games-list-element.hidden{
+	display:none;
+}
+#theme-menu .games-list-element .games-game-element{
+	width:200px;
+	padding:20px;
+	border:1px solid white;
+	color:white;
+	cursor:pointer;
+}
+#theme-menu .games-list-element .games-game-element:hover{
+	color:black;
+	background:white;
+	font-weight:600;
+}
+#theme-menu .games-list-element .games-game-name{
+	padding-bottom:10px;
+	font-size:25px;
+	text-transform:uppercase;
+}
+#theme-menu .games-list-element .games-game-info{
+	width:150px;
+	display:flex;
+	align-items:center;
+	justify-content:space-between;
+	padding-bottom:2px;
+}
+#theme-menu .games-list-element .games-game-info > *{
+	flex-basis:50%;
+	flex-grow:1;
+}
+#theme-menu .games-list-element .games-game-info .games-game-info-value{
+	font-size:14px;
+	padding-left:15px;
+}
+
+#theme-menu canvas{
+	position:relative;
+	border:1px solid white;
+	opacity:0.8;
+}
+#theme-menu .snake-score {
+	font-family: Menlo,Consolas,Monaco,monospace;
+	text-align: center;
+	font-weight: bold;
+	color: white;
+}
+#theme-menu .snake-score .snake-hscore {
+	font-size: 16px;
+}
+#theme-menu .snake-score .snake-hscore:before {
+	content: "Highest:";
+}
+#theme-menu .snake-score .snake-cscore {
+	font-size: 32px;
+}
+#theme-menu .snake-score .snake-cscore:before {
+	content: "Score:";
+}

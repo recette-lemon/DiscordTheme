@@ -1,0 +1,1 @@
+If you move this folder you need to run install again because discord points to files in this folder.
