@@ -10,6 +10,19 @@ function reverseEach(obj, fn){
 		if(fn(keys[i], obj[keys[i]]) === false) return;
 	}
 }
+function checkMessageForOutput(child){
+	if(child.getReactInstance){
+		let react = child.getReactInstance();
+		if(react){
+			try{
+				if(Discord.Nonces.has(react["return"].key)){
+					child.style.display = "none";
+					return true;
+				}
+			}catch(e){};
+		}
+	}
+}
 
 /* Window Events */
 window.addEventListener("load", function(){
@@ -53,8 +66,12 @@ window.addEventListener("click", function(e){
 }, true);
 window.addEventListener("DOMNodeInserted", function (e) {
 	let target = e.target;
-	if(target instanceof HTMLElement && target.className.startsWith("contextMenu") && target.parentNode.id=="app-mount") {
-		Discord.ContextMenu(target);
+	if(target instanceof HTMLElement){
+		if(target.className.startsWith("contextMenu") && target.parentNode.id=="app-mount") {
+			Discord.ContextMenu(target);
+		}
+		let mg = target.closest(".message-group");
+		if(mg) checkMessageForOutput(mg);
 	}
 });
 
@@ -875,56 +892,4 @@ window.XMLHttpRequest = function(){
 	return xhr;
 }
 
-/* Intercept messages before they are appended to the document */
-function checkMessageForOutput(child){
-	if(child.getReactInstance){
-		let react = child.getReactInstance();
-		if(react){
-			try{
-				if(Discord.Nonces.has(react["return"].key)){
-					child.style.display = "none";
-					return true;
-				}
-			}catch(e){};
-		}
-	}
-}
-function checkMessage(child){
-	if(child.matches(".message:not(.message-sending)")){
-		let react = child.getReactReturn(2);
-		let props = react.memoizedProps;
-		if(Discord.Messages.has(react.key)) return;
-		Discord.Messages.add(react.key);
-		let channel = props.channel.id;
-		let user = props.message ? props.message.author : props.user;
-		//TODO doesnt work for file uploads
-		if(user.id!=discord.user)
-			Discord.call("message", {
-				channel:channel,
-				author:{
-					id: user.id,
-					username: user.username
-				},
-				message:{
-					id: props.message.id,
-					content: props.message.content
-				}
-			});
-	}
-}
-let _appendChild = HTMLElement.prototype.appendChild;
-HTMLElement.prototype.appendChild = function(child){
-	checkMessageForOutput(child);
-	_appendChild.apply(this, arguments);
-	if(child.closest){
-		let mg = child.closest(".message-group");
-		if(mg){
-			if(!checkMessageForOutput(mg)){
-				//checkMessage(child);
-			}
-		}else{
-			//checkMessage(child);
-		}
-		
-	}
-};
+
