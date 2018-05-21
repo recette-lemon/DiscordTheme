@@ -188,7 +188,7 @@ header[class*="header-"],
 .messages-wrapper .messages .divider:before,
 .messages-wrapper .messages .divider span,
 
-[class*="container-"],
+[class*="container-"]:not([class*="modal-"]),
 [class*="titleWrapper-"],
 [class*="channels-"],
 [class*="typing-"],
