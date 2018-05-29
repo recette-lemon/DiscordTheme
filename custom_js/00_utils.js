@@ -1,3 +1,4 @@
+/* Cookies */
 function setCookie(name,value,days) {
     var expires = "";
     if (days) {
@@ -7,7 +8,6 @@ function setCookie(name,value,days) {
     }
     document.cookie = name + "=" + (value || "")  + expires + "; path=/";
 }
-
 function getCookie(name) {
     var nameEQ = name + "=";
     var ca = document.cookie.split(';');
@@ -18,7 +18,20 @@ function getCookie(name) {
     }
     return null;
 }
-
 function eraseCookie(name) {   
     document.cookie = name+'=; Max-Age=-99999999;';  
+}
+
+/* HTMLElement Utils */
+HTMLElement.prototype.getReactInstance = function(){
+	let start = "__reactInternalInstance$";
+	for(let i in this){
+		if(i.startsWith(start)) return this[i];
+	}
+}
+HTMLElement.prototype.getReactReturn = function(num){
+	let react = this.getReactInstance();
+	while(react.tag!=num)
+		react = react.return;
+	return react;
 }

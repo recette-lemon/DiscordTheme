@@ -8,6 +8,7 @@ Discord.ContextMenu = function(target){
 		message:null,
 		url:null
 	};
+	console.log(react);
 	if(props.src){
 		context.type = Discord.ContextMenu.TYPE_LINK;
 		context.url = props.href;
@@ -23,7 +24,6 @@ Discord.ContextMenu = function(target){
 			context.message = props.message.id;
 		}
 	}
-	console.log(context);
 	let extension = Discord.ContextMenu.Extension[context.type];
 	if(!extension) return;
 	let itemClass;
@@ -34,6 +34,7 @@ Discord.ContextMenu = function(target){
 		let item = document.createElement("div");
 		item.className = itemClass;
 		item.onclick = function(){
+			target.style.display="none";
 			e.fn(context);
 		};
 		let span = document.createElement("span");
@@ -49,13 +50,18 @@ Discord.ContextMenu.TYPE_LINK = 0;
 Discord.ContextMenu.TYPE_ATTACHMENT = 1;
 Discord.ContextMenu.TYPE_MESSAGE = 2;
 
+/* Context Menu Colors */
+Discord.ContextMenu.COLOR_RED = "#ef4646";
+Discord.ContextMenu.COLOR_GREEN = "#43b55f";
+Discord.ContextMenu.COLOR_BLUE = "#0096cf";
+
 /* Extensions */
 Discord.ContextMenu.Extension = {};
 Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_LINK] = [
 	{
 		name:"Save Link As",
 		group:0,
-		color:"#0096cf",
+		color:Discord.ContextMenu.COLOR_BLUE,
 		fn:downloadFile
 	},
 ];
@@ -63,8 +69,22 @@ Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_ATTACHMENT] = [
 	{
 		name:"Save Attachment As",
 		group:1,
-		color:"#0096cf",
+		color:Discord.ContextMenu.COLOR_BLUE,
 		fn:downloadFile
+	},
+	{
+		name:"React With Text",
+		group:1,
+		color:Discord.ContextMenu.COLOR_GREEN,
+		fn:reactWithText
+	},
+];
+Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_MESSAGE] = [
+	{
+		name:"React With Text",
+		group:1,
+		color:Discord.ContextMenu.COLOR_GREEN,
+		fn:reactWithText
 	},
 ];
 
@@ -86,7 +106,12 @@ function downloadFile(context){
 	let r = new Discord.Request();
 	r.downloadFile(context.url, location);
 }
-
+function reactWithText(context){
+	let textarea = document.querySelector(".content textarea");
+	textarea.focus();
+	textarea.value = "/react "+context.message+" ";
+	textarea.getReactReturn(2).memoizedProps.value = textarea.value;
+}
 
 
 
