@@ -24,6 +24,12 @@ function checkMessageForOutput(child){
 }
 
 /* Window Events */
+Discord.Console.onCommand = function(command){
+	let channel = document.querySelector(".guild.selected").querySelector("a").href.split("/");
+	channel = channel[channel.length-1];
+	if(command[0]!="/") command = "/"+command;
+	parseCommand(command, channel);
+}
 window.addEventListener("load", function(){
 	let wordmark = document.querySelector('[class*="wordmark-"]');
 	let parent = document.querySelector('[class*="app-"]');
@@ -41,14 +47,7 @@ window.addEventListener("load", function(){
 			menu.classList.add("visible");
 		}
 	});
-	
-	let con = new Discord.Console();
-	con.onCommand = function(command){
-		let channel = document.querySelector(".guild.selected").querySelector("a").href.split("/");
-		channel = channel[channel.length-1];
-		if(command[0]!="/") command = "/"+command;
-		parseCommand(command, channel);
-	}
+	Discord.Console.init();
 });
 window.addEventListener("click", function(e){
 	let t = e.target;

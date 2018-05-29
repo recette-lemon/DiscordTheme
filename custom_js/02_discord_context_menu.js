@@ -107,10 +107,7 @@ function downloadFile(context){
 	r.downloadFile(context.url, location);
 }
 function reactWithText(context){
-	let textarea = document.querySelector(".content textarea");
-	textarea.focus();
-	textarea.value = "/react "+context.message+" ";
-	textarea.getReactReturn(2).memoizedProps.value = textarea.value;
+	Discord.Console.show("/react "+context.message+" ");
 }
 
 
