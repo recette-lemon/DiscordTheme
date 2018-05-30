@@ -1,4 +1,3 @@
-let discord = new Discord();
 discord.desu = false;
 
 /* Auxiliary Functions */

@@ -8,7 +8,6 @@ Discord.ContextMenu = function(target){
 		message:null,
 		url:null
 	};
-	console.log(react);
 	if(props.src){
 		context.type = Discord.ContextMenu.TYPE_LINK;
 		context.url = props.href;
@@ -90,21 +89,8 @@ Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_MESSAGE] = [
 
 /* Auxiliary Functions */
 function downloadFile(context){
-	let name = context.url.split("/");
-	name = name[name.length-1];
-	let extension = name.split(".");
-	if(extension.length==1){
-		extension = undefined;
-	}else{
-		extension = extension[extension.length-1];
-	}
-	let location = _dialog.showSaveDialog({defaultPath:name});
-	let location_extension = location.split(".");
-	if(location_extension.length==1 && extension){
-		location = location+"."+extension;
-	}
 	let r = new Discord.Request();
-	r.downloadFile(context.url, location);
+	r.downloadFile(context.url);
 }
 function reactWithText(context){
 	Discord.Console.show("/react "+context.message+" ");

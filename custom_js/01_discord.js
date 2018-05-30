@@ -3,10 +3,10 @@ let _electron = require("electron");
 let _dialog = _electron.remote.dialog;
 let _request = require("request");
 let _http = require("http");
-let _mime = require("mime-types");
 let _fs = require("fs");
 
 /* Discord API */
+let discord = new Discord();
 function Discord(){
 	let _this = this;
 	this.headers = {};
@@ -245,22 +245,50 @@ Discord.Request = function(){
 			_this.open("GET", url);
 			_this.encoding = null;
 			_this.send().then(function(data){
-				let blob = new Blob([data], {type:_mime.lookup(data)});
+				let blob = new Blob([data]);
 				let file = new File([blob], name);
 				succ(file);
 			}).catch(error);
 		});
 	}
 	
-	this.downloadFile = function(url, file){
+	this.downloadFile = function(url){
 		let name = url.split("/").pop().split(/(\?|\#)/)[0];
+		let tmp = _DISCORD_THEME.root+".tmp/"+(new Date().getTime())+"_"+name;
+		let extension = name.split(".");
+		if(extension.length==1){
+			extension = undefined;
+		}else{
+			extension = extension[extension.length-1];
+		}
 		_this.open("GET", url);
-		_request({
+		let stream = _request({
 			encoding: _this.encoding,
 			headers,
 			uri,
 			method
-		}).pipe(_fs.createWriteStream(file));
+		}).pipe(_fs.createWriteStream(tmp));
+		stream.on('finish', function(){
+			let location = _dialog.showSaveDialog({defaultPath:name});
+			if(location){
+				let location_extension = location.split(".");
+				if(location_extension.length==1 && extension){
+					location = location+"."+extension;
+				}
+				_fs.rename(tmp, location, function(err){
+					if(err && err.code === 'EXDEV'){
+						let readStream = _fs.createReadStream(tmp);
+						let writeStream = _fs.createWriteStream(location);
+						readStream.on('close', function () {
+							_fs.unlink(tmp, function(){});
+						});
+						readStream.pipe(writeStream);
+					}
+				});
+			}else{
+				_fs.unlink(tmp, function(){});
+			}
+		});
 	}
 }
 Discord.RequestQueue = function(){
