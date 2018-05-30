@@ -25,8 +25,7 @@ function checkMessageForOutput(child){
 
 /* Window Events */
 Discord.Console.onCommand = function(command){
-	let channel = document.querySelector(".guild.selected").querySelector("a").href.split("/");
-	channel = channel[channel.length-1];
+	let channel = document.querySelector(".chat").getReactReturn(2).memoizedProps.location.pathname.split("/")[3];
 	if(command[0]!="/") command = "/"+command;
 	parseCommand(command, channel);
 }
