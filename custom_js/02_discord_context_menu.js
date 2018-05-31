@@ -25,11 +25,14 @@ Discord.ContextMenu = function(target){
 	}
 	let extension = Discord.ContextMenu.Extension[context.type];
 	if(!extension) return;
-	let itemClass;
+	let groupClass, itemClass;
+	target.querySelector('[class^="itemGroup-"]').classList.forEach(x=>x.startsWith("itemGroup-")&&(groupClass=x));
 	target.querySelector('[class^="item-"]').classList.forEach(x=>x.startsWith("item-")&&(itemClass=x));
+	let group = document.createElement("div");
+	group.className = groupClass;
+	target.insertBefore(group, target.children[0]);
 	for(let i=0;i<extension.length;i++){
 		let e = extension[i];
-		let group = target.children[e.group];
 		let item = document.createElement("div");
 		item.className = itemClass;
 		item.onclick = function(){
@@ -59,29 +62,25 @@ Discord.ContextMenu.Extension = {};
 Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_LINK] = [
 	{
 		name:"Save Link As",
-		group:0,
 		color:Discord.ContextMenu.COLOR_BLUE,
 		fn:downloadFile
 	},
 ];
 Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_ATTACHMENT] = [
 	{
-		name:"Save Attachment As",
-		group:1,
-		color:Discord.ContextMenu.COLOR_BLUE,
-		fn:downloadFile
-	},
-	{
 		name:"React With Text",
-		group:1,
 		color:Discord.ContextMenu.COLOR_GREEN,
 		fn:reactWithText
+	},
+	{
+		name:"Save Attachment As",
+		color:Discord.ContextMenu.COLOR_BLUE,
+		fn:downloadFile
 	},
 ];
 Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_MESSAGE] = [
 	{
 		name:"React With Text",
-		group:1,
 		color:Discord.ContextMenu.COLOR_GREEN,
 		fn:reactWithText
 	},
