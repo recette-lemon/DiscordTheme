@@ -8,19 +8,34 @@ Discord.ContextMenu = function(target){
 		message:null,
 		url:null
 	};
-	if(props.src){
-		context.type = Discord.ContextMenu.TYPE_LINK;
-		context.url = props.href;
-	}else if(props.type=="MESSAGE_MAIN"){
-		if(props.attachment){
-			context.type = Discord.ContextMenu.TYPE_ATTACHMENT;
-			context.channel = props.channel.id;
-			context.message = props.message.id;
-			context.url = props.attachment.url;
-		}else{
-			context.type = Discord.ContextMenu.TYPE_MESSAGE;
-			context.channel = props.channel.id;
-			context.message = props.message.id;
+	switch(props.type){
+		case "NATIVE_IMAGE":{
+			context.type = Discord.ContextMenu.TYPE_LINK;
+			context.url = props.href;
+			context.target = props.target;
+			break;
+		}
+		case "MESSAGE_MAIN":{
+			if(props.attachment){
+				context.type = Discord.ContextMenu.TYPE_ATTACHMENT;
+				context.channel = props.channel.id;
+				context.message = props.message.id;
+				context.url = props.attachment.url;
+				context.target = props.target;
+			}else{
+				context.type = Discord.ContextMenu.TYPE_MESSAGE;
+				context.channel = props.channel.id;
+				context.message = props.message.id;
+				context.target = props.target;
+			}
+			break;
+		}
+		case "USER_CHANNEL_MESSAGE":
+		case "USER_PRIVATE_CHANNELS_MESSAGE":{
+			context.type = Discord.ContextMenu.TYPE_USER;
+			context.user = props.user.id;
+			context.channel = props.channelId;
+			break;
 		}
 	}
 	let extension = Discord.ContextMenu.Extension[context.type];
@@ -32,18 +47,42 @@ Discord.ContextMenu = function(target){
 	group.className = groupClass;
 	target.insertBefore(group, target.children[0]);
 	for(let i=0;i<extension.length;i++){
-		let e = extension[i];
+		if(!createItem(extension[i], group))continue;
+	}
+	function createItem(e, parent){
+		if(e.filter && !e.filter(context)) return false;
 		let item = document.createElement("div");
 		item.className = itemClass;
-		item.onclick = function(){
-			target.style.display="none";
-			e.fn(context);
-		};
+		if(e.sub){
+			item.className+=" itemSubMenu-1vN_Yn";//HARDCODED class name
+			let menu = document.createElement("div");
+			menu.className = target.className;
+			for(let j=0;j<e.sub.length;j++){
+				if(!createItem(e.sub[j], menu))continue;
+			}
+			item.addEventListener("mouseover", function(){
+				let rects = item.getClientRects()[0];
+				menu.style.top = rects.top+"px";
+				menu.style.left = rects.left+"px";
+				item.appendChild(menu);
+			});
+			item.addEventListener("mouseout", function(e){
+				let cm = e.toElement.closest("[class^='contextMenu']");
+				if(!cm || (cm && cm.closest("."+itemClass) !== item))
+					item.removeChild(menu);
+			});
+		}else{
+			item.onclick = function(){
+				target.style.display="none";
+				e.fn(context);
+			};
+		}
 		let span = document.createElement("span");
 		span.innerHTML = e.name;
 		span.style.color = e.color;
 		item.appendChild(span);
-		group.appendChild(item);
+		parent.appendChild(item);
+		return true;
 	}
 }
 
@@ -51,6 +90,7 @@ Discord.ContextMenu = function(target){
 Discord.ContextMenu.TYPE_LINK = 0;
 Discord.ContextMenu.TYPE_ATTACHMENT = 1;
 Discord.ContextMenu.TYPE_MESSAGE = 2;
+Discord.ContextMenu.TYPE_USER = 3;
 
 /* Context Menu Colors */
 Discord.ContextMenu.COLOR_RED = "#ef4646";
@@ -58,8 +98,33 @@ Discord.ContextMenu.COLOR_GREEN = "#43b55f";
 Discord.ContextMenu.COLOR_BLUE = "#0096cf";
 
 /* Extensions */
+let reverseImage = {
+	name:"Search Image On",
+	filter:isImg,
+	sub:[
+		{
+			name:"Google",
+			fn:function(context){
+				window.open("http://www.google.com/searchbyimage?image_url="+encodeURIComponent(context.url));
+			}
+		},
+		{
+			name:"Iqdb",
+			fn:function searchIqdb(context){
+				window.open("http://www.iqdb.org/?url="+encodeURIComponent(context.url));
+			}
+		}
+	]
+};
+let react = {
+	name:"React With Text",
+	color:Discord.ContextMenu.COLOR_GREEN,
+	fn:reactWithText
+};
+
 Discord.ContextMenu.Extension = {};
 Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_LINK] = [
+	reverseImage,
 	{
 		name:"Save Link As",
 		color:Discord.ContextMenu.COLOR_BLUE,
@@ -67,11 +132,8 @@ Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_LINK] = [
 	},
 ];
 Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_ATTACHMENT] = [
-	{
-		name:"React With Text",
-		color:Discord.ContextMenu.COLOR_GREEN,
-		fn:reactWithText
-	},
+	reverseImage,
+	react,
 	{
 		name:"Save Attachment As",
 		color:Discord.ContextMenu.COLOR_BLUE,
@@ -79,11 +141,7 @@ Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_ATTACHMENT] = [
 	},
 ];
 Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_MESSAGE] = [
-	{
-		name:"React With Text",
-		color:Discord.ContextMenu.COLOR_GREEN,
-		fn:reactWithText
-	},
+	react
 ];
 
 /* Auxiliary Functions */
@@ -94,7 +152,7 @@ function downloadFile(context){
 function reactWithText(context){
 	Discord.Console.show("/react "+context.message+" ");
 }
-
+function isImg(context){return context.target.tagName=="IMG";}
 
 
 
