@@ -13,7 +13,7 @@ body::before{
 	display:block;
 	width:100%;
 	height:100%;
-	background-color:rgba(0,0,0,0.65) !important;
+	background-color:rgba(0,0,0,0.5) !important;
 }
 
 /* Background Color */
@@ -30,7 +30,8 @@ body::before{
 }
 .channel-members,
 .search-results-wrap,
-[class*="members-"]{
+[class*="members-"],
+:root [class*="videoHeight-"]{
 	background-color:rgba(0,0,0,0.4) !important;
 }
 .guild-inner,

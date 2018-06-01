@@ -255,18 +255,15 @@ Discord.Request = function(){
 	this.downloadFile = function(url){
 		let name = url.split("/").pop().split(/(\?|\#)/)[0];
 		let tmp = _DISCORD_THEME.root+".tmp/"+(new Date().getTime())+"_"+name;
-		let extension = name.split(".");
-		if(extension.length==1){
-			extension = undefined;
-		}else{
-			extension = extension[extension.length-1];
-		}
+		let extension = "";
 		_this.open("GET", url);
 		let stream = _request({
 			encoding: _this.encoding,
 			headers,
 			uri,
 			method
+		}, function(error, response, body){
+			extension = response.headers["content-type"].split("/").pop();
 		}).pipe(_fs.createWriteStream(tmp));
 		stream.on('finish', function(){
 			let location = _dialog.showSaveDialog({defaultPath:name});

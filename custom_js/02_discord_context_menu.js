@@ -31,6 +31,7 @@ Discord.ContextMenu = function(target){
 			break;
 		}
 		case "USER_CHANNEL_MESSAGE":
+		case "USER_CHANNEL_MENTION":
 		case "USER_PRIVATE_CHANNELS_MESSAGE":{
 			context.type = Discord.ContextMenu.TYPE_USER;
 			context.user = props.user.id;
@@ -38,6 +39,7 @@ Discord.ContextMenu = function(target){
 			break;
 		}
 	}
+	console.log(props);
 	let extension = Discord.ContextMenu.Extension[context.type];
 	if(!extension) return;
 	let groupClass, itemClass;
@@ -97,7 +99,17 @@ Discord.ContextMenu.COLOR_RED = "#ef4646";
 Discord.ContextMenu.COLOR_GREEN = "#43b55f";
 Discord.ContextMenu.COLOR_BLUE = "#0096cf";
 
-/* Extensions */
+/* Auxiliary Functions */
+function downloadFile(context){
+	let r = new Discord.Request();
+	r.downloadFile(context.url);
+}
+function reactWithText(context){
+	Discord.Console.show("/react "+context.message+" ");
+}
+function isImg(context){return context.target.tagName=="IMG";}
+
+/* Auxiliary Objects */
 let reverseImage = {
 	name:"Search Image On",
 	filter:isImg,
@@ -122,6 +134,7 @@ let react = {
 	fn:reactWithText
 };
 
+/* Extensions */
 Discord.ContextMenu.Extension = {};
 Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_LINK] = [
 	reverseImage,
@@ -143,17 +156,14 @@ Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_ATTACHMENT] = [
 Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_MESSAGE] = [
 	react
 ];
-
-/* Auxiliary Functions */
-function downloadFile(context){
-	let r = new Discord.Request();
-	r.downloadFile(context.url);
-}
-function reactWithText(context){
-	Discord.Console.show("/react "+context.message+" ");
-}
-function isImg(context){return context.target.tagName=="IMG";}
-
+Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_USER] = [
+	{
+		name:"Get Info",
+		fn:function(context){
+			discord.sendMessage(context.channel, {content:"/info <@"+context.user+">"});
+		}
+	},
+];
 
 
 
