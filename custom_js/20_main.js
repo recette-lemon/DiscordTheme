@@ -128,6 +128,12 @@ function parseCommand(command, channel){
 					s.search(parts.join(" "), channel);
 					return true;
 				}
+				case "search":{
+					parts.shift();
+					let s = new Discord.Search(parts.shift());
+					s.search(parts.join(" "), channel);
+					return true;
+				}
 				case "image":{
 					parts.shift();
 					let images = new Discord.File("images").list(parts.join(" "));

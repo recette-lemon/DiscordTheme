@@ -254,7 +254,9 @@ Discord.Request = function(){
 	
 	this.downloadFile = function(url){
 		let name = url.split("/").pop().split(/(\?|\#)/)[0];
-		let tmp = _DISCORD_THEME.root+".tmp/"+(new Date().getTime())+"_"+name;
+		let dir = _DISCORD_THEME.root+".tmp/";
+		let tmp = dir+(new Date().getTime())+"_"+name;
+		if(!_fs.existsSync(dir)) _fs.mkdirSync(dir);
 		let extension = "";
 		_this.open("GET", url);
 		let stream = _request({
@@ -325,23 +327,57 @@ Discord.Search = function(type){
 	let channel, message, search;
 	let elements, index=0;
 	let types = {
-		google_images:{
+		gi:{
 			name:"Google Images",
 			icon:"https://i.imgur.com/JHeQgVA.png",
 			color:"#4885ed",
 			init: function(search){
 				return new Promise(function(succ){
 					getDocument("https://www.google.pt/search?espv=2&biw=1366&bih=667&site=webhp&source=lnms&tbm=isch&sa=X&ei=XosDVaCXD8TasATItgE&ved=0CAcQ_AUoAg&q="+search).then(function(doc){
-						console.log(doc);
 						elements = doc.querySelectorAll("a + div[jsname]");
 						succ();
 					});
 				});
 			},
 			get: function(index){
-				let url = elements[index].innerHTML.match("\"ou\":\"(.+?)\"");
-				console.log("GOOGLE SEARCH DEBUG:::", elements, index, url);
-				return url[1];
+				return new Promise(function(succ){
+					succ(elements[index].innerHTML.match("\"ou\":\"(.+?)\"")[1]);
+				});
+			}
+		},
+		sankaku:{
+			name:"Sankaku",
+			icon:"https://www.sankakucomplex.com/wp-content/uploads/2017/12/favicon.png",
+			color:"#ff761c",
+			init: function(search){
+				return new Promise(function(succ){
+					search = search.trim().replace(/\s+/, "+");
+					getDocument("https://chan.sankakucomplex.com?tags="+search).then(function(doc){
+						let first = doc.querySelector("#popular-preview");
+						if(first!=null)
+							first.parentNode.removeChild(first);
+						elements = doc.querySelectorAll(".thumb");
+						succ();
+					});
+				});
+			},
+			get: function(index){
+				return new Promise(function(succ){
+					getDocument("https://chan.sankakucomplex.com/post/show/"+elements[index].id.substring(1)).then(function(doc){
+						let i = doc.querySelector("#non-image-content");
+						let newurl="";
+						if(i==null){
+							let link = doc.querySelector("#image-link");
+							if(link!=null)
+								newurl = link.getAttribute("href");
+							if(newurl == null)
+								newurl = doc.querySelector("#image").getAttribute("src");
+						}else{
+							newurl = i.querySelector("embed").getAttribute("src");
+						}
+						succ("https:"+newurl);
+					});
+				});
 			}
 		}
 	};
@@ -350,19 +386,20 @@ Discord.Search = function(type){
 		search = _search;
 		channel = _channel;
 		return new Promise(function(succ){
-			type = types[type]?types[type]:types["google_images"];
+			type = types[type]?types[type]:types["gi"];
 			type.init(search).then(function(){
-				let embed = getEmbed(index);
-				discord.sendMessage(channel, {content:"", embed}).then(function(_message){
-					Discord.ReactionMessages.add(message = _message.id, _this);
-					let rq = new Discord.RequestQueue();
-					rq.add(function(callback){
-						discord.react(channel, _message.id, Discord.Emoji.arrow_backward).then(callback);
+				getEmbed(index).then(function(embed){
+					discord.sendMessage(channel, {content:"", embed}).then(function(_message){
+						Discord.ReactionMessages.add(message = _message.id, _this);
+						let rq = new Discord.RequestQueue();
+						rq.add(function(callback){
+							discord.react(channel, _message.id, Discord.Emoji.arrow_backward).then(callback);
+						});
+						rq.add(function(callback){
+							discord.react(channel, _message.id, Discord.Emoji.arrow_forward).then(callback);
+						});
+						rq.run();
 					});
-					rq.add(function(callback){
-						discord.react(channel, _message.id, Discord.Emoji.arrow_forward).then(callback);
-					});
-					rq.run();
 				});
 			});
 		});
@@ -379,22 +416,28 @@ Discord.Search = function(type){
 			ret = true;
 		}
 		if(index!=i){
-			let embed = getEmbed(index);
-			discord.editMessage(channel, message, {content:"", embed});
+			getEmbed(index).then(function(embed){
+				discord.editMessage(channel, message, {content:"", embed});
+			});
 			return true;
 		}
 		return ret;
 	}
 	
 	function getEmbed(index){
-		let embed = new Discord.Embed();
-		embed.setAuthorIcon(type.icon);
-		embed.setAuthorName(type.name);
-		embed.setColor(type.color);
-		embed.addField("Search:", search);
-		embed.setImage(type.get(index));
-		embed.setFooterText((index+1)+"/"+elements.length);
-		return embed;
+		return new Promise(function(succ){
+			type.get(index).then(function(url){
+				let embed = new Discord.Embed();
+				embed.setAuthorIcon(type.icon);
+				embed.setAuthorName(type.name);
+				embed.setColor(type.color);
+				embed.addField("Search:", search);
+				embed.setImage(url);
+				embed.setFooterText((index+1)+"/"+elements.length);
+				console.log(url);
+				succ(embed);
+			});
+		});
 	}
 	function getDocument(url){
 		return new Promise(function(succ){
