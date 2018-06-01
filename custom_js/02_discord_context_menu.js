@@ -30,6 +30,7 @@ Discord.ContextMenu = function(target){
 			}
 			break;
 		}
+		case "USER_CHANNEL_MEMBERS":
 		case "USER_CHANNEL_MESSAGE":
 		case "USER_CHANNEL_MENTION":
 		case "USER_PRIVATE_CHANNELS_MESSAGE":{
@@ -39,7 +40,6 @@ Discord.ContextMenu = function(target){
 			break;
 		}
 	}
-	console.log(props);
 	let extension = Discord.ContextMenu.Extension[context.type];
 	if(!extension) return;
 	let groupClass, itemClass;

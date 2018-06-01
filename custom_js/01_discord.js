@@ -35,7 +35,7 @@ function Discord(){
 		}
 		return "https://cdn.discordapp.com/avatars/"+user_id+"/"+avatar+"."+ext+size;
 	}
-	
+		
 	/* Users */
 	this.getMe = function(){
 		return this.get("/users/@me");
@@ -434,7 +434,6 @@ Discord.Search = function(type){
 				embed.addField("Search:", search);
 				embed.setImage(url);
 				embed.setFooterText((index+1)+"/"+elements.length);
-				console.log(url);
 				succ(embed);
 			});
 		});
@@ -471,13 +470,36 @@ Discord.Messages = new (function(){
 		return !!messages[id];
 	}
 })();
+Discord.Date = new (function(){
+	let EPOCH = 1420070400000;
+	
+	this.fromId = function(id){
+		let binary = (+id).toString(2);
+		binary = Array(64).join("0")+binary;
+		binary = binary.substring(binary.length-64);
+		let timestamp = parseInt(binary.substring(0, 42), 2) + EPOCH;
+		return new Date(timestamp);
+	}
+	
+	this.difference = function(d1, d2){
+		let diff = new Date(d1.getTime() - d2.getTime());
+		let years = diff.getUTCFullYear() - 1970;
+		let months = diff.getUTCMonth();
+		let days = diff.getUTCDate() - 1;
+		let text = "";
+		if(years) text+=years+"y ";
+		if(years || months) text+=months+"m ";
+		text+=days+"d ";
+		return text;
+	}
+});
 
 /* Events */
 Discord.on = function(event, callback){
 	if(!Discord.events[event]) Discord.events[event] = [];
 	Discord.events[event].push(callback);
 }
-Discord.call = function(event, data){
+Discord.emit = function(event, data){
 	if(!Discord.events[event]) return;
 	for(let i=0;i<Discord.events[event].length;i++){
 		Discord.events[event][i](data);
