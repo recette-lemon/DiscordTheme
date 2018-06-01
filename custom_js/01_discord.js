@@ -180,7 +180,7 @@ Discord.File = function(filename){
 			return new Promise(function(succ, error){
 				_fs.readFile(_this.filename, function read(err, data) {
 					if (err) {error(); return;}
-					let blob = new Blob([data], {type:_mime.lookup(data)});
+					let blob = new Blob([data]);
 					let file = new File([blob], _this.basename);
 					succ(file);
 				});
