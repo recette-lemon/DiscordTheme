@@ -260,12 +260,12 @@ function parseCommand(command, channel){
 						embed.setImage(icon);
 						let joinedDate = new Date(Date.parse(guild_member.joined_at));
 						let joined = guild_member.joined_at.match(/(.+?)T(.+?)\./);
-						embed.addField("Joined Server:", joined[1]+" "+joined[2], true);
-						embed.addField("Relative Date:", Discord.Date.difference(new Date(), joinedDate), true);
+						let joinedDiff = Discord.Date.difference(new Date(), joinedDate);
+						embed.addField("Joined Server:", joined[1]+" ("+joinedDiff+")");
 						let createdDate = Discord.Date.fromId(user_id);
 						let created = createdDate.toISOString().match(/(.+?)T(.+?)\./);
-						embed.addField("Created Account:", created[1]+" "+created[2], true);
-						embed.addField("Relative Date:", Discord.Date.difference(new Date(), createdDate), true);
+						let createdDiff = Discord.Date.difference(new Date(), createdDate);
+						embed.addField("Created Account:", created[1]+" ("+createdDiff+")");
 						discord.sendMessage(channel, {content:"", embed});
 					});
 					return true;

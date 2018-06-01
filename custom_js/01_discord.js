@@ -487,10 +487,10 @@ Discord.Date = new (function(){
 		let months = diff.getUTCMonth();
 		let days = diff.getUTCDate() - 1;
 		let text = "";
-		if(years) text+=years+"y ";
-		if(years || months) text+=months+"m ";
-		text+=days+"d ";
-		return text;
+		if(years) text+=years+" years ";
+		if(months || !years) text+=months+" months ";
+		if(days || (!years && !months))text+=days+" days";
+		return text.trim();
 	}
 });
 
