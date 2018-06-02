@@ -14,7 +14,7 @@ function checkMessageForOutput(child){
 		if(react){
 			try{
 				if(Discord.Nonces.has(react["return"].key)){
-					child.setAttribute("hidden", true);
+					child.style.display = "none";
 					return true;
 				}
 			}catch(e){};

@@ -239,11 +239,6 @@ header[class*="header-"],
 	display:none;
 }
 
-/* GLOBAL */
-[hidden]{
-	display:none !important;
-}
-
 /* COMMAND LINE */
 #command-line {
 	display: flex;
