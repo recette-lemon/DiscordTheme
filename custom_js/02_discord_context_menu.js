@@ -76,7 +76,9 @@ Discord.ContextMenu = function(target){
 		}else{
 			item.onclick = function(){
 				target.style.display="none";
-				e.fn(context);
+				setTimeout(function(){
+					e.fn(context);
+				}, 15);
 			};
 		}
 		let span = document.createElement("span");

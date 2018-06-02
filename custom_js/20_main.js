@@ -14,7 +14,7 @@ function checkMessageForOutput(child){
 		if(react){
 			try{
 				if(Discord.Nonces.has(react["return"].key)){
-					child.style.display = "none";
+					child.setAttribute("hidden", true);
 					return true;
 				}
 			}catch(e){};
@@ -67,7 +67,15 @@ window.addEventListener("DOMNodeInserted", function (e) {
 			Discord.ContextMenu(target);
 		}
 		let mg = target.closest(".message-group");
-		if(mg) checkMessageForOutput(mg);
+		if(mg){
+			checkMessageForOutput(mg);
+		}
+		if(target.matches(".messages-wrapper")){
+			let mg = document.querySelectorAll(".message-group");
+			for(let i=0;i<mg.length;i++){
+				checkMessageForOutput(mg[i]);
+			}
+		}
 	}
 });
 

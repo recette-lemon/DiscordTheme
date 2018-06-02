@@ -257,7 +257,7 @@ Discord.Request = function(){
 		let dir = _DISCORD_THEME.root+".tmp/";
 		let tmp = dir+(new Date().getTime())+"_"+name;
 		if(!_fs.existsSync(dir)) _fs.mkdirSync(dir);
-		let extension = "";
+		let extension = name.split(".").pop();
 		_this.open("GET", url);
 		let stream = _request({
 			encoding: _this.encoding,
@@ -488,7 +488,7 @@ Discord.Date = new (function(){
 		let days = diff.getUTCDate() - 1;
 		let text = "";
 		if(years) text+=years+" years ";
-		if(months || !years) text+=months+" months ";
+		if(months) text+=months+" months ";
 		if(days || (!years && !months))text+=days+" days";
 		return text.trim();
 	}
