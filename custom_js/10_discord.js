@@ -18,11 +18,11 @@ function Discord(){
 				if(channel.guild_id){
 					_this.getUserFromGuild(channel.guild_id, user_id).then(function(guild_member){
 						succ(guild_member);
-					});
+					}, err);
 				} else {
 					err();
 				}
-			});
+			}, err);
 		});
 	}
 	this.getUserIcon = function(user_id, avatar, size){
@@ -39,6 +39,9 @@ function Discord(){
 	/* Users */
 	this.getMe = function(){
 		return this.get("/users/@me");
+	}
+	this.getUser = function(user){
+		return this.get("/users/"+user);
 	}
 	
 	/* Guilds */
@@ -94,7 +97,7 @@ function Discord(){
 		return this.call("PUT", endpoint, data, content_type);
 	}
 	this.call = function(method, endpoint, data, content_type){
-		return new Promise(function(succ){
+		return new Promise(function(succ, err){
 			(function inner(){
 				let xhr = new XMLHttpRequest();
 				xhr.open(method, "/api/v6"+endpoint);
@@ -103,13 +106,15 @@ function Discord(){
 					xhr.setRequestHeader(h, _this.headers[h]);
 				xhr.onreadystatechange = function(){
 					if(xhr.readyState==4){
-						if(xhr.status==200 || xhr.status==204)
+						if(xhr.status==200 || xhr.status==204){
 							succ(xhr.responseText?JSON.parse(xhr.responseText):"");
-						else if(xhr.status==429){
+						}else if(xhr.status==429){
 							let retry_after = JSON.parse(xhr.responseText).retry_after;
 							setTimeout(function(){
 								inner();
 							}, retry_after);
+						}else{
+							err();
 						}
 					}
 				}

@@ -228,6 +228,19 @@ commands.add("info", function(channel, full, parts){
 		let createdDiff = Discord.Date.difference(new Date(), createdDate);
 		embed.addField("Created Account:", created[1]+" ("+createdDiff+")");
 		discord.sendMessage(channel, {content:"", embed});
+	}, function(){
+		discord.getUser(user_id).then(function(user){
+			let embed = new Discord.Embed();
+			let icon = discord.getUserIcon(user_id, user.avatar, 2048);
+			embed.setAuthorIcon(icon);
+			embed.setAuthorName(user.username);
+			embed.setImage(icon);
+			let createdDate = Discord.Date.fromId(user_id);
+			let created = createdDate.toISOString().match(/(.+?)T(.+?)\./);
+			let createdDiff = Discord.Date.difference(new Date(), createdDate);
+			embed.addField("Created Account:", created[1]+" ("+createdDiff+")");
+			discord.sendMessage(channel, {content:"", embed});
+		});
 	});
 	return true;
 }, function(){
