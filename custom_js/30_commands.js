@@ -1,7 +1,10 @@
 Discord.CommandParser = function(){
 	let _this = this;
 	let alias = {};
+	let aliasB4 = {};
+	let aliasList = {};
 	let commands = {};
+	let shadowCommands = {};
 	
 	this.list = function(){
 		let list = [];
@@ -10,12 +13,21 @@ Discord.CommandParser = function(){
 		}
 		return list;
 	}
-	
-	this.add = function(name, run, help){
-		commands[name] = {name, run, help};
+	this.listAliases = function(original){
+		console.log(original);
+		return aliasList[original];
 	}
-	this.alias = function(name, original){
+	
+	/* A shadow command cannot be called directly, only through an alias. */
+	this.add = function(name, run, help, shadow){
+		commands[name] = {name, run, help};
+		if(shadow) shadowCommands[name] = true;
+	}
+	this.alias = function(original, name, before){
 		alias[name] = original;
+		aliasB4[name] = before?before:function(){};
+		if(!aliasList[original]) aliasList[original] = [];
+		aliasList[original].push(name);
 	}
 	
 	this.run = function(message, channel){
@@ -24,9 +36,10 @@ Discord.CommandParser = function(){
 				let m = message.substring(1);
 				let parts = m.split(/\s+/);
 				let first = parts[0];
-				let name = alias[first]?alias[first]:first;
-				if(commands[name])
-					return commands[name].run(channel, m, parts);
+				if(!shadowCommands[first] && alias[first])
+					return commands[alias[first]].run(channel, m, parts, aliasB4[first]());
+				if(!shadowCommands[first] && commands[first])
+					return commands[first].run(channel, m, parts);
 				return _this.else(channel, m, parts);
 			}
 			return _this.catch(channel, message);
@@ -41,9 +54,9 @@ Discord.CommandParser = function(){
 	this.catch = function(){return false};
 	
 	this.help = function(name){
-		name = alias[name]?alias[name]:name;
-		if(commands[name])
-			return commands[name].help();
+		let n = alias[name]?alias[name]:name;
+		if(!shadow[name] && commands[n])
+			return commands[n].help();
 	}
 };
 let commands = new Discord.CommandParser();
@@ -52,10 +65,17 @@ commands.add("help", function(channel, full, parts){
 	if(name){
 		return {content:commands.help(name), bot:true};
 	}else{
-		let list = commands.list().join("\n");
+		let list = commands.list();
+		let text = "";
+		for(let i=0;i<list.length;i++){
+			let aliases = commands.listAliases(list[i]);
+			text += list[i];
+			if(aliases) text += " (Aliases: "+aliases.join(", ")+")";
+			text += "\n";
+		}
 		let content = "Do ``/help <command>\n`` to get more information about commands.\n";
 		content += "Shows helpful information about the command.\n";
-		content += "```\n"+list+"\n```";
+		content += "```\n"+text+"\n```";
 		return {content, bot:true};
 	}
 }, function(){
@@ -428,46 +448,35 @@ commands.add("loop", function(channel, full, parts){
 	text += "The message can be a command."
 	return text;
 });
-commands.else = function(channel, full, parts){
-	let verbs = {
-		dab:[
-			"dabbed",
-			"https://i.imgur.com/BhFwhOb.jpg"
-		],
-		kiss:[
-			"kissed",
-			"https://i.imgur.com/eisk88U.gif"
-		],
-		kill:[
-			"killed",
-			"https://i.imgur.com/3hIgEF5.png"
-		],
-		awoo:[
-			"awooed",
-			"https://i.imgur.com/9LG19PH.jpg"
-		]
-	};
-	if(verbs[parts[0]]){
-		let v = verbs[parts.shift()];
-		let top_text = "";
-		let bottom_text = v[0]+" "+parts.join(" ");
-		discord.getUserFromChannel(channel, discord.user).then(function(guild_member){
-			let name = guild_member.nick?guild_member.nick:guild_member.user.username;
+commands.add("verb", function(channel, full, parts, context){
+	parts.shift();
+	let top_text = "";
+	let bottom_text = context[0]+" "+parts.join(" ");
+	discord.getUserFromChannel(channel, discord.user).then(function(guild_member){
+		let name = guild_member.nick?guild_member.nick:guild_member.user.username;
+		let embed = new Discord.Embed();
+		embed.description = name+" "+bottom_text;
+		embed.setImage(context[1]);
+		discord.sendMessage(channel, {content:top_text, embed});
+	}, function(){
+		discord.getMe().then(function(me){
 			let embed = new Discord.Embed();
-			embed.description = name+" "+bottom_text;
-			embed.setImage(v[1]);
+			embed.description = me.username+" "+bottom_text;
+			embed.setImage(context[1]);
 			discord.sendMessage(channel, {content:top_text, embed});
-		}, function(){
-			discord.getMe().then(function(me){
-				let embed = new Discord.Embed();
-				embed.description = me.username+" "+bottom_text;
-				embed.setImage(v[1]);
-				discord.sendMessage(channel, {content:top_text, embed});
-			});
 		});
-		return true;
-	}
-};
+	});
+	return true;
+}, function(){
+	let text = "```\n/<verb> <message>\n```\n";
+	text += "Will send an embed with the verb specified with the message attached.\n";
+	text += "Possible verbs: "+commands.listAliases("verb").join(", ");
+	return text;
+}, true);
+commands.alias("verb", "dab", function(){return ["dabbed", "https://i.imgur.com/BhFwhOb.jpg"]});
+commands.alias("verb", "kiss", function(){return ["kissed", "https://i.imgur.com/eisk88U.gif"]});
+commands.alias("verb", "kill", function(){return ["killed", "https://i.imgur.com/3hIgEF5.png"]});
+commands.alias("verb", "awoo", function(){return ["awooed", "https://i.imgur.com/9LG19PH.jpg"]});
 commands.catch = function(channel, message){
 	if(message.trim().match(/^https?:\/\/[^ \r\n#]+(jpg|gif|png|jpeg)(\?[^ ]*)?$/i)){
 		let r = new Discord.Request();
