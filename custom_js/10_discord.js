@@ -164,6 +164,54 @@ Discord.Emoji = new (function(){
 /* Command Utils */
 Discord.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) discord/0.0.300 Chrome/56.0.2924.87 Discord/1.6.15 Safari/537.36";
 Discord.events = {};
+Discord.Console = new (function(){
+	let _this = this;
+	this.onCommand = function(){};
+	let appMount = document.getElementById("app-mount");
+	let commandWrapper;
+	let commandArrow;
+	let commandInput;
+	
+	this.init = function(){
+		commandWrapper = document.createElement("div");
+		commandWrapper.id = "command-line";
+		commandWrapper.className = "hidden";
+		appMount.appendChild(commandWrapper);
+		
+		commandArrow = document.createElement("span");
+		commandArrow.textContent = ">";
+		commandWrapper.appendChild(commandArrow);
+		
+		commandInput = document.createElement("input");
+		commandWrapper.appendChild(commandInput);
+		
+		_this.show = function(text){
+			commandWrapper.classList.remove("hidden");
+			if(text) commandInput.value = text;
+			commandInput.focus();
+		}
+		
+		_this.hide = function(){
+			commandWrapper.classList.add("hidden");
+		}
+		
+		window.addEventListener("keydown", function(e) {
+			if(e.key == "F12") { 
+				_this.show();
+			} else if(e.key == "Escape") {
+				_this.hide();
+			}
+		}, true);
+		
+		commandInput.addEventListener("keypress", function(e) {
+			if(e.key == "Enter") { 
+				_this.onCommand(this.value);
+				this.value = "";
+			}
+		});
+	}
+	
+});
 Discord.File = function(filename){
 	let _this = this;
 	this.root = _DISCORD_THEME.root;
@@ -382,6 +430,14 @@ Discord.Search = function(type){
 		}
 	};
 	
+	this.list = function(){
+		let list = [];
+		for(let i in types){
+			list.push(i);
+		}
+		return list;
+	}
+	
 	this.search = function(_search, _channel){
 		search = _search;
 		channel = _channel;
@@ -493,6 +549,32 @@ Discord.Date = new (function(){
 		return text.trim();
 	}
 });
+
+/* Other Utils */
+Discord.Cookies = new (function(){
+	this.set = function(name,value,days) {
+		var expires = "";
+		if (days) {
+			var date = new Date();
+			date.setTime(date.getTime() + (days*24*60*60*1000));
+			expires = "; expires=" + date.toUTCString();
+		}
+		document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+	}
+	this.get = function(name) {
+		var nameEQ = name + "=";
+		var ca = document.cookie.split(';');
+		for(var i=0;i < ca.length;i++) {
+			var c = ca[i];
+			while (c.charAt(0)==' ') c = c.substring(1,c.length);
+			if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+		}
+		return null;
+	}
+	this.erase = function(name) {   
+		document.cookie = name+'=; Max-Age=-99999999;';  
+	}
+})();
 
 /* Events */
 Discord.on = function(event, callback){

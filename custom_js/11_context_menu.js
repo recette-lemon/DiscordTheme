@@ -124,7 +124,7 @@ let reverseImage = {
 		},
 		{
 			name:"Iqdb",
-			fn:function searchIqdb(context){
+			fn:function(context){
 				window.open("http://www.iqdb.org/?url="+encodeURIComponent(context.url));
 			}
 		}

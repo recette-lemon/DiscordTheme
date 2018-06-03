@@ -238,6 +238,10 @@ header[class*="header-"],
 .divider + .divider{
 	display:none;
 }
+.message-group {
+    background: none!important;
+    box-shadow: none !important;
+}
 
 /* COMMAND LINE */
 #command-line {

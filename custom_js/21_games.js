@@ -81,11 +81,11 @@ Games.onInfo = function(game){
 	}
 }
 Games.setInfo = function(game){
-	setCookie("Games."+game.name, JSON.stringify(game.info), 100*365);
+	Discord.Cookies.set("Games."+game.name, JSON.stringify(game.info), 100*365);
 	Games.onInfo(game);
 }
 Games.getInfo = function(game){
-	let v = getCookie("Games."+game.name);
+	let v = Discord.Cookies.get("Games."+game.name);
 	if(v) return JSON.parse(v);
 	else return {};
 }
