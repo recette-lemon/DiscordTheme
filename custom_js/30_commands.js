@@ -480,14 +480,14 @@ commands.alias("verb", "awoo", function(){return ["awooed", "https://i.imgur.com
 commands.catch = function(channel, message){
 	if(message.trim().match(/^https?:\/\/[^ \r\n#]+(jpg|gif|png|jpeg)(\?[^ ]*)?$/i)){
 		let r = new Discord.Request();
-		r.getFile(command.trim()).then(function(file){
+		r.getFile(message.trim()).then(function(file){
 			let form = new FormData();
 			form.append("content", "");
 			form.append("file", file);
 			discord.sendMessage(channel, form);
 		}).catch(function(err, res){
 			let embed = new Discord.Embed();
-			embed.setImage(command.trim());
+			embed.setImage(message.trim());
 			discord.sendMessage(channel, {content:"", embed});
 		});
 		return true;
