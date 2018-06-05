@@ -58,6 +58,10 @@ body::before{
 	background-color: rgba(255,255,255,0.2) !important;
 }
 
+:root .notice-region [class*="container-"]{
+	background:rgba(0,0,0,0.6) !important;
+}
+
 /* Borders */
 .guilds-wrapper,
 .private-channels,
@@ -241,6 +245,10 @@ header[class*="header-"],
 .message-group {
     background: none!important;
     box-shadow: none !important;
+}
+
+.greentext{
+	color:#789922 !important;
 }
 
 /* COMMAND LINE */

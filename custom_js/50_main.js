@@ -21,6 +21,29 @@ function checkMessageForOutput(child){
 		}
 	}
 }
+function checkMessageForGreenText(child){
+	let markup = child.querySelector(".markup");
+	let textNodes = markup.childNodes;
+	for(let i=0;i<textNodes.length;i++){
+		if(textNodes[i].nodeType != Node.TEXT_NODE) continue;
+		let tn = textNodes[i];
+		let t = tn.textContent.split("\n");
+		let div = document.createElement("div");
+		div.className = "greentext-container";
+		for(let j=0;j<t.length;j++){
+			if(t[j].match(/^>.+$/)){
+				let span = document.createElement("div");
+				span.className = "greentext";
+				span.innerHTML = t[j];
+				div.appendChild(span);
+			}else{
+				let text = document.createTextNode(t[j]);
+				div.appendChild(text);
+			}
+		}
+		markup.replaceChild(div, tn);
+	}
+}
 
 /* Window Events */
 Discord.Console.onCommand = function(command){
@@ -63,17 +86,24 @@ window.addEventListener("click", function(e){
 window.addEventListener("DOMNodeInserted", function (e) {
 	let target = e.target;
 	if(target instanceof HTMLElement){
+		if(target.matches(".greentext-container")) return;
 		if(target.className.startsWith("contextMenu") && target.parentNode.id=="app-mount") {
 			Discord.ContextMenu(target);
 		}
 		let mg = target.closest(".message-group");
 		if(mg){
-			checkMessageForOutput(mg);
+			if(checkMessageForOutput(mg)) return;
+			let msg = mg.querySelectorAll(".message");
+			for(let i=0;i<msg.length;i++)
+				checkMessageForGreenText(msg[i]);
 		}
 		if(target.matches(".messages-wrapper")){
 			let mg = document.querySelectorAll(".message-group");
 			for(let i=0;i<mg.length;i++){
-				checkMessageForOutput(mg[i]);
+				if(checkMessageForOutput(mg[i])) continue;
+				let msg = mg[i].querySelector(".message");
+				for(let i=0;i<msg.length;i++)
+					checkMessageForGreenText(msg[i]);
 			}
 		}
 	}
