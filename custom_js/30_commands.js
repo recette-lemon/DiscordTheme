@@ -435,9 +435,7 @@ commands.add("loop", function(channel, full, parts){
 	let rq = new Discord.RequestQueue();
 	for(let i=0;i<n;i++){
 		rq.add(function(callback){
-			discord.sendMessage(channel, {content}).then(function(){
-				callback();
-			});
+			discord.sendMessage(channel, {content}).then(callback, callback);
 		});
 	}
 	rq.run();
