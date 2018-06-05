@@ -1,0 +1,44 @@
+.greentext-container{
+	display:inline-block;
+}
+.greentext{
+	color:#789922 !important;
+}
+
+/* COMMAND LINE */
+#command-line {
+	display: flex;
+	align-items: center;
+	
+	height: 30px;
+	padding: 0 5px;
+	overflow: hidden;
+	
+	background-color: rgba(0,0,0,0.7);
+	border: none;
+	
+	transition: height 100ms ease-in-out;
+}
+#command-line.hidden {
+	height: 0px;
+}
+
+#command-line span {
+	margin-right: 5px;
+	
+	font-family: Menlo,Consolas,Monaco,monospace;
+	font-size: 18px;
+	font-weight: bold;
+	color: white;
+}
+
+#command-line input {
+	flex-grow: 1;
+	background-color: transparent;
+	outline: none;
+	border: none;
+	
+	font-family: Menlo,Consolas,Monaco,monospace;
+	font-size: 14px;
+	color: white;
+}
