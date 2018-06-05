@@ -32,7 +32,7 @@ function checkMessageForGreenText(child){
 		div.className = "greentext-container";
 		for(let j=0;j<t.length;j++){
 			if(t[j].match(/^>.+$/)){
-				let span = document.createElement("div");
+				let span = document.createElement("span");
 				span.className = "greentext";
 				span.innerHTML = t[j];
 				div.appendChild(span);
@@ -40,6 +40,7 @@ function checkMessageForGreenText(child){
 				let text = document.createTextNode(t[j]);
 				div.appendChild(text);
 			}
+			div.appendChild(document.createTextNode("\n"));
 		}
 		markup.replaceChild(div, tn);
 	}

@@ -14,7 +14,6 @@ Discord.CommandParser = function(){
 		return list;
 	}
 	this.listAliases = function(original){
-		console.log(original);
 		return aliasList[original];
 	}
 	
