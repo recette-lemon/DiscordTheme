@@ -247,6 +247,9 @@ header[class*="header-"],
     box-shadow: none !important;
 }
 
+.greentext-container{
+	display:inline-block;
+}
 .greentext{
 	color:#789922 !important;
 }
