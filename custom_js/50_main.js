@@ -76,7 +76,7 @@ window.addEventListener("click", function(e){
 	let t = e.target;
 	if(t.parentNode.className=="reaction reaction-me") t = t.parentNode;
 	if(t.className=="reaction reaction-me"){
-		let message_id = t.closest(".message").getReactInstance()["return"].key;
+		let message_id = t.closest(".message").getReactReturn(2).memoizedProps.message.id;
 		let message = Discord.ReactionMessages.get(message_id);
 		if(message){
 			let emoji = encodeURIComponent(t.children[0].alt);
