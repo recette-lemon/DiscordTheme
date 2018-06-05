@@ -101,7 +101,7 @@ window.addEventListener("DOMNodeInserted", function (e) {
 			let mg = document.querySelectorAll(".message-group");
 			for(let i=0;i<mg.length;i++){
 				if(checkMessageForOutput(mg[i])) continue;
-				let msg = mg[i].querySelector(".message");
+				let msg = mg[i].querySelectorAll(".message");
 				for(let i=0;i<msg.length;i++)
 					checkMessageForGreenText(msg[i]);
 			}
