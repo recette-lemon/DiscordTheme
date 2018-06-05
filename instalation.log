@@ -1,8 +1,0 @@
-Backup already exists at "C:\Users\Manuel\AppData\Roaming\discord\0.0.301\modules\discord_desktop_core\core.asar.bak"
-Unpacked Asar to "C:\Users\Manuel\AppData\Roaming\discord\0.0.301\modules\discord_desktop_core\core\"
-Modified payload.js to point to "D:\DiscordTheme\.files\injection.js"
-Modified injection.js to point to "D:\DiscordTheme\custom.css"
-Modified injection.js to point to "D:\DiscordTheme\custom.js"
-Applied payload to "C:\Users\Manuel\AppData\Roaming\discord\0.0.301\modules\discord_desktop_core\core\app\mainScreen.js"
-Killed discord processes to repack Asar
-Repacked "C:\Users\Manuel\AppData\Roaming\discord\0.0.301\modules\discord_desktop_core\core.asar"

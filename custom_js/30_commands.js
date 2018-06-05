@@ -474,6 +474,7 @@ commands.alias("verb", "dab", function(){return ["dabbed", "https://i.imgur.com/
 commands.alias("verb", "kiss", function(){return ["kissed", "https://i.imgur.com/eisk88U.gif"]});
 commands.alias("verb", "kill", function(){return ["killed", "https://i.imgur.com/3hIgEF5.png"]});
 commands.alias("verb", "awoo", function(){return ["awooed", "https://i.imgur.com/9LG19PH.jpg"]});
+commands.alias("verb", "pat", function(){return ["patted", "https://i.imgur.com/uRc2B0v.gif"]});
 commands.catch = function(channel, message){
 	if(message.trim().match(/^https?:\/\/[^ \r\n#]+(jpg|gif|png|jpeg)(\?[^ ]*)?$/i)){
 		let r = new Discord.Request();
