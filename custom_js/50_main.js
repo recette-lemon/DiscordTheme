@@ -228,4 +228,3 @@ window.XMLHttpRequest = function(){
 	return xhr;
 }
 
-
