@@ -289,15 +289,49 @@ commands.add("react", function(channel, full, parts){
 commands.add("8ball", function(channel, full, parts){
 	parts.shift();
 	let answers = ['Maybe.', 'Certainly not.', 'I hope so.', 'Not in your wildest dreams.', 'There is a good chance.', 'Quite likely.', 'I think so.', 'I hope not.',  'I hope so.', 'Never!', 'Fuhgeddaboudit.', 'Ahaha! Really?!?', 'Pfft.', 'Sorry, bucko.', 'Hell, yes.', 'Hell to the no.', 'The future is bleak.', 'The future is uncertain.', 'I would rather not say.', 'Who cares?',  'Possibly.', 'Never, ever, ever.', 'There is a small chance.', 'Yes!'];
+	let top = parts.join(" ");
+	top = top?top:"What does the 8ball say?";
 	let embed = new Discord.Embed();
 	embed.setAuthorIcon("https://cdn.discordapp.com/attachments/336483154858737674/377602724700618755/8ballxd.png");
 	embed.setAuthorName("8Ball");
 	embed.setColor("#000000");
-	embed.addField(parts.join(" "), answers[(Math.random()*answers.length)|0]);
+	embed.addField(top, answers[(Math.random()*answers.length)|0]);
 	return {content:"", embed};
 }, function(){
 	let text = "```\n/8ball <message>\n```\n";
 	text += "How do i 8ball?\n";
+	return text;
+});
+commands.add("fortune", function(channel, full, parts){
+	parts.shift();
+	let answers = [
+		{name: "Reply hazy, try again", color:"#F51C6A"},
+		{name: "Excellent Luck", color:"#FD4D32"},
+		{name: "Good Luck", color:"#E7890C"},
+		{name: "Average Luck", color:"#BAC200"},
+		{name: "Bad Luck", color:"#7FEC11"},
+		{name: "Good news will come to you by mail", color:"#43FD3B"},
+		{name: "（　´_ゝ`）ﾌｰﾝ", color:"#16F174"},
+		{name: "ｷﾀ━━━━━━(ﾟ∀ﾟ)━━━━━━ !!!!", color:"#00CBB0"},
+		{name: "You will meet a dark handsome stranger", color:"#0893E1"},
+		{name: "Better not tell you now", color:"#2A56FB"},
+		{name: "Outlook good", color:"#6023F8"},
+		{name: "Very Bad Luck", color:"#9D05DA"},
+		{name: "Godly Luck", color:"#D302A7"},
+		{name: "(YOU ARE BANNED)", color:"#FF0000"}
+	];
+	let top = parts.join(" ");
+	top = top?top:"What is my fortune?";
+	let answer = answers[(Math.random()*answers.length)|0];
+	let embed = new Discord.Embed();
+	embed.setAuthorIcon("https://i.imgur.com/Lp9JIbf.png");
+	embed.setAuthorName("Fortune");
+	embed.setColor(answer.color);
+	embed.addField(top, answer.name);
+	return {content:"", embed};
+}, function(){
+	let text = "```\n/fortune <message>\n```\n";
+	text += "Have your fortune taken.\n";
 	return text;
 });
 commands.add("delete", function(channel, full, parts){

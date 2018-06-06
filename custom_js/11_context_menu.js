@@ -1,9 +1,11 @@
 Discord.ContextMenu = function(target){
+	if(!(target.className.startsWith("contextMenu") && target.parentNode.id=="app-mount")) return false;
 	let react = target.getReactInstance();
 	let props = react.return.memoizedProps;
 	let type = null;
 	let context = {
 		type:null,
+		user:null,
 		channel:null,
 		message:null,
 		url:null
@@ -42,9 +44,13 @@ Discord.ContextMenu = function(target){
 	}
 	let extension = Discord.ContextMenu.Extension[context.type];
 	if(!extension) return;
-	let groupClass, itemClass;
-	target.querySelector('[class^="itemGroup-"]').classList.forEach(x=>x.startsWith("itemGroup-")&&(groupClass=x));
-	target.querySelector('[class^="item-"]').classList.forEach(x=>x.startsWith("item-")&&(itemClass=x));
+	function getClass(target, c){
+		let name;
+		target.querySelector('[class^="'+c+'-"]').classList.forEach(x=>x.startsWith(c+"-")&&(name=x));
+		return name;
+	}
+	let groupClass = getClass(target, "itemGroup");
+	let itemClass = getClass(target, "item");
 	let group = document.createElement("div");
 	group.className = groupClass;
 	target.insertBefore(group, target.children[0]);
@@ -88,6 +94,7 @@ Discord.ContextMenu = function(target){
 		parent.appendChild(item);
 		return true;
 	}
+	return true;
 }
 
 /* Context Menu Type */
