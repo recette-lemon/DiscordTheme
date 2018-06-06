@@ -54,7 +54,7 @@ Discord.CommandParser = function(){
 	
 	this.help = function(name){
 		let n = alias[name]?alias[name]:name;
-		if(!shadow[name] && commands[n])
+		if(!shadowCommands[name] && commands[n])
 			return commands[n].help();
 	}
 };
@@ -72,7 +72,7 @@ commands.add("help", function(channel, full, parts){
 			if(aliases) text += " (Aliases: "+aliases.join(", ")+")";
 			text += "\n";
 		}
-		let content = "Do ``/help <command>\n`` to get more information about commands.\n";
+		let content = "Do ``/help <command>`` to get more information about commands.\n";
 		content += "Shows helpful information about the command.\n";
 		content += "```\n"+text+"\n```";
 		return {content, bot:true};
@@ -452,19 +452,6 @@ commands.add("loop", function(channel, full, parts){
 	parts.shift();
 	let n = parts.shift();
 	let content = parts.join(" ");
-	if(isNaN(+n)){
-		switch(n){
-			case "m":
-			case "message":
-			case "messages":{
-				Discord.on("message", function(e){
-					if(e.channel==channel)
-						discord.sendMessage(channel, {content});
-				});
-			}
-		}
-		return true;
-	}
 	let rq = new Discord.RequestQueue();
 	for(let i=0;i<n;i++){
 		rq.add(function(callback){

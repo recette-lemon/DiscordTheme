@@ -535,11 +535,21 @@ Discord.Date = new (function(){
 	let EPOCH = 1420070400000;
 	
 	this.fromId = function(id){
-		let binary = (+id).toString(2);
-		binary = Array(64).join("0")+binary;
-		binary = binary.substring(binary.length-64);
+		let binary = (+id).toString(2).padStart(64, '0');
 		let timestamp = parseInt(binary.substring(0, 42), 2) + EPOCH;
 		return new Date(timestamp);
+	}
+	let lastTimestamp, increment=0;
+	this.toId = function(timestamp){
+		if(!timestamp) timestamp = Date.now();
+		if(timestamp==lastTimestamp){
+			increment++;
+		}else{
+			increment = 0;
+		}
+		lastTimestamp=timestamp;
+		let binary = `${(timestamp-EPOCH).toString(2).padStart(42, '0')}0000100000${(increment++).toString(2).padStart(12, '0')}`;
+		return parseInt(binary, 2);
 	}
 	
 	this.difference = function(d1, d2){
