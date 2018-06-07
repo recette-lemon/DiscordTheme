@@ -36,7 +36,7 @@ function checkMessageForGreenText(child){
 			}else if(t[j].match(/^>.+$/)){
 				let span = document.createElement("span");
 				span.className = "greentext";
-				span.innerHTML = t[j];
+				span.textContent = t[j];
 				div.appendChild(span);
 			}else{
 				let text = document.createTextNode(t[j]);
