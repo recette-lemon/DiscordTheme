@@ -143,7 +143,6 @@ window.XMLHttpRequest = function(){
 			let channel = parts[1];
 			if(typeof data == "string"){
 				let d = JSON.parse(data);
-				//let newData = parseCommand(d.content, channel);
 				let newData = commands.run(d.content, channel);
 				if(newData !== false){
 					if(newData === true){
@@ -177,31 +176,7 @@ window.XMLHttpRequest = function(){
 						return;
 					}else if(newData !== undefined){
 						if(newData.bot){
-							xhr.setProperty("status", 200);
-							xhr.setProperty("readyState", 4);
-							xhr.setProperty("responseText", JSON.stringify({
-								"nonce": d.nonce, 
-								"timestamp": new Date().toISOString(), 
-								"author": {
-									"id": "1",
-									"avatar": "clyde",
-									"bot":"true",
-									"username":"Clyde"
-								},
-								"id": d.nonce,
-								"embeds":[],
-								"mention_roles": [], 
-								"content": newData.content, 
-								"mentions": [], 
-								"type": 0
-							}));
-							xhr.getResponseHeader = function(h){
-								let headers = {
-									"content-type": "application/json"
-								};
-								return headers[h.toLowerCase()];
-							}
-							xhr.onreadystatechange();
+							sendBotMessage(xhr, newData.content, d.nonce);
 							return;
 						}else{
 							for(let nd in newData){
@@ -227,6 +202,39 @@ window.XMLHttpRequest = function(){
 		}
 		send.apply(xhr, [data]);
 	}
+	function sendBotMessage(xhr, content, nonce){
+		xhr.setProperty("status", 200);
+		xhr.setProperty("readyState", 4);
+		xhr.setProperty("responseText", JSON.stringify({
+			"nonce": nonce, 
+			"timestamp": new Date().toISOString(), 
+			"author": {
+				"id": "1",
+				"avatar": "clyde",
+				"bot":"true",
+				"username":"Clyde"
+			},
+			"id": nonce,
+			"embeds":[],
+			"mention_roles": [], 
+			"content": content, 
+			"mentions": [], 
+			"type": 0
+		}));
+		xhr.getResponseHeader = function(h){
+			let headers = {
+				"content-type": "application/json"
+			};
+			return headers[h.toLowerCase()];
+		}
+		xhr.onreadystatechange();
+	}
 	return xhr;
 }
 
+/* Proxy for removeChild because why the fuck would it throw an exception and crash the whole code */
+let _removeChild = HTMLElement.prototype.removeChild;
+HTMLElement.prototype.removeChild = function(child){
+	if(child.parentNode!=this) return;
+	_removeChild.apply(this, arguments);
+}

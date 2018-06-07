@@ -73,7 +73,6 @@ commands.add("help", function(channel, full, parts){
 			text += "\n";
 		}
 		let content = "Do ``/help <command>`` to get more information about commands.\n";
-		content += "Shows helpful information about the command.\n";
 		content += "```\n"+text+"\n```";
 		return {content, bot:true};
 	}
