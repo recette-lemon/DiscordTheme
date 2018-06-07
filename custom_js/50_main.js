@@ -23,6 +23,8 @@ function checkMessageForOutput(child){
 }
 function checkMessageForGreenText(child){
 	let markup = child.querySelector(".markup");
+	if(markup.getAttribute("checked")) return;
+	markup.setAttribute("checked", true);
 	let textNodes = markup.childNodes;
 	for(let i=0;i<textNodes.length;i++){
 		if(textNodes[i].nodeType != Node.TEXT_NODE) continue;
@@ -89,16 +91,9 @@ window.addEventListener("DOMNodeInserted", function (e) {
 	let target = e.target;
 	if(target instanceof HTMLElement){
 		if(target.matches(".greentext-container")) return;
-		if(target.className.startsWith("contextMenu") && target.parentNode.id=="app-mount") {
-			Discord.ContextMenu(target);
-		}
-		let mg = target.closest(".message-group");
-		if(mg){
-			if(checkMessageForOutput(mg)) return;
-			let msg = mg.querySelectorAll(".message");
-			for(let i=0;i<msg.length;i++)
-				checkMessageForGreenText(msg[i]);
-		}
+		if(Discord.ContextMenu(target)) return;
+		if(Discord.Settings(target)) return;
+		
 		if(target.matches(".messages-wrapper")){
 			let mg = document.querySelectorAll(".message-group");
 			for(let i=0;i<mg.length;i++){
@@ -107,6 +102,13 @@ window.addEventListener("DOMNodeInserted", function (e) {
 				for(let i=0;i<msg.length;i++)
 					checkMessageForGreenText(msg[i]);
 			}
+		}
+		let mg = target.matches(".message-group")?target:target.closest(".message-group");
+		if(mg){
+			if(checkMessageForOutput(mg)) return;
+			let msg = mg.querySelectorAll(".message");
+			for(let i=0;i<msg.length;i++)
+				checkMessageForGreenText(msg[i]);
 		}
 	}
 });

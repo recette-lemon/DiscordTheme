@@ -312,6 +312,18 @@ Discord.Request = function(){
 		if(!_fs.existsSync(dir)) _fs.mkdirSync(dir);
 		let extension = name.split(".").pop();
 		_this.open("GET", url);
+		let locationPromise = new Promise(function(succ, err){
+			let location = _dialog.showSaveDialog({defaultPath:name});
+			if(location){
+				let location_extension = location.split(".");
+				if(location_extension.length==1 && extension){
+					location = location+"."+extension;
+				}
+				succ(location);
+			}else{
+				err();
+			}
+		});
 		let stream = _request({
 			encoding: _this.encoding,
 			headers,
@@ -321,12 +333,7 @@ Discord.Request = function(){
 			extension = response.headers["content-type"].split("/").pop();
 		}).pipe(_fs.createWriteStream(tmp));
 		stream.on('finish', function(){
-			let location = _dialog.showSaveDialog({defaultPath:name});
-			if(location){
-				let location_extension = location.split(".");
-				if(location_extension.length==1 && extension){
-					location = location+"."+extension;
-				}
+			locationPromise.then(function(location){
 				_fs.rename(tmp, location, function(err){
 					if(err && err.code === 'EXDEV'){
 						let readStream = _fs.createReadStream(tmp);
@@ -337,9 +344,9 @@ Discord.Request = function(){
 						readStream.pipe(writeStream);
 					}
 				});
-			}else{
+			}, function(){
 				_fs.unlink(tmp, function(){});
-			}
+			});
 		});
 	}
 }
