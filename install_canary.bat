@@ -50,8 +50,8 @@ if EXIST .files\injection.js del .files\injection.js>nul
 for /f "delims=" %%a in (.files\injection-original.js) do (
 	set _temp=%%a
 	SETLOCAL EnableDelayedExpansion
-		set modified=!_temp:{{CSS}}=%~dp0custom_css!
-		set modified=!modified:{{JS}}=%~dp0custom_js!
+		set modified=!_temp:{{CSS}}=%~dp0.files\.css!
+		set modified=!modified:{{JS}}=%~dp0.files\.js!
 		set modified=!modified:{{PATH}}=%~dp0!
 		set modified=!modified:\=\\!
 		echo !modified!>>.files\injection.js

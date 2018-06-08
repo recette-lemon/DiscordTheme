@@ -44,7 +44,8 @@ Discord.Settings = function(target){
 		item.classList.add(notSelectedClass);
 		item.innerHTML = x.name;
 		item.addEventListener("mousedown", function(){
-			sidebar.querySelector("."+selectedClass).className = notSelectedClassName;
+			let last = sidebar.querySelector("."+selectedClass);
+			if(last) last.className = notSelectedClassName;
 			item.className = selectedClassName;
 			content.innerHTML = "";
 			content.appendChild(x.div);
@@ -74,7 +75,36 @@ Discord.Settings.Items = new (function(){
 		title.textContent = group;
 		div.appendChild(title);
 		
-		this.addSetting = function(name, description, defaultValue){
+		function Options(name, raw, cookie){
+			this.div = document.createElement("div");
+			let div = this.div;
+			
+			this.add = function(description, value, fn){
+				let item = document.createElement("label");
+				item.className = "dt-option";
+				item.innerHTML = `
+					<input type="radio" name="${raw}"/>
+					<div>
+						<div>
+							<svg name="Checkmark" width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><polyline stroke="#7289da" stroke-width="2" points="3.5 9.5 7 13 15 5"></polyline></g></svg>
+						</div>
+						${description}
+					</div>
+				`;
+				div.appendChild(item);
+				let input = item.querySelector("input");
+				input.addEventListener("change", function(){
+					if(this.checked && (Discord.Settings.Raw[raw]!= value)){
+						fn();
+						Discord.Settings.Raw[raw] = value;
+						Discord.Cookies.set(cookie, value, 365);
+					}
+				});
+				input.checked = (Discord.Settings.Raw[raw] == value);
+			}
+		}
+		
+		this.addToggle = function(name, description, defaultValue){
 			let raw = (group+"_"+name).toUpperCase();
 			let cookie = Discord.Settings.Prefix+raw;
 			Discord.Settings.Raw[raw] = Discord.Cookies.get(cookie, defaultValue);
@@ -98,6 +128,15 @@ Discord.Settings.Items = new (function(){
 			});
 			input.checked = Discord.Settings.Raw[raw];
 		};
+		this.createOptions = function(name, defaultValue){
+			let raw = (group+"_"+name).toUpperCase();
+			let cookie = Discord.Settings.Prefix+raw;
+			Discord.Settings.Raw[raw] = Discord.Cookies.get(cookie, defaultValue);
+			let options = new Options(name, raw, cookie);
+			div.appendChild(options.div);
+			options.raw = raw;
+			return options;
+		}
 	}
 	
 	this.createGroup = function(group){
@@ -113,8 +152,22 @@ Discord.Settings.Items = new (function(){
 	};
 })();
 let general = Discord.Settings.Items.createGroup("General");
-general.addSetting("Greentext", "Color lines beginning with > in green.", false);
-general.addSetting("Desu", "Add desu to the end of messages.", false);
+general.addToggle("Greentext", "Color lines beginning with > in green.", false);
+general.addToggle("Desu", "Add desu to the end of messages.", false);
+let theme = Discord.Settings.Items.createGroup("Theme");
+let themeOptions = theme.createOptions("Theme", "default");
+let themesFolder = _DISCORD_THEME.root+"themes\\";
+let themes = window._fs.readdirSync(themesFolder);
+function changeTheme(newTheme){
+	window.tearDownCSS(themesFolder+Discord.Settings.Raw[themeOptions.raw]);
+	window.applyAndWatchCSS(themesFolder+newTheme);
+}
+themes.forEach(function(x){
+	themeOptions.add(x, x, function(){
+		changeTheme(x);
+	});
+});
+window.applyAndWatchCSS(themesFolder+Discord.Settings.Raw[themeOptions.raw]);
 
 
 

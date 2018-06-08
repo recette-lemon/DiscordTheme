@@ -307,7 +307,7 @@ Discord.Request = function(){
 	
 	this.downloadFile = function(url){
 		let name = url.split("/").pop().split(/(\?|\#)/)[0];
-		let dir = _DISCORD_THEME.root+".tmp/";
+		let dir = _DISCORD_THEME.root+".files/.tmp/";
 		let tmp = dir+(new Date().getTime())+"_"+name;
 		if(!_fs.existsSync(dir)) _fs.mkdirSync(dir);
 		let extension = name.split(".").pop();
