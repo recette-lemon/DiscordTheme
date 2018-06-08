@@ -39,9 +39,11 @@ Discord.CommandParser = function(){
 					return commands[alias[first]].run(channel, m, parts, aliasB4[first]());
 				if(!shadowCommands[first] && commands[first])
 					return commands[first].run(channel, m, parts);
-				return _this.else(channel, m, parts);
+				let elseValue = _this.else(channel, m, parts);
+				return elseValue?elseValue:false;
 			}
-			return _this.catch(channel, message);
+			let catchValue = _this.catch(channel, message);
+			return catchValue?catchValue:false;
 		}catch(e){
 			console.log(e);
 			return true;

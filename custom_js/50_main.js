@@ -1,5 +1,3 @@
-discord.desu = false;
-
 /* Auxiliary Functions */
 function reverseEach(obj, fn){
 	let keys = [];
@@ -22,9 +20,11 @@ function checkMessageForOutput(child){
 	}
 }
 function checkMessageForGreenText(child){
+	if(!Discord.Settings.Raw.GENERAL_GREENTEXT) return;
 	let markup = child.querySelector(".markup");
-	if(markup.getAttribute("checked")) return;
-	markup.setAttribute("checked", true);
+	if(!markup) return;
+	if(markup.greentext) return;
+	markup.greentext = true;
 	let textNodes = markup.childNodes;
 	for(let i=0;i<textNodes.length;i++){
 		if(textNodes[i].nodeType != Node.TEXT_NODE) continue;
@@ -187,7 +187,7 @@ window.XMLHttpRequest = function(){
 							data = JSON.stringify(d);
 						}
 					}
-				}else if(discord.desu){
+				}else if(Discord.Settings.Raw.GENERAL_DESU){
 					d.content += " desu";
 					data = JSON.stringify(d);
 				}

@@ -22,7 +22,14 @@ Discord.Settings = function(target){
 	sidebar.insertBefore(title, place);
 	
 	let content = settings.querySelector(".content-column");
-	let h2 = getClassName(content, "h2");
+	let _appendChild = content.appendChild;
+	content.appendChild = function(){
+		if(content.customSettings){
+			content.removeChild(content.customSettings);
+			content.customSettings=false;
+		}
+		_appendChild.apply(this, arguments);
+	}
 	
 	Discord.Settings.Items.forEach(function(x){
 		let item = document.createElement("div");
@@ -30,6 +37,11 @@ Discord.Settings = function(target){
 		item.classList.add(itemClass);
 		item.classList.add(notSelectedClass);
 		item.innerHTML = x.name;
+		item.addEventListener("click", function(){
+			content.innerHTML = "";
+			content.appendChild(x.div);
+			content.customSettings = x.div;
+		});
 		sidebar.insertBefore(item, place);
 	});
 	
@@ -38,29 +50,64 @@ Discord.Settings = function(target){
 	
 	return true;
 }
+Discord.Settings.Prefix = "DISCORD_THEME_";
+Discord.Settings.Raw = {};
 Discord.Settings.Title = "Theme Settings";
 Discord.Settings.Items = new (function(){
-	let itemsIndex = {};
-	let items = [];
+	let groupsIndex = {};
+	let groups = [];
+	function Group(group){
+		this.name = group;
+		this.div = document.createElement("div");
+		let div = this.div;
+		div.className = "dt-settings";
+		div.group = group;
+		let title = document.createElement("div");
+		title.className = "dt-settings-title";
+		title.textContent = group;
+		div.appendChild(title);
+		
+		this.addSetting = function(name, description, defaultValue){
+			let raw = (group+"_"+name).toUpperCase();
+			let cookie = Discord.Settings.Prefix+raw;
+			Discord.Settings.Raw[raw] = Discord.Cookies.get(cookie, defaultValue);
+			let item = document.createElement("div");
+			item.className = "dt-settings-item";
+			item.innerHTML = `
+				<div class="dt-settings-item-main">
+					<div class="dt-settings-item-name">${name}</div>
+					<label class="dt-switch">
+						<input type="checkbox" name="${raw}"/>
+						<div></div>
+					</div>
+				</div>
+				<div class="dt-settings-item-description">${description}</div>
+			`;
+			div.appendChild(item);
+			let input = item.querySelector("input");
+			input.addEventListener("change", function(){
+				Discord.Settings.Raw[raw] = this.checked;
+				Discord.Cookies.set(cookie, this.checked, 365);
+			});
+			input.checked = Discord.Settings.Raw[raw];
+		};
+	}
 	
 	this.createGroup = function(group){
-		if(itemsIndex[group]) return;
-		items.push(itemsIndex[group] = {name:group});
-	};
-	this.createSetting = function(group, name, description){
-		let g = itemsIndex[group];
-		if(!g) return;
-		if(!g.settings) g.settings = [];
-		g.settings.push({name, description});
+		if(groupsIndex[group]) return;
+		let g = new Group(group);
+		groups.push(groupsIndex[group] = g);
+		return g;
 	};
 	this.forEach = function(fn){
-		for(let i=0;i<items.length;i++){
-			fn(items[i]);
+		for(let i=0;i<groups.length;i++){
+			fn(groups[i]);
 		}
 	};
 })();
-Discord.Settings.Items.createGroup("General");
-Discord.Settings.Items.createSetting("General", "Greentext", "Color lines beginning with > in green.");
+let general = Discord.Settings.Items.createGroup("General");
+general.addSetting("Greentext", "Color lines beginning with > in green.", false);
+general.addSetting("Desu", "Add desu to the end of messages.", false);
 
 
 

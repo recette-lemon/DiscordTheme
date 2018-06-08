@@ -1,3 +1,8 @@
+/* String Prototypes */
+String.prototype.capitalize = function() {
+    return this[0].toUpperCase() + this.substring(1);
+}
+
 /* HTMLElement Prototypes */
 HTMLElement.prototype.getReactInstance = function(){
 	let start = "__reactInternalInstance$";

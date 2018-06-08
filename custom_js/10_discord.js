@@ -583,7 +583,7 @@ Discord.Cookies = new (function(){
 		}
 		document.cookie = name + "=" + (value || "")  + expires + "; path=/";
 	}
-	this.get = function(name) {
+	this.get = function(name, defaultValue) {
 		var nameEQ = name + "=";
 		var ca = document.cookie.split(';');
 		for(var i=0;i < ca.length;i++) {
@@ -591,7 +591,7 @@ Discord.Cookies = new (function(){
 			while (c.charAt(0)==' ') c = c.substring(1,c.length);
 			if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
 		}
-		return null;
+		return defaultValue;
 	}
 	this.erase = function(name) {   
 		document.cookie = name+'=; Max-Age=-99999999;';  
