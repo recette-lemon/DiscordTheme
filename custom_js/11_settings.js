@@ -13,8 +13,12 @@ Discord.Settings = function(target){
 	let headerClass = getClass(sidebar, "header");
 	let itemClass = getClass(sidebar, "item");
 	let itemDefaultClass = getClass(sidebar, "itemDefault");
+	let itemSelectedClass = getClass(sidebar, "itemSelected");
 	let notSelectedClass = getClass(sidebar, "notSelected");
+	let selectedClass = getClass(sidebar, "selected");
 	let place = sidebar.children[sidebar.children.length-5];
+	let notSelectedClassName = `${itemDefaultClass} ${itemClass} ${notSelectedClass}`;
+	let selectedClassName = `${itemSelectedClass} ${itemClass} ${selectedClass}`;
 	
 	let title = document.createElement("div");
 	title.className = headerClass;
@@ -22,14 +26,16 @@ Discord.Settings = function(target){
 	sidebar.insertBefore(title, place);
 	
 	let content = settings.querySelector(".content-column");
-	let _appendChild = content.appendChild;
-	content.appendChild = function(){
+
+	sidebar.addEventListener("mousedown", function(e){
+		if(!e.target.matches("."+itemClass)) return;
 		if(content.customSettings){
+			let last = sidebar.querySelector("."+selectedClass);
+			if(last) last.className = notSelectedClassName;
 			content.removeChild(content.customSettings);
 			content.customSettings=false;
 		}
-		_appendChild.apply(this, arguments);
-	}
+	}, true);
 	
 	Discord.Settings.Items.forEach(function(x){
 		let item = document.createElement("div");
@@ -37,7 +43,9 @@ Discord.Settings = function(target){
 		item.classList.add(itemClass);
 		item.classList.add(notSelectedClass);
 		item.innerHTML = x.name;
-		item.addEventListener("click", function(){
+		item.addEventListener("mousedown", function(){
+			sidebar.querySelector("."+selectedClass).className = notSelectedClassName;
+			item.className = selectedClassName;
 			content.innerHTML = "";
 			content.appendChild(x.div);
 			content.customSettings = x.div;
@@ -47,7 +55,6 @@ Discord.Settings = function(target){
 	
 	let separator = sidebar.querySelector('[class*="separator"]').cloneNode();
 	sidebar.insertBefore(separator, place);
-	
 	return true;
 }
 Discord.Settings.Prefix = "DISCORD_THEME_";
