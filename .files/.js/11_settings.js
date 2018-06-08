@@ -75,6 +75,10 @@ Discord.Settings.Items = new (function(){
 		title.textContent = group;
 		div.appendChild(title);
 		
+		function getRaw(name){
+			return (group+"_"+name.replace(/\s+/, "_")).toUpperCase();
+		}
+		
 		function Options(name, raw, cookie){
 			this.div = document.createElement("div");
 			let div = this.div;
@@ -105,7 +109,7 @@ Discord.Settings.Items = new (function(){
 		}
 		
 		this.addToggle = function(name, description, defaultValue){
-			let raw = (group+"_"+name).toUpperCase();
+			let raw = getRaw(name);
 			let cookie = Discord.Settings.Prefix+raw;
 			Discord.Settings.Raw[raw] = Discord.Cookies.get(cookie, defaultValue);
 			let item = document.createElement("div");
@@ -129,12 +133,11 @@ Discord.Settings.Items = new (function(){
 			input.checked = Discord.Settings.Raw[raw];
 		};
 		this.createOptions = function(name, defaultValue){
-			let raw = (group+"_"+name).toUpperCase();
+			let raw = getRaw(name);
 			let cookie = Discord.Settings.Prefix+raw;
 			Discord.Settings.Raw[raw] = Discord.Cookies.get(cookie, defaultValue);
 			let options = new Options(name, raw, cookie);
 			div.appendChild(options.div);
-			options.raw = raw;
 			return options;
 		}
 	}
@@ -151,43 +154,27 @@ Discord.Settings.Items = new (function(){
 		}
 	};
 })();
+
 let general = Discord.Settings.Items.createGroup("General");
+general.addToggle("Image Links", "When posting an image link as a message, replace it with an upload instead.", false);
 general.addToggle("Greentext", "Color lines beginning with > in green.", false);
 general.addToggle("Desu", "Add desu to the end of messages.", false);
+
 let theme = Discord.Settings.Items.createGroup("Theme");
 let themeOptions = theme.createOptions("Theme", "default");
 let themesFolder = _DISCORD_THEME.root+"themes\\";
 let themes = window._fs.readdirSync(themesFolder);
 function changeTheme(newTheme){
-	window.tearDownCSS(themesFolder+Discord.Settings.Raw[themeOptions.raw]);
+	if(Discord.Settings.Raw.THEME_THEME)
+		window.tearDownCSS(themesFolder+Discord.Settings.Raw.THEME_THEME);
 	window.applyAndWatchCSS(themesFolder+newTheme);
 }
+themeOptions.add("None", "", function(){
+	window.tearDownCSS(themesFolder+Discord.Settings.Raw.THEME_THEME);
+});
 themes.forEach(function(x){
 	themeOptions.add(x, x, function(){
 		changeTheme(x);
 	});
 });
-window.applyAndWatchCSS(themesFolder+Discord.Settings.Raw[themeOptions.raw]);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+if(Discord.Settings.Raw.THEME_THEME) window.applyAndWatchCSS(themesFolder+Discord.Settings.Raw.THEME_THEME);

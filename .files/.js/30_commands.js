@@ -498,7 +498,8 @@ commands.alias("verb", "kill", function(){return ["killed", "https://i.imgur.com
 commands.alias("verb", "awoo", function(){return ["awooed", "https://i.imgur.com/9LG19PH.jpg"]});
 commands.alias("verb", "pat", function(){return ["patted", "https://i.imgur.com/uRc2B0v.gif"]});
 commands.catch = function(channel, message){
-	if(message.trim().match(/^https?:\/\/[^ \r\n#]+(jpg|gif|png|jpeg)(\?[^ ]*)?$/i)){
+	if(Discord.Settings.Raw.GENERAL_IMAGE_LINKS && 
+	   message.trim().match(/^https?:\/\/[^ \r\n#]+(jpg|gif|png|jpeg)(\?[^ ]*)?$/i)){
 		let r = new Discord.Request();
 		r.getFile(message.trim()).then(function(file){
 			let form = new FormData();
