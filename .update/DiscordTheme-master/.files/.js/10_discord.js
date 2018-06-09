@@ -219,7 +219,7 @@ Discord.Console = new (function(){
 });
 Discord.File = function(filename){
 	let _this = this;
-	this.root = DT.root;
+	this.root = _DISCORD_THEME.root;
 	this.filename = filename.indexOf(":")<0 ? this.root+filename : filename;
 	this.basename = this.filename.split("\\");
 	this.basename = this.basename[this.basename.length-1];
@@ -324,7 +324,7 @@ Discord.Request = function(){
 	
 	this.downloadFile = function(url, location){
 		let name = url.split("/").pop().split(/(\?|\#)/)[0];
-		let dir = DT.root+".files/.tmp/";
+		let dir = _DISCORD_THEME.root+".files/.tmp/";
 		let tmp = dir+(new Date().getTime())+"_"+name;
 		if(!_fs.existsSync(dir)) _fs.mkdirSync(dir);
 		let extension = name.split(".").pop();

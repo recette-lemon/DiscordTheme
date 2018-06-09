@@ -9,6 +9,7 @@ for /f "skip=1 delims=" %%a IN ('wmic process where "name='discord.exe'" get Exe
 )
 cls
 echo --- Installer ---
+echo.
 if "%d_exe%"=="" (
 	install_canary.bat
 	goto EOF
@@ -50,15 +51,14 @@ if EXIST .files\injection.js del .files\injection.js>nul
 for /f "delims=" %%a in (.files\injection-original.js) do (
 	set _temp=%%a
 	SETLOCAL EnableDelayedExpansion
-		set modified=!_temp:{{CSS}}=%~dp0.files\.css!
-		set modified=!modified:{{JS}}=%~dp0.files\.js!
-		set modified=!modified:{{PATH}}=%~dp0!
-		set modified=!modified:\=\\!
+		set modified=!_temp:{{PATH}}=%~dp0!
+		if NOT "!modified!" == "!_temp!" (
+			set modified=!modified:\=\\!
+		)
 		echo !modified!>>.files\injection.js
 	ENDLOCAL
 )
-echo Modified injection.js to point to "%~dp0custom.css">>instalation.log
-echo Modified injection.js to point to "%~dp0custom.js">>instalation.log
+echo Modified injection.js to point to "%~dp0">>instalation.log
 
 rem #apply payload to point discord to injection.js
 for /f "usebackq delims=" %%a in ("%d_core%\core\app\mainScreen.js") do (
@@ -106,6 +106,6 @@ echo Repacked "%d_core%\core.asar">>instalation.log
 
 rem #run discord manually cuz fuck batch scripts
 echo.
-echo -- SUCCESS --
+echo --- SUCCESS ---
 pause>nul
 :EOF

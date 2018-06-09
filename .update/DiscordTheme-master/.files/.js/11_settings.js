@@ -162,7 +162,7 @@ general.addToggle("Desu", "Add desu to the end of messages.", false);
 
 let theme = Discord.Settings.Items.createGroup("Theme");
 let themeOptions = theme.createOptions("Theme", "default");
-let themesFolder = DT.root+"themes\\";
+let themesFolder = _DISCORD_THEME.root+"themes\\";
 let themes = window._fs.readdirSync(themesFolder);
 function changeTheme(newTheme){
 	if(Discord.Settings.Raw.THEME_THEME)

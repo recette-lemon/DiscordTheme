@@ -4,7 +4,7 @@ window._fileWatcher = {};
 window._styleTag = {};
 
 //Variables
-window.DT = {
+window._DISCORD_THEME = {
 	root: "{{PATH}}"
 };
 
@@ -77,9 +77,10 @@ window.applyAndWatchCSS = function(path) {
 	window.tearDownCSS(path);
 	window.watchCSS(path);
 };
-window.applyAndWatchCSS(DT.root+".files\\.css");
+window.applyAndWatchCSS('{{CSS}}');
 //Inject JS
-function injectJS(js_path){
+(function(){
+	let js_path = "{{JS}}";
 	let files, dirname;
 	if (window._fs.lstatSync(js_path).isDirectory()) {
 		files = window._fs.readdirSync(js_path);
@@ -96,6 +97,4 @@ function injectJS(js_path){
 			document.head.appendChild(js);
 		}
 	}
-}
-injectJS(DT.root+".files\\.js");
-injectJS(DT.root+"code");
+})();

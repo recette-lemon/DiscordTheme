@@ -1,0 +1,248 @@
+body{
+	height:100vh;
+	background-image: url("https://i.imgur.com/h8gP84E.png");
+	background-image: url("https://i.imgur.com/ldtZOxx.jpg");
+	background-image: url("https://i.imgur.com/wfCknld.gif");
+	background-size:cover;
+	background-position:center;
+}
+body::before{
+	content:"";
+	position:absolute;
+	top:0; left:0;
+	display:block;
+	width:100%;
+	height:100%;
+	background-color:rgba(0,0,0,0.5) !important;
+}
+
+/* Background Color */
+.tooltip{
+	background-color:rgba(0,0,0,0.7) !important;
+}
+
+[class*="app-"] > div[style],
+[class*="titleBar-"]{
+	background-color:rgba(0,0,0,0.7) !important;
+}
+.messages-popout-wrap{
+	background-color:rgba(0,0,0,0.85) !important;
+}
+.channel-members,
+.search-results-wrap,
+[class*="members-"],
+:root [class*="videoHeight-"]{
+	background-color:rgba(0,0,0,0.4) !important;
+}
+.guild-inner,
+.guilds-add{
+	background-color:rgba(0,0,0,0.4) !important;
+}
+.tab-bar-item:hover{
+	background-color:rgba(255,255,255,0.2) !important;
+}
+
+.messages-popout-wrap .messages-popout .message-group{
+	background-color: rgba(255,255,255,0.15) !important;
+}
+.messages-popout-wrap .messages-popout .message-group:hover .action-buttons{
+	background-color: rgba(0,0,0,0.2) !important;
+}
+.messages-popout-wrap .messages-popout .message-group .action-buttons .jump-button{
+	background-color: rgba(255,255,255,0.1) !important;
+}
+.messages-popout-wrap .messages-popout .message-group .action-buttons .jump-button:hover{
+	background-color: rgba(255,255,255,0.4) !important;
+}
+.search-results-wrap .search-result .hit{
+	background-color: rgba(255,255,255,0.2) !important;
+}
+
+:root .notice-region [class*="container-"]{
+	background:rgba(0,0,0,0.6) !important;
+}
+
+/* Borders */
+.guilds-wrapper,
+.private-channels,
+[class*="channels-"]{
+	border-right:1px solid rgba(255,255,255,0.1);
+}
+[class*="channels-"] > :not(:first-child){
+	border-bottom:0;
+	border-top:1px solid rgba(255,255,255,0.1);
+}
+[class*="videoHeight-"]{
+	border-bottom:1px solid rgba(255,255,255,0.1);
+}
+header[class*="header-"],
+[class*="titleWrapper-"] [class*="title-"],
+[class*="headerBar-"],
+.search-bar,
+.themed-popout .header,
+.search-results-wrap .search-header{
+	box-shadow: 0 1px 0 rgba(255,255,255,.2), 0 2px 0 rgba(255,255,255,.06) !important;
+	box-shadow:none !important;
+	border-bottom:1px solid rgba(255,255,255,0.1);
+	box-sizing:border-box;
+}
+.messages-popout-wrap .messages-popout .message-group{
+	border:1px solid rgba(255,255,255,0.1) !important;
+}
+.search-result.expanded{
+	border:1px solid rgba(255,255,255,0.1) !important;
+}
+
+/* Colors */
+[class*="nameCollapsed-"],
+[class*="nameHoveredCollapsed-"],
+[class*="nameHovered-"],
+[class*="nameDefault-"],
+[class*="nameUnreadText-"]{
+	color:rgba(255,255,255,1) !important;
+}
+[class*="nameDefaultText-"],
+[class*="nameDefaultVoice-"]{
+	color:rgba(255,255,255,0.4) !important;
+}
+[class*="nameSelectedText-"]{
+	color:rgba(255,255,255,1) !important;
+}
+[class*="nameHoveredText-"]{
+	color:rgba(255,255,255,1) !important;
+}
+.messages-popout-wrap .messages-popout .message-group .action-buttons .jump-button:hover .text{
+	color: white !important;
+}
+.messages-popout .message-group:hover .action-buttons .close-button:hover{
+	opacity: 1 !important;
+}
+[class*="nameMutedText-"]{
+	color:rgba(255,255,255,0.2) !important;
+}
+.tooltip-bottom::after{
+	border-bottom-color:rgba(0,0,0,0.7) !important;
+}
+.tooltip-top::after{
+	border-top-color:rgba(0,0,0,0.7) !important;
+}
+.tooltip-right::after{
+	border-right-color:rgba(0,0,0,0.7) !important;
+}
+.tooltip-left::after{
+	border-left-color:rgba(0,0,0,0.7) !important;
+}
+
+/* Hovers and Selected and etc */
+.private-channels .channel:hover a,
+[class*="contentHoveredText-"]{
+	background-color:rgba(255,255,255,0.1) !important;
+}
+.private-channels .channel.selected a,
+[class*="contentSelectedText-"]{
+	background-color:rgba(255,255,255,0.2) !important;
+}
+#friends .friends-table .friends-row:hover{
+	background-color:rgba(255,255,255,0.2) !important;
+}
+#friends .friends-table .friends-row .friends-column-actions .friends-action{
+	background-color:rgba(0,0,0,0.3) !important;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar{
+	width:5px !important;
+}
+.messages-wrapper ::-webkit-scrollbar{
+	width:8px !important;
+}
+::-webkit-scrollbar-thumb{
+	background:rgba(255,255,255,1) !important;
+}
+::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-track-piece{
+	border:0 !important;
+}
+::-webkit-scrollbar-track-piece{
+	background:transparent !important;
+}
+
+/* Reset and shit */
+[class*="noChannel-"]{
+	display:none;
+}
+
+#app-mount,
+.guilds-wrapper,
+.private-channels,
+.messages-wrapper,
+.chat form,
+#friends,
+.private-channel-call,
+.chat,
+.chat > .content,
+.friends-table,
+.themed-popout .header,
+.search-results-wrap .search-header,
+.search-results-wrap .channel-separator .channel-name,
+.ui-standard-sidebar-view,
+.sidebar-region,
+.content-region,
+.friends-table .messages .divider:before,
+.friends-table .messages .divider span,
+.messages-wrapper .messages .divider:before,
+.messages-wrapper .messages .divider span,
+
+[class*="container-"]:not([class*="modal-"]),
+[class*="titleWrapper-"],
+[class*="channels-"],
+[class*="typing-"],
+[class*="headerBar-"],
+[class*="videoHeight-"] [class*="vertical-"],
+[class*="title-"],
+[class*="layers-"],
+[class*="layer-"]{
+	background: none !important;
+}
+[class*="typeWindows-"]{
+	padding-top:4px;
+	margin-top:0px;
+}
+[class*="base-"]{
+	border-radius:0;
+}
+.chat form,
+[class*="typing-"]{
+	margin:0;
+	padding:0px 20px;
+}
+.messages-popout-wrap .messages-popout .message-group .action-buttons{
+	box-shadow: none !important;
+	padding:6px 4px !important;
+	margin-top:-6px !important;
+	border-radius:4px !important;
+}
+.search-results-wrap .search-result:before,
+.search-results-wrap .search-result:after{
+	display:none !important;
+}
+.search-results-wrap .search-result .hit{
+	border:0 !important;
+	box-shadow:none !important;
+}
+.search-result-message.sibling.before{
+	transform:scale(.98) translateY(0px) !important;
+	padding:0 !important;
+	border:0 !important;
+}
+[class*="videoHeight-"]{
+	top:0 !important;
+	margin-bottom:0 !important;
+}
+.divider + .divider{
+	display:none;
+}
+.message-group {
+    background: none!important;
+    box-shadow: none!important;
+}
