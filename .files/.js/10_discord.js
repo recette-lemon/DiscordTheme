@@ -229,13 +229,30 @@ Discord.File = function(filename){
 	}
 	
 	this.read = function(){
+		return new Promise(function(succ, error){
+			_this.readRaw().then(function(data){
+				let blob = new Blob([data]);
+				let file = new File([blob], _this.basename);
+				succ(file);
+			},error);
+		});
+	}
+	this.readRaw = function(){
 		if(!_this.isDir){
 			return new Promise(function(succ, error){
 				_fs.readFile(_this.filename, function read(err, data) {
 					if (err) {error(); return;}
-					let blob = new Blob([data]);
-					let file = new File([blob], _this.basename);
-					succ(file);
+					succ(data);
+				});
+			});
+		}
+	}
+	this.readText = function(){
+		if(!_this.isDir){
+			return new Promise(function(succ, error){
+				_fs.readFile(_this.filename, "utf-8", function read(err, data) {
+					if (err) {error(); return;}
+					succ(data);
 				});
 			});
 		}
@@ -305,25 +322,28 @@ Discord.Request = function(){
 		});
 	}
 	
-	this.downloadFile = function(url){
+	this.downloadFile = function(url, location){
 		let name = url.split("/").pop().split(/(\?|\#)/)[0];
 		let dir = _DISCORD_THEME.root+".files/.tmp/";
 		let tmp = dir+(new Date().getTime())+"_"+name;
 		if(!_fs.existsSync(dir)) _fs.mkdirSync(dir);
 		let extension = name.split(".").pop();
 		_this.open("GET", url);
-		let locationPromise = new Promise(function(succ, err){
-			let location = _dialog.showSaveDialog({defaultPath:name});
-			if(location){
-				let location_extension = location.split(".");
-				if(location_extension.length==1 && extension){
-					location = location+"."+extension;
+		let locationPromise;
+		if(!location){
+			locationPromise = new Promise(function(succ, err){
+				let location = _dialog.showSaveDialog({defaultPath:name});
+				if(location){
+					let location_extension = location.split(".");
+					if(location_extension.length==1 && extension){
+						location = location+"."+extension;
+					}
+					succ(location);
+				}else{
+					err();
 				}
-				succ(location);
-			}else{
-				err();
-			}
-		});
+			});
+		}
 		let stream = _request({
 			encoding: _this.encoding,
 			headers,
@@ -333,21 +353,28 @@ Discord.Request = function(){
 			extension = response.headers["content-type"].split("/").pop();
 		}).pipe(_fs.createWriteStream(tmp));
 		stream.on('finish', function(){
-			locationPromise.then(function(location){
-				_fs.rename(tmp, location, function(err){
-					if(err && err.code === 'EXDEV'){
-						let readStream = _fs.createReadStream(tmp);
-						let writeStream = _fs.createWriteStream(location);
-						readStream.on('close', function () {
-							_fs.unlink(tmp, function(){});
-						});
-						readStream.pipe(writeStream);
-					}
+			if(locationPromise){
+				locationPromise.then(function(location){
+					moveFile(tmp, location);
+				}, function(){
+					_fs.unlink(tmp, function(){});
 				});
-			}, function(){
-				_fs.unlink(tmp, function(){});
-			});
+			}else{
+				moveFile(tmp, location);
+			}
 		});
+		function moveFile(tmp, location){
+			_fs.rename(tmp, location, function(err){
+				if(err && err.code === 'EXDEV'){
+					let readStream = _fs.createReadStream(tmp);
+					let writeStream = _fs.createWriteStream(location);
+					readStream.on('close', function () {
+						_fs.unlink(tmp, function(){});
+					});
+					readStream.pipe(writeStream);
+				}
+			});
+		}
 	}
 }
 Discord.RequestQueue = function(){
@@ -609,3 +636,4 @@ Discord.emit = function(event, data){
 		Discord.events[event][i](data);
 	}
 }
+

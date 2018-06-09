@@ -64,6 +64,15 @@ window.tearDownCSS = function(path) {
 		window._fileWatcher[path].close(); window._fileWatcher[path] = undefined; 
 	}
 };
+window.stopWatchAllCSS = function(){
+	let fw = window._fileWatcher;
+	for (let key in fw) {
+		if (fw.hasOwnProperty(key)) {
+			fw[key].close();
+			fw[key] = undefined;
+		}
+	}
+}
 window.applyAndWatchCSS = function(path) {
 	window.tearDownCSS(path);
 	window.watchCSS(path);

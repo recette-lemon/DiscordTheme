@@ -8,6 +8,7 @@ for /f "skip=1 delims=" %%a IN ('wmic process where "name='DiscordCanary.exe'" g
 	)
 )
 cls
+echo --- Canary Installer ---
 if "%d_exe%"=="" (
 	echo Discord needs to be running.
 	pause>nul
@@ -32,7 +33,7 @@ if NOT EXIST "%d_core%\core.asar.bak" (
 
 rem #unpack asar with 7z + asar plugin
 rem #always unpack from backup to get unmodified files
-.7z\7z.exe x "%d_core%\core.asar.bak" -o"%d_core%\core\" -aoa>nul
+.files\.7z\7z.exe x "%d_core%\core.asar.bak" -o"%d_core%\core\" -aoa>nul
 echo Unpacked Asar to "%d_core%\core\">>instalation.log
 
 rem #modify files to point to current dir
@@ -101,7 +102,7 @@ taskkill /F /im DiscordCanary.exe /T>nul
 echo Killed discord processes to repack Asar>>instalation.log
 
 rem #pack asar
-.7z\7z a "%d_core%\core.asar" "%d_core%\core\*">nul
+.files\.7z\7z a "%d_core%\core.asar" "%d_core%\core\*">nul
 echo Repacked "%d_core%\core.asar">>instalation.log
 
 rem #run discord manually cuz fuck batch scripts
