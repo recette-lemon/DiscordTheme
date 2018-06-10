@@ -73,6 +73,7 @@ window.addEventListener("load", function(){
 		}
 	});
 	Discord.Console.init();
+	Discord.MusicPlayer.init();
 });
 window.addEventListener("click", function(e){
 	let t = e.target;

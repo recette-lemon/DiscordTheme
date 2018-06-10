@@ -204,7 +204,7 @@ header[class*="header-"],
 [class*="layer-"]{
 	background: none !important;
 }
-[class*="typeWindows-"]{
+#app-mount [class*="titleBar-"]{
 	padding-top:4px;
 	margin-top:0px;
 }
