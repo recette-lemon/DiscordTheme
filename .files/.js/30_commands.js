@@ -501,10 +501,19 @@ commands.add("play", function(channel, full, parts){
 	parts.shift();
 	Discord.MusicPlayer.add(parts.shift());
 	return true;
+}, function(){
+	let text = "```\n/play <youtube url>\n```\n";
+	text += "Will play the sound of the youtube video locally.\n";
+	text += "This will also add the video to a list that loops, and more than one video can be added";
+	return text;
 });
 commands.add("stop", function(channel, full, parts){
 	Discord.MusicPlayer.stop();
 	return true;
+}, function(){
+	let text = "```\n/stop\n```\n";
+	text += "Will stop the currently playing video and clear the list.\n";
+	return text;
 });
 commands.catch = function(channel, message){
 	if(Discord.Settings.Raw.GENERAL_IMAGE_LINKS && 
