@@ -60,41 +60,15 @@ for /f "delims=" %%a in (.files\injection-original.js) do (
 )
 echo Modified injection.js to point to "%~dp0">>instalation.log
 
-rem #apply payload to point discord to injection.js
-for /f "usebackq delims=" %%a in ("%d_core%\core\app\mainScreen.js") do (
-	set _temp=%%a
-	SETLOCAL EnableDelayedExpansion
-		rem #look for injection point [mainWindow.on('focus',]
-		set modified=!_temp:mainWindow.on('focus',=!
-		if NOT "!_temp!"=="!modified!" (
-			echo.>>temp
-			for /f "delims=^ tokens=1" %%b in (payload.js) do (
-				echo %%b>>temp
-			)
-			echo.>>temp
-			echo !_temp!>>temp
-		) else (
-			echo !_temp!>>temp
-		)
-	ENDLOCAL
+rem #apply payload to mainScreenPreload
+echo.>>"%d_core%\core\app\mainScreenPreload.js"
+for /f "delims=^ tokens=1" %%b in (payload.js) do (
+	echo %%b>>"%d_core%\core\app\mainScreenPreload.js"
 )
-
-rem #add require to preload
-for /f "usebackq delims=" %%a in ("%d_core%\core\app\mainScreenPreload.js") do (
-	set _temp=%%a
-	SETLOCAL EnableDelayedExpansion
-		rem #look for injection point [mainWindow.on('focus',]
-		set modified=!_temp:global.DiscordNative=global.require=require;global.DiscordNative!
-		echo !modified!>>temp2
-	ENDLOCAL
-)
+echo Applied payload to "%d_core%\core\app\mainScreenPreload.js">>instalation.log
 
 rem #delete modified payload since it's in the discord code
 del payload.js
-rem #replace file with payload
-move temp "%d_core%\core\app\mainScreen.js">nul
-move temp2 "%d_core%\core\app\mainScreenPreload.js">nul
-echo Applied payload to "%d_core%\core\app\mainScreen.js">>instalation.log
 
 rem #close discord to apply changes
 taskkill /F /im discord.exe /T>nul

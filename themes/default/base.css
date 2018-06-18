@@ -246,3 +246,8 @@ header[class*="header-"],
     background: none!important;
     box-shadow: none!important;
 }
+
+/* Image placeholder */
+[class*="imagePlaceholder-"]{
+	display:none !important;
+}

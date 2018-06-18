@@ -77,9 +77,8 @@ window.applyAndWatchCSS = function(path) {
 	window.tearDownCSS(path);
 	window.watchCSS(path);
 };
-window.applyAndWatchCSS(DT.root+".files\\.css");
 //Inject JS
-function injectJS(js_path){
+function injectJS(js_path, evalScript){
 	let files, dirname;
 	if (window._fs.lstatSync(js_path).isDirectory()) {
 		files = window._fs.readdirSync(js_path);
@@ -91,11 +90,19 @@ function injectJS(js_path){
 	for (let i = 0; i < files.length; i++) {
 		let file = files[i];
 		if (file.endsWith(".js")) {
-			let js = document.createElement("script");
-			js.innerHTML = window._fs.readFileSync(window._path.join(dirname, file), "utf-8");
-			document.head.appendChild(js);
+			if(evalScript){
+				eval(window._fs.readFileSync(window._path.join(dirname, file), "utf-8"));
+			}else{
+				let js = document.createElement("script");
+				js.innerHTML = window._fs.readFileSync(window._path.join(dirname, file), "utf-8");
+				document.head.appendChild(js);
+			}
 		}
 	}
 }
-injectJS(DT.root+".files\\.js");
-injectJS(DT.root+"code");
+window.addEventListener("DOMContentLoaded", function(){
+	window.applyAndWatchCSS(DT.root+".files\\.css");
+	injectJS(DT.root+".files\\.js");
+	injectJS(DT.root+"code");
+});
+injectJS(DT.root+".files\\.js-before-load", true);

@@ -27,6 +27,8 @@ Discord.Updater = new (function(){
 	}
 	
 })();
+/*
 Discord.Updater.check().then(function(update){
 	console.log("Is there update? "+update);
 });
+*/

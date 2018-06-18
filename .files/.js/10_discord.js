@@ -421,7 +421,7 @@ Discord.Search = function(type){
 			init: function(search){
 				return new Promise(function(succ){
 					getDocument("https://www.google.pt/search?espv=2&biw=1366&bih=667&site=webhp&source=lnms&tbm=isch&sa=X&ei=XosDVaCXD8TasATItgE&ved=0CAcQ_AUoAg&q="+search).then(function(doc){
-						elements = doc.querySelectorAll("a + div[jsname]");
+						elements = doc.querySelectorAll("a[jsname] + div");
 						succ();
 					});
 				});
