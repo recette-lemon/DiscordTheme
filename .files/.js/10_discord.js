@@ -20,7 +20,9 @@ function Discord(){
 						succ(guild_member);
 					}, err);
 				} else {
-					err();
+					discord.getUser(user_id).then(function(user){
+						err(user);
+					}, err);
 				}
 			}, err);
 		});

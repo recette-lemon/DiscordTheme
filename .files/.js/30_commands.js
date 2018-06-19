@@ -248,8 +248,8 @@ commands.add("info", function(channel, full, parts){
 		let createdDiff = Discord.Date.difference(new Date(), createdDate);
 		embed.addField("Created Account:", created[1]+" ("+createdDiff+")");
 		discord.sendMessage(channel, {content:"", embed});
-	}, function(){
-		discord.getUser(user_id).then(function(user){
+	}, function(user){
+		if(user){
 			let embed = new Discord.Embed();
 			let icon = discord.getUserIcon(user_id, user.avatar, 2048);
 			embed.setAuthorIcon(icon);
@@ -260,7 +260,7 @@ commands.add("info", function(channel, full, parts){
 			let createdDiff = Discord.Date.difference(new Date(), createdDate);
 			embed.addField("Created Account:", created[1]+" ("+createdDiff+")");
 			discord.sendMessage(channel, {content:"", embed});
-		});
+		}
 	});
 	return true;
 }, function(){
@@ -371,6 +371,15 @@ commands.add("penis", function(channel, full, parts){
 		embed.addField("Penis Size:", number+"cm");
 		embed.addField("Visual Representation:", visual);
 		discord.sendMessage(channel, {content:"", embed});
+	}, function(user){
+		if(user){
+			let embed = new Discord.Embed();
+			embed.setAuthorIcon(discord.getUserIcon(user_id, user.avatar));
+			embed.setAuthorName(user.username);
+			embed.addField("Penis Size:", number+"cm");
+			embed.addField("Visual Representation:", visual);
+			discord.sendMessage(channel, {content:"", embed});
+		}
 	});
 	return true;
 }, function(){
@@ -407,6 +416,15 @@ commands.add("iq", function(channel, full, parts){
 		embed.addField("IQ:", IQ);
 		embed.setImage(image);
 		discord.sendMessage(channel, {content:"", embed});
+	}, function(user){
+		if(user){
+			let embed = new Discord.Embed();
+			embed.setAuthorIcon(discord.getUserIcon(user_id, user.avatar));
+			embed.setAuthorName(user.username);
+			embed.addField("IQ:", IQ);
+			embed.setImage(image);
+			discord.sendMessage(channel, {content:"", embed});
+		}
 	});
 	return true;
 }, function(){
