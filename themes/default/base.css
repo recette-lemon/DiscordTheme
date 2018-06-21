@@ -196,7 +196,7 @@ header[class*="header-"],
 [class*="container-"]:not([class*="modal-"]),
 [class*="titleWrapper-"],
 [class*="channels-"],
-[class*="typing-"],
+form > [class*="typing-"],
 [class*="headerBar-"],
 [class*="videoHeight-"] [class*="vertical-"],
 [class*="title-"],
@@ -212,7 +212,7 @@ header[class*="header-"],
 	border-radius:0;
 }
 .chat form,
-[class*="typing-"]{
+form > [class*="typing-"]{
 	margin:0;
 	padding:0px 20px;
 }
