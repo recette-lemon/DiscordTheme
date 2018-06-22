@@ -62,11 +62,16 @@ body::before{
 	background:rgba(0,0,0,0.6) !important;
 }
 
-[class*="activityFeed-"]{
-	background-color: transparent !important;
+
+[class*="activityFeed-"] [class*="article-"],
+[class*="activityFeed-"] [class*="news-"]{
+	background-color:rgba(0,0,0,0.6) !important;
 }
-[class*="activityFeed-"] [class*="card-"]{
-	background-color: transparent !important;
+[class*="activityFeed-"] [class*="card-"] [class*="header-"]{
+	background-color:rgba(255,255,255,0.15) !important;
+}
+[class*="activityFeed-"] [class*="paginationItem-"]:after{
+	background-color:linear-gradient(270deg,transparent 0,rgba(0,0,0,0.8)) !important;
 }
 
 
@@ -156,11 +161,15 @@ header[class*="header-"],
 #friends .friends-table .friends-row .friends-column-actions .friends-action{
 	background-color:rgba(0,0,0,0.3) !important;
 }
+
 [class*="dockItem-"]:hover{
 	background-color:rgba(255,255,255,0.1) !important;
 }
 [class*="activityFeed-"] [class*="cardHeader-"]:hover{
 	background-color: #202225 !important;
+}
+[class*="activityFeed-"] [class*="card-"] [class*="header-"]:hover{
+	background-color:rgba(255,255,255,0.2) !important;
 }
 
 /* Scrollbar */
@@ -206,6 +215,9 @@ header[class*="header-"],
 .friends-table .messages .divider span,
 .messages-wrapper .messages .divider:before,
 .messages-wrapper .messages .divider span,
+
+[class*="activityFeed-"],
+[class*="activityFeed-"] [class*="card-"],
 
 [class*="container-"]:not([class*="modal-"]),
 [class*="titleWrapper-"],
