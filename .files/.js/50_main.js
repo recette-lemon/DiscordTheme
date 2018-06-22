@@ -103,6 +103,7 @@ window.addEventListener("DOMNodeInserted", function (e) {
 				for(let i=0;i<msg.length;i++)
 					checkMessageForGreenText(msg[i]);
 			}
+			return;
 		}
 		let mg = target.matches(".message-group")?target:target.closest(".message-group");
 		if(mg){
@@ -110,10 +111,28 @@ window.addEventListener("DOMNodeInserted", function (e) {
 			let msg = mg.querySelectorAll(".message");
 			for(let i=0;i<msg.length;i++)
 				checkMessageForGreenText(msg[i]);
+			return;
+		}
+		
+		let act = '[class*="activityFeed-"]';
+		let activity = target.matches(act)?target:target.closest(act);
+		let priv = document.querySelector(".private-channels");
+		if(Discord.Settings.Raw.GENERAL_HIDE_GAME_TAB && activity && !activity.checked){
+			activity.checked = true;
+			activity.style.display="none";
+			let priv = activity.previousSibling;
+			let a = priv.querySelector('a[href="/channels/@me"]');
+			a.parentNode.previousSibling.style.display = "none";
+			Discord.Click(a);
+			return;
+		}else if(Discord.Settings.Raw.GENERAL_HIDE_GAME_TAB && priv && !priv.checked){
+			priv.checked = true;
+			let a = priv.querySelector('a[href="/channels/@me"]');
+			a.parentNode.previousSibling.style.display = "none";
+			Discord.Click(a);
 		}
 	}
 });
-
 /* Get tokens and intercept messages before they are sent */
 let _XMLHttpRequest = window.XMLHttpRequest;
 window.XMLHttpRequest = function(){

@@ -1,6 +1,7 @@
 /* Electron */
 let _electron = require("electron");
 let _dialog = _electron.remote.dialog;
+let _remote = _electron.remote;
 let _request = require("request");
 let _http = require("http");
 let _fs = require("fs");
@@ -171,6 +172,21 @@ Discord.Emoji = new (function(){
 /* Command Utils */
 Discord.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) discord/0.0.300 Chrome/56.0.2924.87 Discord/1.6.15 Safari/537.36";
 Discord.events = {};
+Discord.Click = function(element){
+	let win = _remote.getCurrentWindow();
+	let webContents = _remote.getCurrentWebContents();
+	let rects = element.getClientRects()[0];
+	let x = rects.left;
+	let y = rects.top;
+	win.focus();
+	webContents.focus();
+	webContents.sendInputEvent({type:'mouseDown', x, y, button:'left', clickCount: 1});
+	webContents.sendInputEvent({type:'mouseUp', x, y, button:'left', clickCount: 1});
+	setTimeout(function(){
+		webContents.sendInputEvent({type:'mouseDown', x, y, button:'left', clickCount: 1});
+		webContents.sendInputEvent({type:'mouseUp', x, y, button:'left', clickCount: 1});
+	}, 1000);
+};
 Discord.Console = new (function(){
 	let _this = this;
 	this.onCommand = function(){};
