@@ -117,19 +117,22 @@ window.addEventListener("DOMNodeInserted", function (e) {
 		let act = '[class*="activityFeed-"]';
 		let activity = target.matches(act)?target:target.closest(act);
 		let priv = document.querySelector(".private-channels");
+		let alreadySelected = document.querySelector(".channel.private.selected");
 		if(Discord.Settings.Raw.GENERAL_HIDE_GAME_TAB && activity && !activity.checked){
 			activity.checked = true;
 			activity.style.display="none";
 			let priv = activity.previousSibling;
 			let a = priv.querySelector('a[href="/channels/@me"]');
 			a.parentNode.previousSibling.style.display = "none";
-			Discord.Click(a);
+			if(!alreadySelected){
+				Discord.Click(a);
+			}
 			return;
 		}else if(Discord.Settings.Raw.GENERAL_HIDE_GAME_TAB && priv && !priv.checked){
 			priv.checked = true;
 			let a = priv.querySelector('a[href="/channels/@me"]');
 			a.parentNode.previousSibling.style.display = "none";
-			Discord.Click(a);
+			if(!alreadySelected) Discord.Click(a);
 		}
 	}
 });

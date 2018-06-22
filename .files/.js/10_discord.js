@@ -182,10 +182,6 @@ Discord.Click = function(element){
 	webContents.focus();
 	webContents.sendInputEvent({type:'mouseDown', x, y, button:'left', clickCount: 1});
 	webContents.sendInputEvent({type:'mouseUp', x, y, button:'left', clickCount: 1});
-	setTimeout(function(){
-		webContents.sendInputEvent({type:'mouseDown', x, y, button:'left', clickCount: 1});
-		webContents.sendInputEvent({type:'mouseUp', x, y, button:'left', clickCount: 1});
-	}, 1000);
 };
 Discord.Console = new (function(){
 	let _this = this;
