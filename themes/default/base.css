@@ -67,7 +67,7 @@ body::before{
 [class*="activityFeed-"] [class*="news-"]{
 	background-color:rgba(0,0,0,0.6) !important;
 }
-[class*="activityFeed-"] [class*="card-"] [class*="header-"]{
+[class*="activityFeed-"] [class*="card-"] [class*="cardHeader-"]{
 	background-color:rgba(255,255,255,0.15) !important;
 }
 [class*="activityFeed-"] [class*="paginationItem-"]:after{
@@ -165,10 +165,7 @@ header[class*="header-"],
 [class*="dockItem-"]:hover{
 	background-color:rgba(255,255,255,0.1) !important;
 }
-[class*="activityFeed-"] [class*="cardHeader-"]:hover{
-	background-color: #202225 !important;
-}
-[class*="activityFeed-"] [class*="card-"] [class*="header-"]:hover{
+[class*="activityFeed-"] [class*="card-"] [class*="cardHeader-"]:hover{
 	background-color:rgba(255,255,255,0.2) !important;
 }
 

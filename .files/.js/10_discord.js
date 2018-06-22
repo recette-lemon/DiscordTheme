@@ -422,15 +422,17 @@ Discord.Search = function(type){
 			color:"#4885ed",
 			init: function(search){
 				return new Promise(function(succ){
-					getDocument("https://www.google.pt/search?espv=2&biw=1366&bih=667&site=webhp&source=lnms&tbm=isch&sa=X&ei=XosDVaCXD8TasATItgE&ved=0CAcQ_AUoAg&q="+search).then(function(doc){
-						elements = doc.querySelectorAll("a[jsname] + div");
+					getRaw("https://www.google.pt/search?espv=2&biw=1366&bih=667&site=webhp&source=lnms&tbm=isch&sa=X&ei=XosDVaCXD8TasATItgE&ved=0CAcQ_AUoAg&q="+search).then(function(doc){
+						elements = doc.match(/>{.+?}</g);
 						succ();
 					});
 				});
 			},
 			get: function(index){
 				return new Promise(function(succ){
-					succ(elements[index].innerHTML.match("\"ou\":\"(.+?)\"")[1]);
+					let e = elements[index];
+					e = JSON.parse(e.substring(1, e.length-1));
+					succ(e.ou);
 				});
 			}
 		},
@@ -544,6 +546,14 @@ Discord.Search = function(type){
 				let doc = new DOMParser().parseFromString(data, "text/html");
 				succ(doc);
 			});
+		});
+	}
+	function getRaw(url){
+		return new Promise(function(succ){
+			let request = new Discord.Request();
+			request.open("GET", url);
+			request.setHeader("User-Agent", Discord.UserAgent);
+			request.send().then(succ);
 		});
 	}
 }
