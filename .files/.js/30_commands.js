@@ -485,6 +485,28 @@ commands.add("loop", function(channel, full, parts){
 	text += "The message can be a command."
 	return text;
 });
+commands.add("time", function(channel, full, parts){
+	parts.shift();
+	let n = parts.shift();
+	let time = parts.shift();
+	let content = parts.join(" ");
+	let rq = new Discord.RequestQueue();
+	for(let i=0;i<n;i++){
+		rq.add(function(callback){
+			setTimeout(function(){
+				discord.sendMessage(channel, {content}).then(callback, callback);
+			}, time);
+		});
+	}
+	rq.run();
+	return true;
+}, function(){
+	let text = "```\n/time <amount> <milliseconds> <message>\n```\n";
+	text += "Will send the message the specified amount of times.\n";
+	text += "Each message will be separated by the specified amount of milliseconds.\n";
+	text += "The message can be a command."
+	return text;
+});
 commands.add("verb", function(channel, full, parts, context){
 	parts.shift();
 	let top_text = "";
