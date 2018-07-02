@@ -162,6 +162,11 @@ header[class*="header-"],
 	background-color:rgba(0,0,0,0.3) !important;
 }
 
+[class*="member-"]:hover [class*="content-"],
+[class*="member-"].popout-open [class*="content-"]{
+	background-color: rgba(255, 255, 255, 0.15) !important;
+}
+
 [class*="dockItem-"]:hover{
 	background-color:rgba(255,255,255,0.1) !important;
 }
@@ -216,7 +221,7 @@ header[class*="header-"],
 [class*="activityFeed-"],
 [class*="activityFeed-"] [class*="card-"],
 
-[class*="container-"]:not([class*="modal-"]),
+[class*="container-"]:not([class*="modal-"]):not([role="menu"]),
 [class*="titleWrapper-"],
 [class*="channels-"],
 form > [class*="typing-"],
