@@ -157,7 +157,6 @@ Discord.Settings.Items = new (function(){
 
 // GENERAL
 let general = Discord.Settings.Items.createGroup("General");
-general.addToggle("Hide Game Tab", "Hides the game tab.", false);
 general.addToggle("Image Links", "When posting an image link as a message, replace it with an upload instead.", false);
 general.addToggle("Greentext", "Color lines beginning with > in green.", false);
 general.addToggle("Desu", "Add desu to the end of messages.", false);

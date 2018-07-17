@@ -48,6 +48,15 @@ function checkMessageForGreenText(child){
 		markup.replaceChild(div, tn);
 	}
 }
+function fixImageUpload(um){
+	let filename = um.getReactReturn(2).memoizedState.file.name;
+	if(!filename.match(/\..+/)){
+		let ext = um.getReactReturn(2).memoizedState.file.type.split("/")[1];
+		Object.defineProperty(um.getReactReturn(2).memoizedState.file, "name", {
+			value:filename+"."+ext
+		});
+	}
+}
 
 /* Window Events */
 Discord.Console.onCommand = function(command){
@@ -114,28 +123,14 @@ window.addEventListener("DOMNodeInserted", function (e) {
 			return;
 		}
 		
-		let act = '[class*="activityFeed-"]';
-		let activity = target.matches(act)?target:target.closest(act);
-		let priv = document.querySelector(".private-channels");
-		let alreadySelected = document.querySelector(".channel.private.selected");
-		if(Discord.Settings.Raw.GENERAL_HIDE_GAME_TAB && activity && !activity.checked){
-			activity.checked = true;
-			activity.style.display="none";
-			let priv = activity.previousSibling;
-			let a = priv.querySelector('a[href="/channels/@me"]');
-			a.parentNode.previousSibling.style.display = "none";
-			if(!alreadySelected){
-				Discord.Click(a);
-			}
-			return;
-		}else if(Discord.Settings.Raw.GENERAL_HIDE_GAME_TAB && priv && !priv.checked){
-			priv.checked = true;
-			let a = priv.querySelector('a[href="/channels/@me"]');
-			a.parentNode.previousSibling.style.display = "none";
-			if(!alreadySelected) Discord.Click(a);
+		let umClass = '[class*="uploadModal-"]';
+		let um = target.matches(umClass)?target:target.querySelector(umClass);
+		if(um){
+			fixImageUpload(um);
 		}
 	}
 });
+
 /* Get tokens and intercept messages before they are sent */
 let _XMLHttpRequest = window.XMLHttpRequest;
 window.XMLHttpRequest = function(){
