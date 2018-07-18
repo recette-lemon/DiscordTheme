@@ -33,7 +33,7 @@ Discord.CommandParser = function(){
 		try{
 			if(message[0]=="/"){
 				let m = message.substring(1);
-				let parts = m.split(/\s+/);
+				let parts = m.split(/ +/);
 				let first = parts[0];
 				if(!shadowCommands[first] && alias[first])
 					return commands[alias[first]].run(channel, m, parts, aliasB4[first]());
@@ -553,6 +553,26 @@ commands.add("stop", function(channel, full, parts){
 }, function(){
 	let text = "```\n/stop\n```\n";
 	text += "Will stop the currently playing video and clear the list.\n";
+	return text;
+});
+commands.add("eval", function(channel, full, parts){
+	parts.shift();
+	let code = full.substr(5);
+	let result;
+	try {
+		result = eval(code);
+	}catch(e){
+		result = e;
+	}
+	let embed = new Discord.Embed();
+	//embed.setAuthorIcon(discord.getUserIcon(user_id, guild_member.user.avatar));
+	embed.setAuthorName("Eval");
+	embed.addField("Code:", "```js\n"+code+"\n```");
+	embed.addField("Result:", "```js\n"+result+"\n```");
+	return {content:"", embed};
+}, function(){
+	let text = "```\n/eval <code>\n```\n";
+	text += "Will evaluate the code and will print the result.\n";
 	return text;
 });
 commands.catch = function(channel, message){
