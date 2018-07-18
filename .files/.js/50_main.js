@@ -49,13 +49,36 @@ function checkMessageForGreenText(child){
 	}
 }
 function fixImageUpload(um){
-	let filename = um.getReactReturn(2).memoizedState.file.name;
-	if(!filename.match(/\..+/)){
-		let ext = um.getReactReturn(2).memoizedState.file.type.split("/")[1];
-		Object.defineProperty(um.getReactReturn(2).memoizedState.file, "name", {
-			value:filename+"."+ext
-		});
+	let submit = um.querySelector("button.button-primary");
+	let filenameElement = um.querySelector('[class*="filename-"]');
+	filenameElement.setAttribute("contenteditable", true);
+	filenameElement.addEventListener("input", function(e){
+		setFilename();
+	});
+	filenameElement.addEventListener("keydown", function(e){
+		if(e.key=="Enter"){
+			e.preventDefault();
+			e.stopImmediatePropagation();
+			submit.click();
+		}
+	}, true);
+	let fileState = um.getReactReturn(2).memoizedState.file;
+	let ext = fileState.type.split("/")[1];
+	function setFilename(){
+		let filename = filenameElement.textContent;
+		if(!filename.match(/\..+/)){
+			Object.defineProperty(fileState, "name", {
+				value:filename+"."+ext,
+				configurable: true
+			});
+		}else if(filename!=fileState.name){
+			Object.defineProperty(fileState, "name", {
+				value:filename,
+				configurable: true
+			});
+		}
 	}
+	setFilename();
 }
 
 /* Window Events */
