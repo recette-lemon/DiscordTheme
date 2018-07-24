@@ -64,6 +64,7 @@ window.WebSocket = new Proxy(window.WebSocket, {
 		
 		instance.send = new Proxy(instance.send, {
 			apply: function(target, thisArg, args) {
+				/*
 				let buffer = args[0];
 				try{
 					let data = _erlpack.unpack(Buffer.from(new Uint8Array(buffer)));
@@ -71,6 +72,7 @@ window.WebSocket = new Proxy(window.WebSocket, {
 				}catch(e){
 					console.log(e);
 				}
+				*/
 				target.apply(thisArg, args);
 			}
 		});

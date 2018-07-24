@@ -22,10 +22,10 @@ function checkMessageForOutput(child){
 function checkMessageForGreenText(child){
 	if(!Discord.Settings.Raw.GENERAL_GREENTEXT) return;
 	let markup = child.querySelector(".markup");
-	if(!markup) return;
-	if(markup.greentext) return;
-	markup.greentext = true;
-	let textNodes = markup.childNodes;
+	if(!markup || markup.greentext || markup.editing) return;
+	markup.greentext = markup.cloneNode(true);
+	let textNodes = markup.greentext.childNodes;
+	let hasGreentext = false;
 	for(let i=0;i<textNodes.length;i++){
 		if(textNodes[i].nodeType != Node.TEXT_NODE) continue;
 		let tn = textNodes[i];
@@ -40,12 +40,20 @@ function checkMessageForGreenText(child){
 				span.className = "greentext";
 				span.textContent = t[j];
 				div.appendChild(span);
+				hasGreentext = true;
 			}else{
 				let text = document.createTextNode(t[j]);
 				div.appendChild(text);
 			}
 		}
-		markup.replaceChild(div, tn);
+		markup.greentext.replaceChild(div, tn);
+	}
+	if(hasGreentext){
+		let t = markup.innerHTML;
+		markup.innerHTML = markup.greentext.innerHTML;
+		markup.greentext.innerHTML = t;
+	}else{
+		markup.greentext = true;
 	}
 }
 function fixImageUpload(um){
@@ -238,6 +246,15 @@ window.XMLHttpRequest = function(){
 			}
 		}
 		
+		/* Message being edited */
+		if(!parts){
+			parts = requestUrl.match(/api\/v.\/channels\/(.+?)\/messages\/(.+?)$/);
+			if(parts){
+				let channel = parts[1];
+				let message = parts[2];
+			}
+		}
+		
 		/* Token */
 		if(!parts){
 			parts = requestUrl.match(/api\/v.\/science$/);
@@ -278,9 +295,15 @@ window.XMLHttpRequest = function(){
 	return xhr;
 }
 
-/* Proxy for removeChild because why the fuck would it throw an exception and crash the whole code */
+/* Proxies for removeChild and insertBefore */
+/* Because why the fuck would it throw an exception and crash the whole code */
 let _removeChild = HTMLElement.prototype.removeChild;
 HTMLElement.prototype.removeChild = function(child){
-	if(child.parentNode!=this) return;
-	_removeChild.apply(this, arguments);
+	if(child.parentNode!=this) return child;
+	return _removeChild.apply(this, arguments);
+}
+let _insertBefore = HTMLElement.prototype.insertBefore;
+HTMLElement.prototype.insertBefore = function(child, before){
+	if(before.parentNode != this) return child;
+	return _insertBefore.apply(this, arguments);
 }
