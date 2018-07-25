@@ -221,7 +221,7 @@ header[class*="header-"],
 [class*="activityFeed-"],
 [class*="activityFeed-"] [class*="card-"],
 
-[class*="container-"]:not([class*="modal-"]):not([role="menu"]),
+[class*="container-"]:not([class*="modal-"]):not([role="menu"]):not([class*="isMentionedCozy-"]),
 [class*="titleWrapper-"],
 [class*="channels-"],
 form > [class*="typing-"],
