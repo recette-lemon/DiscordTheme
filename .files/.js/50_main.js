@@ -1,3 +1,7 @@
+let messageGroupClass = ".messages > [class*='containerCozy-'][class*='container-']";
+let messageClass = "[class*='messageCozy-'][class*='message-']";
+
+
 /* Auxiliary Functions */
 function reverseEach(obj, fn){
 	let keys = [];
@@ -7,21 +11,15 @@ function reverseEach(obj, fn){
 	}
 }
 function checkMessageForOutput(child){
-	if(child.getReactInstance){
-		let react = child.getReactInstance();
-		if(react){
-			try{
-				if(Discord.Nonces.has(react["return"].key)){
-					child.style.display = "none";
-					return true;
-				}
-			}catch(e){};
-		}
+	let nonce = child.getReactReturn(2).memoizedProps.messages[0].nonce;
+	if(Discord.Nonces.has(nonce)){
+		child.style.display = "none";
+		return true;
 	}
 }
 function checkMessageForGreenText(child){
 	if(!Discord.Settings.Raw.GENERAL_GREENTEXT) return;
-	let markup = child.querySelector(".markup");
+	let markup = child.querySelector("[class*='markup-']");
 	if(!markup || markup.greentext || markup.editing) return;
 	markup.greentext = markup.cloneNode(true);
 	let textNodes = markup.greentext.childNodes;
@@ -119,7 +117,7 @@ window.addEventListener("click", function(e){
 	let t = e.target;
 	if(t.parentNode.className=="reaction reaction-me") t = t.parentNode;
 	if(t.className=="reaction reaction-me"){
-		let msg = t.closest(".message");
+		let msg = t.closest(messageClass);
 		let comment = msg.parentNode;
 		let index = Array.prototype.indexOf.call(comment.children, msg);
 		let message_id = comment.getReactReturn(2).memoizedProps.messages[index].id;
@@ -139,19 +137,19 @@ window.addEventListener("DOMNodeInserted", function (e) {
 		if(Discord.Settings(target)) return;
 		
 		if(target.matches(".messages-wrapper")){
-			let mg = document.querySelectorAll(".message-group");
+			let mg = document.querySelectorAll(messageGroupClass);
 			for(let i=0;i<mg.length;i++){
 				if(checkMessageForOutput(mg[i])) continue;
-				let msg = mg[i].querySelectorAll(".message");
+				let msg = mg[i].querySelectorAll(messageClass);
 				for(let i=0;i<msg.length;i++)
 					checkMessageForGreenText(msg[i]);
 			}
 			return;
 		}
-		let mg = target.matches(".message-group")?target:target.closest(".message-group");
+		let mg = target.matches(messageGroupClass)?target:target.closest(messageGroupClass);
 		if(mg){
 			if(checkMessageForOutput(mg)) return;
-			let msg = mg.querySelectorAll(".message");
+			let msg = mg.querySelectorAll(messageClass);
 			for(let i=0;i<msg.length;i++)
 				checkMessageForGreenText(msg[i]);
 			return;
