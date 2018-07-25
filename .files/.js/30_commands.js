@@ -575,6 +575,7 @@ commands.add("eval", function(channel, full, parts){
 	text += "Will evaluate the code and will print the result.\n";
 	return text;
 });
+commands.alias("eval", "code");
 commands.catch = function(channel, message){
 	if(Discord.Settings.Raw.GENERAL_IMAGE_LINKS && 
 	   message.trim().match(/^https?:\/\/[^ \r\n#]+(jpg|gif|png|jpeg)(\?[^ ]*)?$/i)){
