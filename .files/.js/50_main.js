@@ -11,7 +11,7 @@ function reverseEach(obj, fn){
 	}
 }
 function checkMessageForOutput(child){
-	let nonce = child.getReactReturn(2).memoizedProps.messages[0].nonce;
+	let nonce = child.getReactReturn(2).memoizedProps.messages[0].id;
 	if(Discord.Nonces.has(nonce)){
 		child.style.display = "none";
 		return true;
