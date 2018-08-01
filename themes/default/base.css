@@ -34,8 +34,8 @@ body::before{
 :root [class*="videoHeight-"]{
 	background-color:rgba(0,0,0,0.4) !important;
 }
-.guild-inner,
-.guilds-add{
+[class*="guildInner-"],
+[class*="guildsAdd-"]{
 	background-color:rgba(0,0,0,0.4) !important;
 }
 .tab-bar-item:hover{
@@ -76,7 +76,7 @@ body::before{
 
 
 /* Borders */
-.guilds-wrapper,
+[class*="guildsWrapper-"],
 .private-channels,
 [class*="channels-"]{
 	border-right:1px solid rgba(255,255,255,0.1);
@@ -198,7 +198,7 @@ header[class*="header-"],
 }
 
 #app-mount,
-.guilds-wrapper,
+[class*="guildsWrapper-"],
 .private-channels,
 .messages-wrapper,
 .chat form,

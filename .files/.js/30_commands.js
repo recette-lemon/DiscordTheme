@@ -596,6 +596,7 @@ commands.catch = function(channel, message){
 
 /* Utils */
 function textToEmojis(str){
+	str = str.toLowerCase();
 	let emoji = {
 		' ': ['❤', '💛', '💜', '💚', '💙'],
         'a': ['🇦', '🅰', '🍙', '🔼', '4⃣'],
