@@ -279,3 +279,16 @@ form > [class*="typing-"]{
 [class*="imagePlaceholder-"]{
 	display:none !important;
 }
+
+
+/* Search Results */
+.search-results-wrap [class*="scroller-"]{
+	margin-bottom:50px;
+}
+.search-results-wrap .pagination{
+	position:absolute;
+	bottom:0; left:0;
+	width:100%;
+	height:10px;
+	margin:20px 0px;
+}
