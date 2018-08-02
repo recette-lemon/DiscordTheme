@@ -284,6 +284,7 @@ form > [class*="typing-"]{
 /* Search Results */
 .search-results-wrap [class*="scroller-"]{
 	margin-bottom:50px;
+	border-bottom: 1px solid rgba(255,255,255,0.2);
 }
 .search-results-wrap .pagination{
 	position:absolute;

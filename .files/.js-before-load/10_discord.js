@@ -20,7 +20,11 @@ window.Discord = function(){
 				if(channel.guild_id){
 					_this.getUserFromGuild(channel.guild_id, user_id).then(function(guild_member){
 						succ(guild_member);
-					}, err);
+					}, function(){
+						discord.getUser(user_id).then(function(user){
+							err(user);
+						}, err);
+					});
 				} else {
 					discord.getUser(user_id).then(function(user){
 						err(user);
