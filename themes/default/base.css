@@ -178,7 +178,7 @@ header[class*="header-"],
 ::-webkit-scrollbar{
 	width:5px !important;
 }
-.messages-wrapper ::-webkit-scrollbar{
+[class*="messagesWrapper-"] ::-webkit-scrollbar{
 	width:8px !important;
 }
 ::-webkit-scrollbar-thumb{
@@ -200,12 +200,12 @@ header[class*="header-"],
 #app-mount,
 [class*="guildsWrapper-"],
 .private-channels,
-.messages-wrapper,
-.chat form,
+[class*="messagesWrapper-"],
+[class*="chat-"] form,
 #friends,
 .private-channel-call,
-.chat,
-.chat > .content,
+[class*="chat-"],
+[class*="chat-"] > [class*="content-"],
 .friends-table,
 .themed-popout .header,
 .search-results-wrap .search-header,
@@ -213,10 +213,10 @@ header[class*="header-"],
 .ui-standard-sidebar-view,
 .sidebar-region,
 .content-region,
-.friends-table .messages .divider:before,
-.friends-table .messages .divider span,
-.messages-wrapper .messages .divider:before,
-.messages-wrapper .messages .divider span,
+.friends-table [class*="messages-"] [class*="divider-"]:before,
+.friends-table [class*="messages-"] [class*="divider-"] span,
+[class*="messagesWrapper-"] [class*="messages-"] [class*="divider-"]:before,
+[class*="messagesWrapper-"] [class*="messages-"] [class*="divider-"] span,
 
 [class*="activityFeed-"],
 [class*="activityFeed-"] [class*="card-"],
@@ -239,7 +239,7 @@ form > [class*="typing-"],
 [class*="base-"]{
 	border-radius:0;
 }
-.chat form,
+[class*="chat-"] form,
 form > [class*="typing-"]{
 	margin:0;
 	padding:0px 20px;
@@ -267,7 +267,7 @@ form > [class*="typing-"]{
 	top:0 !important;
 	margin-bottom:0 !important;
 }
-.divider + .divider{
+[class*="divider-"] + [class*="divider-"]{
 	display:none;
 }
 .message-group {
