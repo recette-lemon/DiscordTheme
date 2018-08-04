@@ -1,4 +1,4 @@
-let messageGroupClass = ".messages > [class*='containerCozy-'][class*='container-']";
+let messageGroupClass = "[class*='messages-'] > [class*='containerCozy-'][class*='container-']";
 let messageClass = "[class*='messageCozy-'][class*='message-']";
 
 
