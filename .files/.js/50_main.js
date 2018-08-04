@@ -89,7 +89,7 @@ function fixImageUpload(um){
 
 /* Window Events */
 Discord.Console.onCommand = function(command){
-	let channel = document.querySelector(".chat").getReactReturn(2).memoizedProps.location.pathname.split("/")[3];
+	let channel = document.querySelector('[class*="chat-"]').getReactReturn(2).memoizedProps.location.pathname.split("/")[3];
 	if(command[0]!="/") command = "/"+command;
 	commands.run(command, channel);
 }
