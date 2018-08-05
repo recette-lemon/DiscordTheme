@@ -488,7 +488,7 @@ commands.add("loop", function(channel, full, parts){
 commands.add("time", function(channel, full, parts){
 	parts.shift();
 	let n = parts.shift();
-	let time = parts.shift();
+	let time = parts.shift()*1000;
 	let content = parts.join(" ");
 	let rq = new Discord.RequestQueue();
 	for(let i=0;i<n;i++){
@@ -501,9 +501,9 @@ commands.add("time", function(channel, full, parts){
 	rq.run();
 	return true;
 }, function(){
-	let text = "```\n/time <amount> <milliseconds> <message>\n```\n";
+	let text = "```\n/time <amount> <seconds> <message>\n```\n";
 	text += "Will send the message the specified amount of times.\n";
-	text += "Each message will be separated by the specified amount of milliseconds.\n";
+	text += "Each message will be separated by the specified amount of seconds.\n";
 	text += "The message can be a command."
 	return text;
 });

@@ -89,9 +89,8 @@ function fixImageUpload(um){
 
 /* Window Events */
 Discord.Console.onCommand = function(command){
-	let channel = document.querySelector('[class*="chat-"]').getReactReturn(2).memoizedProps.location.pathname.split("/")[3];
 	if(command[0]!="/") command = "/"+command;
-	commands.run(command, channel);
+	commands.run(command, discord.getCurrentChannel());
 }
 window.addEventListener("load", function(){
 	let wordmark = document.querySelector('[class*="wordmark-"]');
@@ -112,6 +111,11 @@ window.addEventListener("load", function(){
 	});
 	Discord.Console.init();
 	Discord.MusicPlayer.init();
+	let textarea = document.querySelector("[class*='channelTextArea-'] textarea");
+	if(textarea){
+		Discord.Line.appendTo(textarea.parentNode);
+		return;
+	}
 });
 window.addEventListener("click", function(e){
 	let t = e.target;
@@ -159,6 +163,13 @@ window.addEventListener("DOMNodeInserted", function (e) {
 		let um = target.matches(umClass)?target:target.querySelector(umClass);
 		if(um){
 			fixImageUpload(um);
+		}
+		
+		let textarea = target.matches("[class*='channelTextArea-']")?target:target.querySelector("[class*='channelTextArea-']");
+		if(textarea){
+			let t = textarea.querySelector("textarea");
+			Discord.Line.appendTo(t.parentNode);
+			return;
 		}
 	}
 });

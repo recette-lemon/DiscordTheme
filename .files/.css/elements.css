@@ -96,6 +96,25 @@
     background-color: #fff;
 }
 
+.dt-modal-wrapper{
+	position:fixed;
+	top:0; left:0;
+	z-index:99999;
+	width:100vw;
+	height:100vh;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	
+	background:rgba(0,0,0,0.8);
+}
+.dt-modal{
+	width:600px;
+	height:600px;
+	background:white;
+	border-radius: 5px;
+}
+
 /* Discord Theme Settings */
 .dt-settings{
 	color:#f6f6f7;
@@ -161,6 +180,65 @@
 }
 .dt-music-player:not(.dt-music-player-playing) #dt-music-player-play .svg-pause{
 	display:none;
+}
+
+/* LINE Stickers */
+[class*='channelTextArea-'] textarea{
+	padding-right:74px;
+}
+.dt-line-trigger{
+	position:absolute;
+	width:22px; height:22px;
+	top:11px; right:46px;
+	background-size:contain;
+	cursor:pointer;
+	
+	filter: grayscale(100%);
+	opacity: 0.5;
+	transform: scale(1);
+	transition: all .1s ease-in-out;
+}
+.dt-line-trigger:hover{
+	filter: grayscale(0);
+	opacity: 1;
+	transform: scale(1.275);
+}
+
+.dt-line-container{
+	padding:20px;
+	box-sizing:border-box;
+	overflow:auto;
+}
+.dt-line-container::-webkit-scrollbar-thumb{
+	background:rgba(100,100,100,1) !important;
+}
+.dt-line-container::-webkit-scrollbar-track-piece{
+	margin:10px 0px !important;
+}
+.dt-line-inner{
+	display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+	flex-wrap:wrap;
+	width:100%;
+}
+.dt-line-container .dt-line-sticker{
+	width:25%;
+    padding: 10px;
+    box-sizing: border-box;
+	background-size:contain;
+    background-repeat: no-repeat;
+	cursor:pointer;
+	transform:scale(1);
+	transition: transform 0.1s ease-in-out;
+}
+.dt-line-container .dt-line-sticker:hover{
+	transform:scale(1.1);
+}
+.dt-line-container .dt-line-sticker::after{
+	content:"";
+	display:block;
+	padding-top:100%;
 }
 
 /* Command Line */

@@ -1,3 +1,6 @@
 images/*
 instalation.log
 code/*
+line/*
+!line/get_stickers.bat
+!line/line.png

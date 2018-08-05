@@ -63,10 +63,17 @@ Discord.File = function(filename){
 	
 	this.read = function(){
 		return new Promise(function(succ, error){
-			_this.readRaw().then(function(data){
-				let blob = new Blob([data]);
+			_this.readBlob().then(function(blob){
 				let file = new File([blob], _this.basename);
 				succ(file);
+			},error);
+		});
+	}
+	this.readBlob = function(){
+		return new Promise(function(succ, error){
+			_this.readRaw().then(function(data){
+				let blob = new Blob([data]);
+				succ(blob);
 			},error);
 		});
 	}
@@ -88,6 +95,33 @@ Discord.File = function(filename){
 					succ(data);
 				});
 			});
+		}
+	}
+	this.readBase64 = function(){
+		return new Promise(function(succ, error){
+			_this.readRaw().then(function(data){
+				let b = new _buffer.Buffer(data, 'binary').toString('base64');
+				succ("data:"+_mime.lookup(_this.basename)+";base64,"+b);
+			});
+		});
+	}
+	
+	this.listFolders = function(filter){
+		if(_this.isDir){
+			let folders = [];
+			_fs.readdirSync(_this.filename).forEach(file => {
+				let f = new Discord.File(_this.filename+"\\"+file);
+				if(f.isDir){
+					if(filter){
+						var regex = new RegExp(filter, "i");
+						if(file.match(regex))
+							folders.push(f);
+					}else{
+						folders.push(f);
+					}
+				}
+			});
+			return folders;
 		}
 	}
 	
@@ -441,6 +475,23 @@ Discord.Date = new (function(){
 		return text.trim();
 	}
 });
+Discord.Modal = function(modal){
+	let modalWrapper = document.createElement("div");
+	modalWrapper.className = "dt-modal-wrapper";
+	modalWrapper.appendChild(modal);
+	modalWrapper.addEventListener("click", function(e){
+		if(e.target == modalWrapper)
+			this.hide();
+	}.bind(this));
+	
+	this.show = function(){
+		document.body.appendChild(modalWrapper);
+	}
+	
+	this.hide = function(){
+		document.body.removeChild(modalWrapper);
+	}
+}
 
 /* Other Utils */
 Discord.Cookies = new (function(){

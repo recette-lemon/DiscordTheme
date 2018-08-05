@@ -5,6 +5,7 @@ window._remote = _electron.remote;
 window._request = require("request");
 window._http = require("http");
 window._fs = require("fs");
+window._mime = require("mime-types");
 window._buffer = require("buffer");
 window._zlib = require("zlib");
 
@@ -43,7 +44,10 @@ window.Discord = function(){
 		}
 		return "https://cdn.discordapp.com/avatars/"+user_id+"/"+avatar+"."+ext+size;
 	}
-		
+	this.getCurrentChannel = function(){
+		return document.querySelector('[class*="chat-"]').getReactReturn(2).memoizedProps.location.pathname.split("/")[3];
+	}
+	
 	/* Users */
 	this.getMe = function(){
 		return this.get("/users/@me");
