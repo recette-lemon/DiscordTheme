@@ -136,7 +136,7 @@ window.addEventListener("DOMNodeInserted", function (e) {
 		if(Discord.ContextMenu(target)) return;
 		if(Discord.Settings(target)) return;
 		
-		if(target.matches(".messages-wrapper")){
+		if(target.matches('[class*="messagesWrapper-"]')){
 			let mg = document.querySelectorAll(messageGroupClass);
 			for(let i=0;i<mg.length;i++){
 				if(checkMessageForOutput(mg[i])) continue;
