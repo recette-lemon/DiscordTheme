@@ -8,6 +8,19 @@ Discord.Line = new (function(){
 	
 	let lineContainer = document.createElement("div");
 	lineContainer.className = "dt-modal dt-line-container";
+	
+	let modal = new Discord.Modal(lineContainer);
+	trigger.addEventListener("click", function(){
+		lineContainer.innerHTML = "";
+		lineContainer.appendChild(lineContainer.elements);
+		modal.show();
+	});
+	
+	this.appendTo = function(place){
+		place.appendChild(trigger);
+	};
+	
+	//Building Stickers
 	let packs = new Discord.File("line").listFolders();
 	lineContainer.elements = document.createElement("div");
 	lineContainer.elements.className = "dt-line-inner";
@@ -21,9 +34,14 @@ Discord.Line = new (function(){
 		sticker.elements = document.createElement("div");
 		sticker.elements.className = "dt-line-inner";
 		for(let j=0;j<pack.length;j++){
+			let p = pack[j];
+			if(p.basename == "productInfo.meta"){
+				let info = JSON.parse(p.readTextSync());
+				sticker.name = info.title.en;
+				continue;
+			}
 			let s = document.createElement("div");
 			s.className = "dt-line-sticker";
-			let p = pack[j];
 			p.readBase64().then(function(b64){
 				s.style.backgroundImage = "url("+b64+")";
 			});
@@ -42,18 +60,15 @@ Discord.Line = new (function(){
 			lineContainer.innerHTML = "";
 			lineContainer.appendChild(sticker.elements);
 		});
-		lineContainer.elements.appendChild(sticker);
+		let before;
+		for(let j=0;j<lineContainer.elements.children.length;j++){
+			if(sticker.name < lineContainer.elements.children[j].name){
+				lineContainer.elements.insertBefore(sticker, lineContainer.elements.children[j]);
+				break;
+			}
+		}
+		if(!sticker.parentNode)
+			lineContainer.elements.appendChild(sticker);
 	}
 	lineContainer.appendChild(lineContainer.elements);
-	
-	let modal = new Discord.Modal(lineContainer);
-	trigger.addEventListener("click", function(){
-		lineContainer.innerHTML = "";
-		lineContainer.appendChild(lineContainer.elements);
-		modal.show();
-	});
-	
-	this.appendTo = function(place){
-		place.appendChild(trigger);
-	};
 })();

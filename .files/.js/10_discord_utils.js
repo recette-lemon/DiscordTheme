@@ -69,6 +69,14 @@ Discord.File = function(filename){
 			},error);
 		});
 	}
+	this.readBase64 = function(){
+		return new Promise(function(succ, error){
+			_this.readRaw().then(function(data){
+				let b = new _buffer.Buffer(data, 'binary').toString('base64');
+				succ("data:"+_mime.lookup(_this.basename)+";base64,"+b);
+			});
+		});
+	}
 	this.readBlob = function(){
 		return new Promise(function(succ, error){
 			_this.readRaw().then(function(data){
@@ -97,13 +105,10 @@ Discord.File = function(filename){
 			});
 		}
 	}
-	this.readBase64 = function(){
-		return new Promise(function(succ, error){
-			_this.readRaw().then(function(data){
-				let b = new _buffer.Buffer(data, 'binary').toString('base64');
-				succ("data:"+_mime.lookup(_this.basename)+";base64,"+b);
-			});
-		});
+	this.readTextSync = function(){
+		if(!_this.isDir){
+			return _fs.readFileSync(_this.filename, "utf-8");
+		}
 	}
 	
 	this.listFolders = function(filter){
