@@ -27,9 +27,12 @@ Discord.Line = new (function(){
 	for(let i=0;i<packs.length;i++){
 		let sticker = document.createElement("div");
 		sticker.className = "dt-line-sticker";
+		let stickerInner = document.createElement("div");
+		stickerInner.className = "dt-line-sticker-inner";
+		sticker.appendChild(stickerInner);
 		let pack = packs[i].list();
 		pack[0].readBase64().then(function(b64){
-			sticker.style.backgroundImage = "url("+b64+")";
+			stickerInner.style.backgroundImage = "url("+b64+")";
 		});
 		sticker.elements = document.createElement("div");
 		sticker.elements.className = "dt-line-inner";
@@ -38,12 +41,16 @@ Discord.Line = new (function(){
 			if(p.basename == "productInfo.meta"){
 				let info = JSON.parse(p.readTextSync());
 				sticker.name = info.title.en;
+				sticker.setAttribute("name", info.title.en);
 				continue;
 			}
 			let s = document.createElement("div");
 			s.className = "dt-line-sticker";
+			let si = document.createElement("div");
+			si.className = "dt-line-sticker-inner";
+			s.appendChild(si);
 			p.readBase64().then(function(b64){
-				s.style.backgroundImage = "url("+b64+")";
+				si.style.backgroundImage = "url("+b64+")";
 			});
 			s.addEventListener("click", function(){
 				p.read().then(function(file){
