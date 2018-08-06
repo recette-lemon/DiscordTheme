@@ -1,6 +1,11 @@
+.files/injection.js
+
 images/*
+!images/constanza.jpg
+!images/duck.jpg
+
 instalation.log
-code/*
+
 line/*
 !line/get_stickers.bat
 !line/line.png
