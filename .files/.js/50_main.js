@@ -1,6 +1,6 @@
 let messageGroupClass = "[class*='messages-'] > [class*='containerCozy-'][class*='container-']";
 let messageClass = "[class*='messageCozy-'][class*='message-']";
-
+let textareaClass = "[class*='chat-'] [class*='channelTextArea-']";
 
 /* Auxiliary Functions */
 function reverseEach(obj, fn){
@@ -165,7 +165,7 @@ window.addEventListener("DOMNodeInserted", function (e) {
 			fixImageUpload(um);
 		}
 		
-		let textarea = target.matches("[class*='channelTextArea-']")?target:target.querySelector("[class*='channelTextArea-']");
+		let textarea = target.matches(textareaClass)?target:target.querySelector(textareaClass);
 		if(textarea){
 			let t = textarea.querySelector("textarea");
 			Discord.Line.appendTo(t.parentNode);
