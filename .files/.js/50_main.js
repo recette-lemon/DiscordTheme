@@ -1,6 +1,6 @@
 let messageGroupClass = "[class*='messages-'] > [class*='containerCozy-'][class*='container-']";
 let messageClass = "[class*='messageCozy-'][class*='message-']";
-let textareaClass = "[class*='chat-'] [class*='channelTextArea-']";
+let textareaClass = "[class*='channelTextArea-']";
 
 /* Auxiliary Functions */
 function reverseEach(obj, fn){
@@ -86,6 +86,21 @@ function fixImageUpload(um){
 	}
 	setFilename();
 }
+function fixTextArea(textarea){
+	let inner = textarea.children[0];
+	let t = textarea.querySelector("textarea");
+	Discord.Line.appendTo(t.parentNode);
+	t.addEventListener("input", function(e){
+		inner.setAttribute("count", t.value.length);
+	});
+	t.addEventListener("keydown", function(e){
+		if(e.altKey || e.ctrlKey || e.shiftKey) return;
+		if(e.key == "Enter")
+			inner.removeAttribute("count");
+	});
+	if(t.value.length)
+		inner.setAttribute("count", t.value.length);
+}
 
 /* Window Events */
 Discord.Console.onCommand = function(command){
@@ -111,11 +126,6 @@ window.addEventListener("load", function(){
 	});
 	Discord.Console.init();
 	Discord.MusicPlayer.init();
-	let textarea = document.querySelector("[class*='channelTextArea-'] textarea");
-	if(textarea){
-		Discord.Line.appendTo(textarea.parentNode);
-		return;
-	}
 });
 window.addEventListener("click", function(e){
 	let t = e.target;
@@ -163,13 +173,16 @@ window.addEventListener("DOMNodeInserted", function (e) {
 		let um = target.matches(umClass)?target:target.querySelector(umClass);
 		if(um){
 			fixImageUpload(um);
+			return;
 		}
 		
-		let textarea = target.matches(textareaClass)?target:target.querySelector(textareaClass);
-		if(textarea){
-			let t = textarea.querySelector("textarea");
-			Discord.Line.appendTo(t.parentNode);
-			return;
+		if(target.matches('[class*="content-"]')){
+			console.log();
+			fixTextArea(target.querySelector(textareaClass));
+		}
+		
+		if(target.matches(textareaClass)){
+			fixTextArea(target);
 		}
 	}
 });

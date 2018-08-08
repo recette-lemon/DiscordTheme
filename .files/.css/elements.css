@@ -402,3 +402,15 @@
 	font-size: 14px;
 	color: white;
 }
+
+/* Character Count */
+[class*="channelTextArea-"] > [class*="inner-"][count]::after {
+    content: attr(count) "/2000";
+    position: absolute;
+    right: 0;
+    top: 100%;
+    color: white;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-family: Consolas,Liberation Mono,Menlo,Courier,monospace;
+}
