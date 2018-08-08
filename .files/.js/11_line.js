@@ -7,7 +7,7 @@ Discord.Line = new (function(){
 	});
 	
 	let lineContainer = document.createElement("div");
-	lineContainer.className = "dt-modal dt-line-container";
+	lineContainer.className = "dt-line-container";
 	
 	let modal = new Discord.Modal(lineContainer);
 	trigger.addEventListener("click", function(){

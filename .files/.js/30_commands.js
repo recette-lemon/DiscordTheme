@@ -581,10 +581,7 @@ commands.catch = function(channel, message){
 	   message.trim().match(/^https?:\/\/[^ \r\n#]+(jpg|gif|png|jpeg)(\?[^ ]*)?$/i)){
 		let r = new Discord.Request();
 		r.getFile(message.trim()).then(function(file){
-			let form = new FormData();
-			form.append("content", "");
-			form.append("file", file);
-			discord.sendMessage(channel, form);
+			(new Discord.FileDialog(file)).show();
 		}).catch(function(err, res){
 			let embed = new Discord.Embed();
 			embed.setImage(message.trim());

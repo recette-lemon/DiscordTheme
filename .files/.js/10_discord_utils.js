@@ -481,6 +481,8 @@ Discord.Date = new (function(){
 	}
 });
 Discord.Modal = function(modal){
+	modal.classList.add("dt-modal");
+	
 	let modalWrapper = document.createElement("div");
 	modalWrapper.className = "dt-modal-wrapper";
 	modalWrapper.appendChild(modal);
@@ -496,6 +498,63 @@ Discord.Modal = function(modal){
 	this.hide = function(){
 		document.body.removeChild(modalWrapper);
 	}
+}
+Discord.FileDialog = function(file){
+	let _this = this;
+	let fileDialog = document.createElement("div");
+	fileDialog.className = "dt-file-dialog";
+	let modal = new Discord.Modal(fileDialog);
+	
+	this.show = function(){
+		modal.show();
+	}
+	this.hide = function(){
+		modal.hide();
+	}
+	this.upload = function(content){
+		let form = new FormData();
+		form.append("content", content);
+		form.append("file", file);
+		discord.sendMessage(discord.getCurrentChannel(), form);
+	}
+	
+	let wrapper = document.createElement("div");
+	wrapper.className = "dt-file-dialog-wrapper";
+	let image = document.createElement("div");
+	image.className = "dt-file-dialog-preview";
+	file.toBase64().then(function(b){
+		image.style.backgroundImage = "url("+b+")";
+	});
+	let text = document.createElement("textarea");
+	text.className = "dt-file-dialog-message dt-textarea";
+	text.placeholder = "Optional Message";
+	wrapper.appendChild(image);
+	wrapper.appendChild(text);
+	fileDialog.appendChild(wrapper);
+	
+	let bottom = document.createElement("div");
+	bottom.className = "dt-file-dialog-bottom"
+	let uploadButton = document.createElement("div");
+	uploadButton.className = "dt-file-dialog-upload";
+	uploadButton.innerHTML = "Upload";
+	let cancelButton = document.createElement("div");
+	cancelButton.className = "dt-file-dialog-cancel";
+	cancelButton.innerHTML = "Cancel";
+	bottom.appendChild(cancelButton);
+	bottom.appendChild(uploadButton);
+	fileDialog.appendChild(bottom);
+	
+	text.addEventListener("keydown", function(e){
+		if(!e.shiftKey && e.key == "Enter")
+			uploadButton.click();
+	});
+	uploadButton.addEventListener("click", function(){
+		modal.hide();
+		_this.upload(text.value);
+	});
+	cancelButton.addEventListener("click", function(){
+		modal.hide()
+	});
 }
 
 /* Other Utils */

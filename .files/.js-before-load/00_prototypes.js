@@ -16,3 +16,18 @@ HTMLElement.prototype.getReactReturn = function(num){
 		react = react.return;
 	return react;
 }
+
+/* File Prototypes */
+File.prototype.toBase64 = function(){
+	let _this = this;
+	return new Promise(function(succ, err){
+		var reader = new FileReader();
+		reader.readAsDataURL(_this);
+		reader.onload = function () {
+			succ(reader.result);
+		};
+		reader.onerror = function (error) {
+			err(error);
+		};
+	});
+}
