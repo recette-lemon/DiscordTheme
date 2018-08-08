@@ -90,16 +90,21 @@ function fixTextArea(textarea){
 	let inner = textarea.children[0];
 	let t = textarea.querySelector("textarea");
 	Discord.Line.appendTo(t.parentNode);
+	function setLength(length){
+		if(!length)
+			inner.removeAttribute("count");
+		else
+			inner.setAttribute("count", length);
+	}
 	t.addEventListener("input", function(e){
-		inner.setAttribute("count", t.value.length);
+		setLength(t.value.length);
 	});
 	t.addEventListener("keydown", function(e){
 		if(e.altKey || e.ctrlKey || e.shiftKey) return;
 		if(e.key == "Enter")
-			inner.removeAttribute("count");
+			setLength();
 	});
-	if(t.value.length)
-		inner.setAttribute("count", t.value.length);
+	setLength(t.value.length);
 }
 
 /* Window Events */
