@@ -504,20 +504,7 @@ Discord.FileDialog = function(file){
 	let fileDialog = document.createElement("div");
 	fileDialog.className = "dt-file-dialog";
 	let modal = new Discord.Modal(fileDialog);
-	
-	this.show = function(){
-		modal.show();
-	}
-	this.hide = function(){
-		modal.hide();
-	}
-	this.upload = function(content){
-		let form = new FormData();
-		form.append("content", content);
-		form.append("file", file);
-		discord.sendMessage(discord.getCurrentChannel(), form);
-	}
-	
+		
 	let wrapper = document.createElement("div");
 	wrapper.className = "dt-file-dialog-wrapper";
 	let image = document.createElement("div");
@@ -555,6 +542,20 @@ Discord.FileDialog = function(file){
 	cancelButton.addEventListener("click", function(){
 		modal.hide()
 	});
+	
+	this.show = function(){
+		modal.show();
+		text.focus();
+	}
+	this.hide = function(){
+		modal.hide();
+	}
+	this.upload = function(content){
+		let form = new FormData();
+		form.append("content", content);
+		form.append("file", file);
+		discord.sendMessage(discord.getCurrentChannel(), form);
+	}
 }
 
 /* Other Utils */

@@ -52,12 +52,16 @@ Discord.Line = new (function(){
 			p.readBase64().then(function(b64){
 				si.style.backgroundImage = "url("+b64+")";
 			});
-			s.addEventListener("click", function(){
+			s.addEventListener("click", function(e){
 				p.read().then(function(file){
-					let form = new FormData();
-					form.append("content", "");
-					form.append("file", file);
-					discord.sendMessage(discord.getCurrentChannel(), form);
+					if(e.shiftKey){
+						(new Discord.FileDialog(file)).show();
+					}else{
+						let form = new FormData();
+						form.append("content", "");
+						form.append("file", file);
+						discord.sendMessage(discord.getCurrentChannel(), form);
+					}
 				});
 				modal.hide();
 			});
