@@ -227,6 +227,7 @@
 	height:600px;
 	padding:0px 5px;
 	box-sizing:border-box;
+	background:#2f3136;
 }
 .dt-line-container::before {
     content: "Shift + click - add an optional message";
@@ -302,7 +303,8 @@
 	font-weight:500;
 	font-size:20px;
 	
-    background-color: rgba(255,255,255,0.8);
+	color:white;
+    background-color: rgba(47, 49, 54,0.8);
 	transition:opacity 0.1s ease-in-out;
 	opacity:0;
 }
