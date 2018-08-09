@@ -91,6 +91,7 @@ function fixTextArea(textarea){
 	let t = textarea.querySelector("textarea");
 	Discord.Line.appendTo(t.parentNode);
 	function setLength(length){
+		if(!Discord.Settings.Raw.GENERAL_CHARACTER_COUNT) return;
 		if(!length)
 			inner.removeAttribute("count");
 		else
