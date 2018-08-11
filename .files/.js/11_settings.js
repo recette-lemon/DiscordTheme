@@ -158,6 +158,7 @@ Discord.Settings.Items = new (function(){
 // GENERAL
 let general = Discord.Settings.Items.createGroup("General");
 general.addToggle("Image Links", "When posting an image link as a message, replace it with an upload instead.", false);
+general.addToggle("Image Link Dialog", "Show a dialog when posting an image link with the above option enabled.", false);
 general.addToggle("Character Count", "Add a character count to the bottom right of the textarea.", false);
 general.addToggle("Greentext", "Color lines beginning with > in green.", false);
 general.addToggle("Desu", "Add desu to the end of messages.", false);

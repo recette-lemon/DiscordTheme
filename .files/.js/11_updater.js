@@ -7,7 +7,8 @@ Discord.Updater = new (function(){
 			let filePromise = file.readText();
 			let r = new Discord.Request();
 			r.open("GET", version);
-			r.send().then(function(remote){
+			r.send().then(function(response){
+				let remote = response.body;
 				filePromise.then(function(local){
 					local = local.split(".");
 					remote = remote.split(".");

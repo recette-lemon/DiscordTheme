@@ -172,10 +172,10 @@ Discord.Request = function(){
 				method
 			}, function(err, res, body){
 				if(res && res.statusCode!=200){
-					error(err, res);
+					error(err);
 				}else{
-					if(err)	error(err, res);
-					else 	succ(body, res);
+					if(err)	error(err);
+					else 	succ(res);
 				}
 			});
 		});
@@ -186,8 +186,8 @@ Discord.Request = function(){
 			let name = url.split("/").pop().split(/(\?|\#)/)[0];
 			_this.open("GET", url);
 			_this.encoding = null;
-			_this.send().then(function(data){
-				let blob = new Blob([data]);
+			_this.send().then(function(response){
+				let blob = new Blob([response.body]);
 				let file = new File([blob], name);
 				succ(file);
 			}).catch(error);
@@ -412,8 +412,8 @@ Discord.Search = function(type){
 			let request = new Discord.Request();
 			request.open("GET", url);
 			request.setHeader("User-Agent", Discord.UserAgent);
-			request.send().then(function(data){
-				let doc = new DOMParser().parseFromString(data, "text/html");
+			request.send().then(function(response){
+				let doc = new DOMParser().parseFromString(response.body, "text/html");
 				succ(doc);
 			});
 		});
@@ -423,7 +423,7 @@ Discord.Search = function(type){
 			let request = new Discord.Request();
 			request.open("GET", url);
 			request.setHeader("User-Agent", Discord.UserAgent);
-			request.send().then(succ);
+			request.send().then(function(response){succ(response.body)});
 		});
 	}
 }
@@ -480,16 +480,17 @@ Discord.Date = new (function(){
 		return text.trim();
 	}
 });
-Discord.Modal = function(modal){
+Discord.Modal = function(modal, permanent){
 	modal.classList.add("dt-modal");
 	
 	let modalWrapper = document.createElement("div");
 	modalWrapper.className = "dt-modal-wrapper";
 	modalWrapper.appendChild(modal);
-	modalWrapper.addEventListener("click", function(e){
-		if(e.target == modalWrapper)
-			this.hide();
-	}.bind(this));
+	if(!permanent)
+		modalWrapper.addEventListener("click", function(e){
+			if(e.target == modalWrapper)
+				this.hide();
+		}.bind(this));
 	
 	this.show = function(){
 		document.body.appendChild(modalWrapper);
@@ -503,7 +504,7 @@ Discord.FileDialog = function(file){
 	let _this = this;
 	let fileDialog = document.createElement("div");
 	fileDialog.className = "dt-file-dialog";
-	let modal = new Discord.Modal(fileDialog);
+	let modal = new Discord.Modal(fileDialog, true);
 		
 	let wrapper = document.createElement("div");
 	wrapper.className = "dt-file-dialog-wrapper";
@@ -512,11 +513,22 @@ Discord.FileDialog = function(file){
 	file.toBase64().then(function(b){
 		image.style.backgroundImage = "url("+b+")";
 	});
+	let right = document.createElement("div");
+	right.className = "dt-file-dialog-right";
+	let name = document.createElement("span");
+	name.className = "dt-file-dialog-name";
+	name.textContent = file.name;
+	name.setAttribute("contenteditable", true);
+	let textContainer = document.createElement("div");
+	textContainer.className = "dt-file-dialog-message-container";
 	let text = document.createElement("textarea");
 	text.className = "dt-file-dialog-message dt-textarea";
 	text.placeholder = "Optional Message";
+	textContainer.appendChild(text);
+	right.appendChild(name);
+	right.appendChild(textContainer);
 	wrapper.appendChild(image);
-	wrapper.appendChild(text);
+	wrapper.appendChild(right);
 	fileDialog.appendChild(wrapper);
 	
 	let bottom = document.createElement("div");
@@ -531,13 +543,17 @@ Discord.FileDialog = function(file){
 	bottom.appendChild(uploadButton);
 	fileDialog.appendChild(bottom);
 	
+	name.addEventListener("keydown", function(e){
+		if(e.key == "Enter")
+			uploadButton.click();
+	});
 	text.addEventListener("keydown", function(e){
 		if(!e.shiftKey && e.key == "Enter")
 			uploadButton.click();
 	});
 	uploadButton.addEventListener("click", function(){
 		modal.hide();
-		_this.upload(text.value);
+		_this.upload(text.value, name.textContent);
 	});
 	cancelButton.addEventListener("click", function(){
 		modal.hide()
@@ -550,7 +566,11 @@ Discord.FileDialog = function(file){
 	this.hide = function(){
 		modal.hide();
 	}
-	this.upload = function(content){
+	this.upload = function(content, name){
+		if(name != file.name){
+			name = Discord.renameFileNameWithExtension(file.name, name);
+			file = new File([file], name, {type: file.type});
+		}
 		let form = new FormData();
 		form.append("content", content);
 		form.append("file", file);
@@ -559,6 +579,16 @@ Discord.FileDialog = function(file){
 }
 
 /* Other Utils */
+Discord.renameFileNameWithExtension = function(oldName, newName){
+	let oldExt = oldName.split(".").pop();
+	let newExt = newName.split(".").pop();
+	if(newExt == newName){
+		newName += "."+oldExt;
+	}
+	return newName;
+}
+
+/* Cookies */
 Discord.Cookies = new (function(){
 	this.set = function(name,value,days) {
 		var expires = "";

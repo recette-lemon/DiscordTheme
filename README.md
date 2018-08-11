@@ -64,4 +64,4 @@ Some extra options have been added to different context menus.
 
 All Settings are turned off by default, so make sure you turn them on if you want them.
 
-![ss](https://i.imgur.com/RIh9Vr2.png)
+![ss](https://i.imgur.com/NxzwJdS.png)
