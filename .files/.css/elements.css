@@ -278,10 +278,13 @@
     background-repeat: no-repeat;
 	background-position: center;
 	transform:scale(1);
-	transition: transform 0.1s ease-in-out;
+	transition: all 0.1s ease-in-out;
 }
 .dt-line-container .dt-line-sticker:hover .dt-line-sticker-inner{
 	transform:scale(1.1);
+}
+.dt-line-container .dt-line-sticker[name]:hover .dt-line-sticker-inner{
+	opacity: 0.2;
 }
 .dt-line-container .dt-line-sticker::before{
 	content:"";
@@ -304,7 +307,7 @@
 	font-size:20px;
 	
 	color:white;
-    background-color: rgba(47, 49, 54,0.8);
+    /* background-color: rgba(47, 49, 54,0.8); */
 	transition:opacity 0.1s ease-in-out;
 	opacity:0;
 }
