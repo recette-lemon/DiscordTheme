@@ -240,6 +240,25 @@
     padding-left: 15px;
     pointer-events: none;
 }
+.dt-line-container .dt-line-back{
+	position: absolute;
+	top: 0; left: 0;
+	width: 20px; height: 20px;
+	padding: 10px 12px;
+    z-index: 10;
+	cursor: pointer;
+	fill: white;
+	opacity: 0.7;
+	transform:scale(1);
+	transition: all 0.1s ease-in-out;
+}
+.dt-line-container .dt-line-back:hover{
+	opacity: 1;
+	transform:scale(1.1);
+}
+.dt-line-container[root] .dt-line-back{
+	display:none;
+}
 .dt-line-inner{
 	display: flex;
     align-items: flex-start;
