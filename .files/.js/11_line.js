@@ -8,11 +8,12 @@ Discord.Line = new (function(){
 	
 	let lineContainer = document.createElement("div");
 	lineContainer.className = "dt-line-container";
+	let current;
 	
 	let modal = new Discord.Modal(lineContainer);
 	trigger.addEventListener("click", function(){
-		lineContainer.removeChild(lineContainer.querySelector(".dt-line-inner"));
-		lineContainer.appendChild(lineContainer.elements);
+		lineContainer.removeChild(current);
+		lineContainer.appendChild(current=lineContainer.elements);
 		lineContainer.setAttribute("root", true);
 		modal.show();
 	});
@@ -27,8 +28,8 @@ Discord.Line = new (function(){
 	lineContainer.appendChild(back);
 	
 	back.addEventListener("click", function(){
-		lineContainer.removeChild(lineContainer.querySelector(".dt-line-inner"));
-		lineContainer.appendChild(lineContainer.elements);
+		lineContainer.removeChild(current);
+		lineContainer.appendChild(current=lineContainer.elements);
 		lineContainer.setAttribute("root", true);
 	});
 	
@@ -84,8 +85,8 @@ Discord.Line = new (function(){
 			sticker.elements.appendChild(s);
 		}
 		sticker.addEventListener("click", function(){
-			lineContainer.removeChild(lineContainer.querySelector(".dt-line-inner"));
-			lineContainer.appendChild(sticker.elements);
+			lineContainer.removeChild(current);
+			lineContainer.appendChild(current=sticker.elements);
 			lineContainer.removeAttribute("root");
 		});
 		let before;
@@ -98,5 +99,5 @@ Discord.Line = new (function(){
 		if(!sticker.parentNode)
 			lineContainer.elements.appendChild(sticker);
 	}
-	lineContainer.appendChild(lineContainer.elements);
+	lineContainer.appendChild(current=lineContainer.elements);
 })();

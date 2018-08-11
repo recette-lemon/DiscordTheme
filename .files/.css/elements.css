@@ -122,10 +122,11 @@
     margin: 2px 2px 2px 0;
     max-height: 144px;
     min-height: 20px;
-    padding: 10px 38px 10px 10px;
+    padding: 10px;
     resize: none;
     width: 100%;
 	color:rgba(255,255,255,1);
+	overflow:overlay;
 }
 .dt-textarea::-webkit-input-placeholder{
 	color:white;

@@ -547,6 +547,7 @@ Discord.FileDialog = function(file){
 		if(e.key == "Enter")
 			uploadButton.click();
 	});
+	Discord.autoResizeTextarea(text);
 	text.addEventListener("keydown", function(e){
 		if(!e.shiftKey && e.key == "Enter")
 			uploadButton.click();
@@ -586,6 +587,30 @@ Discord.renameFileNameWithExtension = function(oldName, newName){
 		newName += "."+oldExt;
 	}
 	return newName;
+}
+Discord.autoResizeTextarea = function(textarea){
+	let step = 20;
+	textarea.addEventListener("input", resize);
+	function resize(){
+		if(textarea.value == ""){
+			textarea.style.height = "";
+			return;
+		}
+		if(textarea.scrollHeight > textarea.offsetHeight){
+			let h;
+			for(let i=0;i<=10;i++){
+				textarea.style.height = (h=(i*step))+"px";
+				if(textarea.scrollHeight == textarea.offsetHeight) break;
+			}
+		}else{
+			let h;
+			for(let i=10;i>=0;i--){
+				textarea.style.height = (h=(i*step))+"px";
+				if(textarea.scrollHeight != textarea.offsetHeight) break;
+			}
+			textarea.style.height = (h+step)+"px";
+		}
+	}
 }
 
 /* Cookies */
