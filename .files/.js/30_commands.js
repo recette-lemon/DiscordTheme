@@ -34,12 +34,13 @@ Discord.CommandParser = function(){
 			if(message[0]=="/"){
 				let m = message.substring(1);
 				let parts = m.split(/ +/);
-				let first = parts[0];
+				let first = parts.shift();
+				m = m.substring(m.match(RegExp(first+" *"))[0].length);
 				if(!shadowCommands[first] && alias[first])
-					return commands[alias[first]].run(channel, m, parts, aliasB4[first]());
+					return commands[alias[first]].run(channel, first, m, parts, aliasB4[first]());
 				if(!shadowCommands[first] && commands[first])
-					return commands[first].run(channel, m, parts);
-				let elseValue = _this.else(channel, m, parts);
+					return commands[first].run(channel, first, m, parts);
+				let elseValue = _this.else(channel, first, m, parts);
 				return elseValue?elseValue:false;
 			}
 			let catchValue = _this.catch(channel, message);
@@ -61,10 +62,10 @@ Discord.CommandParser = function(){
 	}
 };
 let commands = new Discord.CommandParser();
-commands.add("help", function(channel, full, parts){
-	let name = parts[1];
-	if(name){
-		return {content:commands.help(name), bot:true};
+commands.add("help", function(channel, name, full, parts){
+	let c = parts[0];
+	if(c){
+		return {content:commands.help(c), bot:true};
 	}else{
 		let list = commands.list();
 		let text = "";
@@ -81,8 +82,7 @@ commands.add("help", function(channel, full, parts){
 }, function(){
 	return "Are you retarded?";
 });
-commands.add("search", function(channel, full, parts){
-	parts.shift();
+commands.add("search", function(channel, name, full, parts){
 	let s = new Discord.Search(parts.shift());
 	s.search(parts.join(" "), channel);
 	return true;
@@ -93,8 +93,7 @@ commands.add("search", function(channel, full, parts){
 	text += "Engines: "+list;
 	return text;
 });
-commands.add("img", function(channel, full, parts){
-	parts.shift();
+commands.add("img", function(channel, name, full, parts){
 	let s = new Discord.Search();
 	s.search(parts.join(" "), channel);
 	return true;
@@ -103,9 +102,8 @@ commands.add("img", function(channel, full, parts){
 	text += "Will search your query on Google Images.\n";
 	return text;
 });
-commands.add("image", function(channel, full, parts){
-	parts.shift();
-	let images = new Discord.File("images").list(parts.join(" "));
+commands.add("image", function(channel, name, full, parts){
+	let images = new Discord.File("images").list(full);
 	if(images.length){
 		images[0].read().then(function(file){
 			let form = new FormData();
@@ -120,12 +118,11 @@ commands.add("image", function(channel, full, parts){
 	text += "Will search the images folder for an image containing your filter word and post it.\n";
 	return text;
 });
-commands.add("constanza", function(channel, full, parts){
-	let images = new Discord.File("images").list(parts[0]+"\.");
-	parts.shift();
+commands.add("constanza", function(channel, name, full, parts){
+	let images = new Discord.File("images").list(name+"\.");
 	images[0].read().then(function(file){
 		let form = new FormData();
-		form.append("content", parts.join(" "));
+		form.append("content", full);
 		form.append("file", file);
 		discord.sendMessage(channel, form);
 	});
@@ -135,10 +132,9 @@ commands.add("constanza", function(channel, full, parts){
 	text += "Will post the image constanza from the images folder with the message attached.\n";
 	return text;
 });
-commands.add("duck", function(channel, full, parts){
-	let images = new Discord.File("images").list(parts[0]+"\.");
-	parts.shift();
-	let text = parts.join(" ").toUpperCase();
+commands.add("duck", function(channel, name, full, parts){
+	let images = new Discord.File("images").list(name+"\.");
+	let text = full.toUpperCase();
 	images[0].read().then(function(file){
 		let image = new Image();
 		image.onload = function(){
@@ -231,8 +227,8 @@ commands.add("duck", function(channel, full, parts){
 	text += "Will post the image duck from the images folder with the message written on top of the image in impact font.\n";
 	return text;
 });
-commands.add("info", function(channel, full, parts){
-	let user_id = parts[1].match(/^<@\!?(.+)>$/)[1];
+commands.add("info", function(channel, name, full, parts){
+	let user_id = parts[0].match(/^<@\!?(.+)>$/)[1];
 	discord.getUserFromChannel(channel, user_id).then(function(guild_member){
 		let embed = new Discord.Embed();
 		let icon = discord.getUserIcon(user_id, guild_member.user.avatar, 2048);
@@ -269,8 +265,7 @@ commands.add("info", function(channel, full, parts){
 	text += "This can be quickly shown by clicking 'Get Info' on the user context menu.\n";
 	return text;
 });
-commands.add("react", function(channel, full, parts){
-	parts.shift();
+commands.add("react", function(channel, name, full, parts){
 	let message = parts.shift();
 	let letters = textToEmojis(parts.join(" "));
 	let rq = new Discord.RequestQueue();
@@ -287,24 +282,21 @@ commands.add("react", function(channel, full, parts){
 	text += "A quicker way to react is to use the 'React With Text' on the message's context menu.\n";
 	return text;
 });
-commands.add("8ball", function(channel, full, parts){
-	parts.shift();
+commands.add("8ball", function(channel, name, full, parts){
 	let answers = ['Maybe.', 'Certainly not.', 'I hope so.', 'Not in your wildest dreams.', 'There is a good chance.', 'Quite likely.', 'I think so.', 'I hope not.',  'I hope so.', 'Never!', 'Fuhgeddaboudit.', 'Ahaha! Really?!?', 'Pfft.', 'Sorry, bucko.', 'Hell, yes.', 'Hell to the no.', 'The future is bleak.', 'The future is uncertain.', 'I would rather not say.', 'Who cares?',  'Possibly.', 'Never, ever, ever.', 'There is a small chance.', 'Yes!'];
-	let top = parts.join(" ");
-	top = top?top:"What does the 8ball say?";
+	full = full?full:"What does the 8ball say?";
 	let embed = new Discord.Embed();
 	embed.setAuthorIcon("https://cdn.discordapp.com/attachments/336483154858737674/377602724700618755/8ballxd.png");
 	embed.setAuthorName("8Ball");
 	embed.setColor("#000000");
-	embed.addField(top, answers[(Math.random()*answers.length)|0]);
+	embed.addField(full, answers[(Math.random()*answers.length)|0]);
 	return {content:"", embed};
 }, function(){
 	let text = "```\n/8ball <message>\n```\n";
 	text += "How do i 8ball?\n";
 	return text;
 });
-commands.add("fortune", function(channel, full, parts){
-	parts.shift();
+commands.add("fortune", function(channel, name, full, parts){
 	let answers = [
 		{name: "Reply hazy, try again", color:"#F51C6A"},
 		{name: "Excellent Luck", color:"#FD4D32"},
@@ -321,22 +313,21 @@ commands.add("fortune", function(channel, full, parts){
 		{name: "Godly Luck", color:"#D302A7"},
 		{name: "(YOU ARE BANNED)", color:"#FF0000"}
 	];
-	let top = parts.join(" ");
-	top = top?top:"What is my fortune?";
+	full = full?full:"What is my fortune?";
 	let answer = answers[(Math.random()*answers.length)|0];
 	let embed = new Discord.Embed();
 	embed.setAuthorIcon("https://i.imgur.com/Lp9JIbf.png");
 	embed.setAuthorName("Fortune");
 	embed.setColor(answer.color);
-	embed.addField(top, answer.name);
+	embed.addField(full, answer.name);
 	return {content:"", embed};
 }, function(){
 	let text = "```\n/fortune <message>\n```\n";
 	text += "Have your fortune taken.\n";
 	return text;
 });
-commands.add("delete", function(channel, full, parts){
-	let n = +parts[1];
+commands.add("delete", function(channel, name, full, parts){
+	let n = +parts[0];
 	discord.getMessages(channel).then(function(messages){
 		if(n>0){
 			let r = new Discord.RequestQueue();
@@ -358,8 +349,8 @@ commands.add("delete", function(channel, full, parts){
 	text += "Will delete the amount of your messages specified present only in the last 50 channel messages.\n";
 	return text;
 });
-commands.add("penis", function(channel, full, parts){
-	let user_id = parts[1].match(/^<@\!?(.+)>$/)[1];
+commands.add("penis", function(channel, name, full, parts){
+	let user_id = parts[0].match(/^<@\!?(.+)>$/)[1];
 	let first = user_id.substring(user_id.length-8, user_id.length-4);
 	let sec = user_id.substring(user_id.length-4);
 	let number = ((first^sec)/1000)+10;
@@ -387,7 +378,7 @@ commands.add("penis", function(channel, full, parts){
 	text += "Shows the penis size of the user mentioned through some crazy math based on the user's id.\n";
 	return text;
 });
-commands.add("iq", function(channel, full, parts){
+commands.add("iq", function(channel, name, full, parts){
 	let iq_images = {
 		0: "https://i.imgur.com/Gj4spKz.jpg",
 		100: "https://i.imgur.com/pBRNm4a.png",
@@ -395,7 +386,7 @@ commands.add("iq", function(channel, full, parts){
 		200: "https://i.imgur.com/IIsGAI4.jpg",
 		300: "https://i.imgur.com/eagqBxP.png"
 	};
-	let user_id = parts[1].match(/^<@\!?(.+)>$/)[1];
+	let user_id = parts[0].match(/^<@\!?(.+)>$/)[1];
 	let first = user_id.substring(user_id.length-8, user_id.length-4)/"9999";
 	let sec = user_id.substring(user_id.length-4)/"9999";
 	let IQ = Math.sqrt(-2.0 * Math.log(first)) * Math.cos(2.0 * Math.PI * sec);
@@ -432,7 +423,7 @@ commands.add("iq", function(channel, full, parts){
 	text += "Shows the iq of the user mentioned through some crazy math based on the user's id.\n";
 	return text;
 });
-commands.add("roll", function(channel, full, parts){
+commands.add("roll", function(channel, name, full, parts){
 	let reactions = [
 		"https://i.imgur.com/sxQnhVm.jpg",
 		"https://i.imgur.com/usuAgu3.jpg",
@@ -440,13 +431,12 @@ commands.add("roll", function(channel, full, parts){
 		"https://i.imgur.com/6fycPCo.jpg",
 		"https://i.imgur.com/mlIF485.jpg"
 	];
-	parts.shift();
 	let number = (Math.random()*1000000000)|0;
 	let digits = (number+"").match(/((.)\2+)$/g);
 	let embed = new Discord.Embed();
 	embed.setAuthorIcon("https://i.imgur.com/m9DpkTr.jpg");
 	embed.setAuthorName("Rolled "+number);
-	embed.description = parts.join(" ");
+	embed.description = full;
 	if(digits){
 		let reaction = reactions[digits[0].length-2];
 		if(!reaction) reaction = reactions[reactions.length-1];
@@ -467,8 +457,7 @@ commands.add("roll", function(channel, full, parts){
 	text += "Time to get those repeating digits.\n";
 	return text;
 });
-commands.add("loop", function(channel, full, parts){
-	parts.shift();
+commands.add("loop", function(channel, name, full, parts){
 	let n = parts.shift();
 	let content = parts.join(" ");
 	let rq = new Discord.RequestQueue();
@@ -485,8 +474,7 @@ commands.add("loop", function(channel, full, parts){
 	text += "The message can be a command."
 	return text;
 });
-commands.add("time", function(channel, full, parts){
-	parts.shift();
+commands.add("time", function(channel, name, full, parts){
 	let n = parts.shift();
 	let time = parts.shift()*1000;
 	let content = parts.join(" ");
@@ -507,10 +495,9 @@ commands.add("time", function(channel, full, parts){
 	text += "The message can be a command."
 	return text;
 });
-commands.add("verb", function(channel, full, parts, context){
-	parts.shift();
+commands.add("verb", function(channel, name, full, parts, context){
 	let top_text = "";
-	let bottom_text = context[0]+" "+parts.join(" ");
+	let bottom_text = context[0]+" "+full;
 	discord.getUserFromChannel(channel, discord.user).then(function(guild_member){
 		let name = guild_member.nick?guild_member.nick:guild_member.user.username;
 		let embed = new Discord.Embed();
@@ -537,8 +524,7 @@ commands.alias("verb", "kiss", function(){return ["kissed", "https://i.imgur.com
 commands.alias("verb", "kill", function(){return ["killed", "https://i.imgur.com/3hIgEF5.png"]});
 commands.alias("verb", "awoo", function(){return ["awooed", "https://i.imgur.com/9LG19PH.jpg"]});
 commands.alias("verb", "pat", function(){return ["patted", "https://i.imgur.com/uRc2B0v.gif"]});
-commands.add("play", function(channel, full, parts){
-	parts.shift();
+commands.add("play", function(channel, name, full, parts){
 	Discord.MusicPlayer.add(parts.shift());
 	return true;
 }, function(){
@@ -547,7 +533,7 @@ commands.add("play", function(channel, full, parts){
 	text += "This will also add the video to a list that loops, and more than one video can be added";
 	return text;
 });
-commands.add("stop", function(channel, full, parts){
+commands.add("stop", function(channel, name, full, parts){
 	Discord.MusicPlayer.stop();
 	return true;
 }, function(){
@@ -555,19 +541,17 @@ commands.add("stop", function(channel, full, parts){
 	text += "Will stop the currently playing video and clear the list.\n";
 	return text;
 });
-commands.add("eval", function(channel, full, parts){
-	parts.shift();
-	let code = full.substr(5);
+commands.add("eval", function(channel, name, full, parts){
 	let result;
 	try {
-		result = eval(code);
+		result = eval(full);
 	}catch(e){
 		result = e;
 	}
 	let embed = new Discord.Embed();
 	//embed.setAuthorIcon(discord.getUserIcon(user_id, guild_member.user.avatar));
 	embed.setAuthorName("Eval");
-	embed.addField("Code:", "```js\n"+code+"\n```");
+	embed.addField("Code:", "```js\n"+full+"\n```");
 	embed.addField("Result:", "```js\n"+result+"\n```");
 	return {content:"", embed};
 }, function(){
