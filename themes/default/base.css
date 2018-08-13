@@ -21,7 +21,7 @@ body::before{
 	background-color:rgba(0,0,0,0.7) !important;
 }
 
-[class*="app-"] > div[style],
+#app-mount [class*="app-"] > div[style],
 [class*="titleBar-"]{
 	background-color:rgba(0,0,0,0.7) !important;
 }

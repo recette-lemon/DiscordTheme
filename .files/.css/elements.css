@@ -230,7 +230,7 @@
 	box-sizing:border-box;
 	background:#2f3136;
 }
-.dt-line-container::before {
+.dt-line-container:not([root])::before {
     content: "Shift + click - add an optional message";
     position: absolute;
     bottom: 100%;
