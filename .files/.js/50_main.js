@@ -1,6 +1,7 @@
 let messageGroupClass = "[class*='messages-'] > [class*='containerCozy-'][class*='container-']";
 let messageClass = "[class*='messageCozy-'][class*='message-']";
 let textareaClass = "[class*='channelTextArea-']";
+let reactionClass = "[class*='reaction-'][class*='reactionMe-']";
 
 /* Auxiliary Functions */
 function reverseEach(obj, fn){
@@ -135,15 +136,16 @@ window.addEventListener("load", function(){
 });
 window.addEventListener("click", function(e){
 	let t = e.target;
-	if(t.parentNode.className=="reaction reaction-me") t = t.parentNode;
-	if(t.className=="reaction reaction-me"){
+	let c = t.closest(reactionClass);
+	if(c) t = c;
+	if(t.matches(reactionClass)){
 		let msg = t.closest(messageClass);
 		let comment = msg.parentNode;
 		let index = Array.prototype.indexOf.call(comment.children, msg);
 		let message_id = comment.getReactReturn(2).memoizedProps.messages[index].id;
 		let message = Discord.ReactionMessages.get(message_id);
 		if(message){
-			let emoji = encodeURIComponent(t.children[0].alt);
+			let emoji = encodeURIComponent(t.querySelector("img").alt);
 			message.react(emoji);
 			e.stopImmediatePropagation();
 		}
