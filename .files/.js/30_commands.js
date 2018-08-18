@@ -118,7 +118,7 @@ commands.add("image", function(channel, name, full, parts){
 	text += "Will search the images folder for an image containing your filter word and post it.\n";
 	return text;
 });
-commands.add("constanza", function(channel, name, full, parts){
+commands.add("costanza", function(channel, name, full, parts){
 	let images = new Discord.File("images").list(name+"\.");
 	images[0].read().then(function(file){
 		let form = new FormData();
@@ -128,8 +128,8 @@ commands.add("constanza", function(channel, name, full, parts){
 	});
 	return true;
 }, function(){
-	let text = "```\n/constanza <message>\n```\n";
-	text += "Will post the image constanza from the images folder with the message attached.\n";
+	let text = "```\n/costanza <message>\n```\n";
+	text += "Will post the image costanza from the images folder with the message attached.\n";
 	return text;
 });
 commands.add("duck", function(channel, name, full, parts){

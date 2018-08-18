@@ -81,5 +81,5 @@ echo Repacked "%d_core%\core.asar">>instalation.log
 rem #run discord manually cuz fuck batch scripts
 echo.
 echo --- SUCCESS ---
-pause>nul
+start "" "%d_path%Discord.exe"
 :EOF
