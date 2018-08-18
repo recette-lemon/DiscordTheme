@@ -135,7 +135,7 @@ commands.add("constanza", function(channel, name, full, parts){
 commands.add("duck", function(channel, name, full, parts){
 	let images = new Discord.File("images").list(name+"\.");
 	let text = full.toUpperCase();
-	images[0].read().then(function(file){
+	images[0].readBase64().then(function(b){
 		let image = new Image();
 		image.onload = function(){
 			let canvas = document.createElement("canvas");
@@ -219,7 +219,7 @@ commands.add("duck", function(channel, name, full, parts){
 			});
 			
 		}
-		image.src = URL.createObjectURL(file);
+		image.src = b;
 	});
 	return true;
 }, function(){
