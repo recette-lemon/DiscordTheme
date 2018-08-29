@@ -9,8 +9,7 @@ It comes with a default css theme and some aditional functions coded in.
 ## Installing
 
 * Download the zip or clone the project
-* Run `install.bat` while discord is running (this will close discord)
-* Start discord manually again
+* Run `install.bat` while discord is running (this will close discord and start it again)
 
 ## Problems
 
