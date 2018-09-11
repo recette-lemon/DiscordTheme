@@ -231,9 +231,21 @@ window.XMLHttpRequest = function(){
 				if(newData !== false){
 					if(newData === true){
 						Discord.Nonces.add(d.nonce);
+						xhr.getResponseHeader = function(h){
+							let headers = {
+								"content-type": "application/json"
+							};
+							return headers[h.toLowerCase()];
+						}
+						/*
 						xhr.setProperty("status", 404);
 						xhr.setProperty("readyState", 4);
+						xhr.setProperty("responseText", JSON.stringify({
+							"code": 0,
+							"message": "404: Not Found"
+						}));
 						xhr.onreadystatechange();
+						*/
 						xhr.setProperty("status", 200);
 						xhr.setProperty("readyState", 4);
 						xhr.setProperty("responseText", JSON.stringify({
@@ -250,12 +262,6 @@ window.XMLHttpRequest = function(){
 							"mentions": [], 
 							"type": 0
 						}));
-						xhr.getResponseHeader = function(h){
-							let headers = {
-								"content-type": "application/json"
-							};
-							return headers[h.toLowerCase()];
-						}
 						xhr.onreadystatechange();
 						return;
 					}else if(newData !== undefined){
