@@ -382,6 +382,10 @@
 	flex-direction:column;
 }
 .dt-file-dialog .dt-file-dialog-right .dt-file-dialog-name{
+	max-width: 325px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 	margin-bottom:12px;
 	margin-left:8px;
 	color:white;
