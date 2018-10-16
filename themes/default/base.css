@@ -89,7 +89,7 @@ body::before{
 	border-bottom:1px solid rgba(255,255,255,0.1);
 }
 header[class*="header-"],
-[class*="titleWrapper-"] [class*="title-"],
+[class*="titleWrapper-"] [class*="title-"]:not([class*="weightSemiBold-"]),
 [class*="headerBar-"],
 .search-bar,
 .themed-popout .header,
@@ -273,6 +273,9 @@ form > [class*="typing-"]{
 .message-group {
     background: none!important;
     box-shadow: none!important;
+}
+.topic-2QX7LI:before{
+	display:none;
 }
 
 /* Image placeholder */
