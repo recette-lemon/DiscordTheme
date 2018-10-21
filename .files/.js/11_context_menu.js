@@ -1,7 +1,8 @@
 Discord.ContextMenu = function(target){
 	if(!(target.className.startsWith("contextMenu") && target.parentNode.id=="app-mount")) return false;
-	let react = target.getReactInstance();
-	let props = react.return.memoizedProps;
+	let react = target.getReactReturn(2);
+	if(!react.memoizedProps.type) react = react.return;
+	let props = react.memoizedProps;
 	let type = null;
 	let context = {
 		type:null,
@@ -107,6 +108,7 @@ Discord.ContextMenu.TYPE_USER = 3;
 Discord.ContextMenu.COLOR_RED = "#ef4646";
 Discord.ContextMenu.COLOR_GREEN = "#43b55f";
 Discord.ContextMenu.COLOR_BLUE = "#0096cf";
+Discord.ContextMenu.COLOR_ORANGE = "#faa61a";
 
 /* Auxiliary Functions */
 function downloadFile(context){
@@ -168,6 +170,7 @@ Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_MESSAGE] = [
 Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_USER] = [
 	{
 		name:"Get Info",
+		color:Discord.ContextMenu.COLOR_ORANGE,
 		fn:function(context){
 			discord.sendMessage(context.channel, {content:"/info <@"+context.user+">"});
 		}

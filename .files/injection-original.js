@@ -103,7 +103,7 @@ if(!/overlay/.test(location.pathname)){
 		}
 	}
 	window.addEventListener("DOMContentLoaded", function(){
-		let nonce = document.querySelector("[nonce]").getAttribute("nonce");
+		let nonce = DT.nonce = document.querySelector("[nonce]").getAttribute("nonce");
 		window.applyAndWatchCSS(DT.root+".files\\.css", false, nonce);
 		injectJS(DT.root+".files\\.js", false, nonce);
 		injectJS(DT.root+"code", false, nonce);

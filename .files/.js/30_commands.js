@@ -525,23 +525,6 @@ commands.alias("verb", "kill", function(){return ["killed", "https://i.imgur.com
 commands.alias("verb", "awoo", function(){return ["awooed", "https://i.imgur.com/9LG19PH.jpg"]});
 commands.alias("verb", "pat", function(){return ["patted", "https://i.imgur.com/uRc2B0v.gif"]});
 commands.alias("verb", "bully", function(){return ["bullied", "https://i.imgur.com/8WvdHZA.gif"]});
-commands.add("play", function(channel, name, full, parts){
-	Discord.MusicPlayer.add(parts.shift());
-	return true;
-}, function(){
-	let text = "```\n/play <youtube url>\n```\n";
-	text += "Will play the sound of the youtube video locally.\n";
-	text += "This will also add the video to a list that loops, and more than one video can be added";
-	return text;
-});
-commands.add("stop", function(channel, name, full, parts){
-	Discord.MusicPlayer.stop();
-	return true;
-}, function(){
-	let text = "```\n/stop\n```\n";
-	text += "Will stop the currently playing video and clear the list.\n";
-	return text;
-});
 commands.add("eval", function(channel, name, full, parts){
 	let result;
 	try {
