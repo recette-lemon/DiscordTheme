@@ -1,5 +1,5 @@
 Discord.Settings = function(target){
-	let settings = target.querySelector(".ui-standard-sidebar-view");
+	let settings = target.querySelector('[class*="standardSidebarView-"]');
 	if(!settings || settings.getReactReturn(2).memoizedProps.section!="My Account") return false;
 	function getClass(target, c){
 		let name;
@@ -9,7 +9,7 @@ Discord.Settings = function(target){
 	function getClassName(target, c){
 		return target.querySelector('[class*="'+c+'-"]').className;
 	}
-	let sidebar = settings.querySelector(".sidebar").children[0];
+	let sidebar = settings.querySelector('[class*="sidebar-"]').children[0];
 	let headerClass = getClass(sidebar, "header");
 	let itemClass = getClass(sidebar, "item");
 	let itemDefaultClass = getClass(sidebar, "itemDefault");
@@ -17,15 +17,15 @@ Discord.Settings = function(target){
 	let notSelectedClass = getClass(sidebar, "notSelected");
 	let selectedClass = getClass(sidebar, "selected");
 	let place = sidebar.children[sidebar.children.length-5];
-	let notSelectedClassName = `${itemDefaultClass} ${itemClass} ${notSelectedClass}`;
-	let selectedClassName = `${itemSelectedClass} ${itemClass} ${selectedClass}`;
+	let notSelectedClassName = [itemDefaultClass, itemClass, notSelectedClass].join(" ");
+	let selectedClassName = [itemSelectedClass, itemClass, selectedClass].join(" ");
 	
 	let title = document.createElement("div");
 	title.className = headerClass;
 	title.innerHTML = Discord.Settings.Title;
 	sidebar.insertBefore(title, place);
 	
-	let content = settings.querySelector(".content-column");
+	let content = settings.querySelector('[class*="contentColumn-"]');
 
 	sidebar.addEventListener("mousedown", function(e){
 		if(!e.target.matches("."+itemClass)) return;

@@ -221,6 +221,11 @@ header[class*="header-"],
 [class*="activityFeed-"],
 [class*="activityFeed-"] [class*="card-"],
 
+
+[class*="standardSidebarView-"],
+[class*="sidebarRegion-"],
+[class*="contentRegion-"],
+
 [class*="container-"]:not([class*="modal-"]):not([role="menu"]):not([class*="isMentionedCozy-"]),
 [class*="titleWrapper-"],
 [class*="channels-"],
