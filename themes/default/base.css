@@ -74,6 +74,9 @@ body::before{
 	background-color:linear-gradient(270deg,transparent 0,rgba(0,0,0,0.8)) !important;
 }
 
+[class*="markup-"] code{
+	background:rgba(0,0,0,0.6) !important;
+}
 
 /* Borders */
 [class*="guildsWrapper-"],
@@ -104,6 +107,11 @@ header[class*="header-"],
 }
 .search-result.expanded{
 	border:1px solid rgba(255,255,255,0.1) !important;
+}
+
+[class*="markup-"] pre{
+	border: 1px solid rgba(32, 194, 14, 0.3) !important;
+	overflow: hidden;
 }
 
 /* Colors */
@@ -206,6 +214,7 @@ header[class*="header-"],
 .private-channel-call,
 [class*="chat-"],
 [class*="chat-"] > [class*="content-"],
+[class*="markup-"] pre,
 .friends-table,
 .themed-popout .header,
 .search-results-wrap .search-header,
