@@ -235,7 +235,7 @@ header[class*="header-"],
 [class*="sidebarRegion-"],
 [class*="contentRegion-"],
 
-[class*="container-"]:not([class*="modal-"]):not([role="menu"]):not([class*="isMentionedCozy-"]),
+[class*="container-"]:not([class*="modal-"]):not([role="menu"]):not([class*="isMentionedCozy-"]):not([class*="elevationBorderHigh-"]),
 [class*="titleWrapper-"],
 [class*="channels-"],
 form > [class*="typing-"],

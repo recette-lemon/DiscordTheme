@@ -1,5 +1,5 @@
-let messageGroupClass = "[class*='messages-'] > [class*='containerCozy-'][class*='container-']";
-let messageClass = "[class*='messageCozy-'][class*='message-']";
+let messageGroupClass = "[class*='messages-'] > [class*='containerCozy-'][class*='container-'], [class*='messages-'] > [class*='containerCompact-'][class*='container-']";
+let messageClass = "[class*='messageCozy-'][class*='message-'], [class*='messageCompact-'][class*='message-']";
 let textareaClass = "[class*='channelTextArea-']";
 let reactionClass = "[class*='reaction-'][class*='reactionMe-']";
 
