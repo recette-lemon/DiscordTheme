@@ -544,6 +544,24 @@ commands.add("eval", function(channel, name, full, parts){
 	return text;
 });
 commands.alias("eval", "code");
+commands.add("translate", function(channel, name, full, parts){
+	let lang = parts.shift();
+	let text = parts.join("");
+	console.log(parts, full);
+	let embed = new Discord.Embed();
+	embed.setAuthorIcon("https://i.imgur.com/MbBWnTe.png");
+	embed.setAuthorName("Translate");
+	embed.addField("Original:", text);
+	Discord.Translator.translate(text, lang).then(function(text){
+		embed.addField("Translation ("+lang+"):", text);
+		discord.sendMessage(channel, {content:"", embed});
+	});
+	return true;
+}, function(){
+	let text = "```\n/translate <language> <text>\n```\n";
+	text += "Will translate the text into the given language.\n";
+	return text;
+});
 commands.catch = function(channel, message){
 	if(Discord.Settings.Raw.GENERAL_IMAGE_LINKS && 
 	   message.trim().match(/^https?:\/\/[^ \r\n#]+(jpg|gif|png|jpeg)(\?[^ ]*)?$/i)){

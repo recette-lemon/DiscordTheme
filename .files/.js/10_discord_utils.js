@@ -147,6 +147,42 @@ Discord.File = function(filename){
 	}
 	
 }
+
+Discord.Date = new (function(){
+	let EPOCH = 1420070400000;
+	
+	this.fromId = function(id){
+		let binary = (+id).toString(2).padStart(64, '0');
+		let timestamp = parseInt(binary.substring(0, 42), 2) + EPOCH;
+		return new Date(timestamp);
+	}
+	let lastTimestamp, increment=0;
+	this.toId = function(timestamp){
+		if(!timestamp) timestamp = Date.now();
+		if(timestamp==lastTimestamp){
+			increment++;
+		}else{
+			increment = 0;
+		}
+		lastTimestamp=timestamp;
+		let binary = `${(timestamp-EPOCH).toString(2).padStart(42, '0')}0000100000${(increment++).toString(2).padStart(12, '0')}`;
+		return parseInt(binary, 2);
+	}
+	
+	this.difference = function(d1, d2){
+		let diff = new Date(d1.getTime() - d2.getTime());
+		let years = diff.getUTCFullYear() - 1970;
+		let months = diff.getUTCMonth();
+		let days = diff.getUTCDate() - 1;
+		let text = "";
+		if(years) text+=years+(years==1?" year ":" years ");
+		if(months) text+=months+(months==1?" month ":" months ");
+		if(days || (!years && !months))text+=days+(days==1?" day ":" days");
+		return text.trim();
+	}
+});
+
+/* Requests */
 Discord.Request = function(){
 	let _this = this;
 	let headers = {};
@@ -268,19 +304,6 @@ Discord.RequestQueue = function(){
 			});
 	}
 }
-Discord.ReactionMessages = new (function(){
-	let messages = {};
-	
-	this.add = function(id, obj){
-		messages[id] = obj;
-	}
-	this.get = function(id){
-		return messages[id];
-	}
-	this.remove = function(id){
-		delete messages[id];
-	}
-})();
 Discord.Search = function(type){
 	let _this = this;
 	let channel, message, search;
@@ -427,6 +450,24 @@ Discord.Search = function(type){
 		});
 	}
 }
+Discord.Translator = new (function(){
+	let url = "https://translate.google.com/m";
+	
+	this.translate = function(text, language){
+		return new Promise(function(succ){
+			let request = new Discord.Request();
+			request.open("GET", url+"?sl=auto&hl="+language+"&q="+text);
+			request.setHeader("User-Agent", Discord.UserAgent);
+			request.send().then(function(response){
+				let doc = new DOMParser().parseFromString(response.body, "text/html");
+				let element = doc.querySelector(".t0");
+				succ(element.textContent);
+			});
+		});
+	}
+})();
+
+/* Messages */
 Discord.Nonces = new (function(){
 	let nonces = {};
 	
@@ -447,39 +488,21 @@ Discord.Messages = new (function(){
 		return !!messages[id];
 	}
 })();
-Discord.Date = new (function(){
-	let EPOCH = 1420070400000;
+Discord.ReactionMessages = new (function(){
+	let messages = {};
 	
-	this.fromId = function(id){
-		let binary = (+id).toString(2).padStart(64, '0');
-		let timestamp = parseInt(binary.substring(0, 42), 2) + EPOCH;
-		return new Date(timestamp);
+	this.add = function(id, obj){
+		messages[id] = obj;
 	}
-	let lastTimestamp, increment=0;
-	this.toId = function(timestamp){
-		if(!timestamp) timestamp = Date.now();
-		if(timestamp==lastTimestamp){
-			increment++;
-		}else{
-			increment = 0;
-		}
-		lastTimestamp=timestamp;
-		let binary = `${(timestamp-EPOCH).toString(2).padStart(42, '0')}0000100000${(increment++).toString(2).padStart(12, '0')}`;
-		return parseInt(binary, 2);
+	this.get = function(id){
+		return messages[id];
 	}
-	
-	this.difference = function(d1, d2){
-		let diff = new Date(d1.getTime() - d2.getTime());
-		let years = diff.getUTCFullYear() - 1970;
-		let months = diff.getUTCMonth();
-		let days = diff.getUTCDate() - 1;
-		let text = "";
-		if(years) text+=years+(years==1?" year ":" years ");
-		if(months) text+=months+(months==1?" month ":" months ");
-		if(days || (!years && !months))text+=days+(days==1?" day ":" days");
-		return text.trim();
+	this.remove = function(id){
+		delete messages[id];
 	}
-});
+})();
+
+/* UI */
 Discord.Modal = function(modal, permanent){
 	modal.classList.add("dt-modal");
 	
