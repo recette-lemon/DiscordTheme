@@ -496,20 +496,17 @@ commands.add("time", function(channel, name, full, parts){
 	return text;
 });
 commands.add("verb", function(channel, name, full, parts, context){
-	let top_text = "";
+	let embed = new Discord.Embed();
+	embed.setImage(context[1]);
 	let bottom_text = context[0]+" "+full;
 	discord.getUserFromChannel(channel, discord.user).then(function(guild_member){
 		let name = guild_member.nick?guild_member.nick:guild_member.user.username;
-		let embed = new Discord.Embed();
 		embed.description = name+" "+bottom_text;
-		embed.setImage(context[1]);
-		discord.sendMessage(channel, {content:top_text, embed});
+		discord.sendMessage(channel, {content:"", embed});
 	}, function(){
 		discord.getMe().then(function(me){
-			let embed = new Discord.Embed();
 			embed.description = me.username+" "+bottom_text;
-			embed.setImage(context[1]);
-			discord.sendMessage(channel, {content:top_text, embed});
+			discord.sendMessage(channel, {content:"", embed});
 		});
 	});
 	return true;
@@ -546,8 +543,7 @@ commands.add("eval", function(channel, name, full, parts){
 commands.alias("eval", "code");
 commands.add("translate", function(channel, name, full, parts){
 	let lang = parts.shift();
-	let text = parts.join("");
-	console.log(parts, full);
+	let text = parts.join(" ");
 	let embed = new Discord.Embed();
 	embed.setAuthorIcon("https://i.imgur.com/MbBWnTe.png");
 	embed.setAuthorName("Translate");
@@ -564,7 +560,7 @@ commands.add("translate", function(channel, name, full, parts){
 });
 commands.catch = function(channel, message){
 	if(Discord.Settings.Raw.GENERAL_IMAGE_LINKS && 
-	   message.trim().match(/^https?:\/\/[^ \r\n#]+(jpg|gif|png|jpeg)(\?[^ ]*)?$/i)){
+	   message.match(/^https?:\/\/[^ \r\n#]+(jpg|gif|png|jpeg)(\?[^ ]*)?$/i)){
 		let r = new Discord.Request();
 		r.getFile(message.trim()).then(function(file){
 			if(Discord.Settings.Raw.GENERAL_IMAGE_LINK_DIALOG){

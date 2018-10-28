@@ -58,7 +58,7 @@ body::before{
 	background-color: rgba(255,255,255,0.2) !important;
 }
 
-#app-mount .notice-region [class*="container-"]{
+#app-mount [class*="noticeRegion-"] [class*="container-"]{
 	background:rgba(0,0,0,0.6) !important;
 }
 
@@ -235,7 +235,7 @@ header[class*="header-"],
 [class*="sidebarRegion-"],
 [class*="contentRegion-"],
 
-[class*="container-"]:not([class*="modal-"]):not([role="menu"]):not([class*="isMentionedCozy-"]):not([class*="elevationBorderHigh-"]),
+:not([class*="popout-"]) > [class*="container-"]:not([class*="modal-"]):not([role="menu"]):not([class*="isMentionedCozy-"]),
 [class*="titleWrapper-"],
 [class*="channels-"],
 form > [class*="typing-"],

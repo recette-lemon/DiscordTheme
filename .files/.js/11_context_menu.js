@@ -33,6 +33,7 @@ Discord.ContextMenu = function(target){
 			}
 			break;
 		}
+		case "USER_GROUP_DM":
 		case "USER_CHANNEL_MEMBERS":
 		case "USER_CHANNEL_MESSAGE":
 		case "USER_CHANNEL_MENTION":

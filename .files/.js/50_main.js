@@ -75,7 +75,7 @@ function fixImageUpload(um){
 		let filename = filenameElement.textContent;
 		if(!filename.match(/\..+/)){
 			Object.defineProperty(fileState, "name", {
-				value:filename+"."+ext,
+				value:filename+(ext?"."+ext:""),
 				configurable: true
 			});
 		}else if(filename!=fileState.name){

@@ -235,7 +235,8 @@ Discord.Request = function(){
 		let dir = DT.root+".files/.tmp/";
 		let tmp = dir+(new Date().getTime())+"_"+name;
 		if(!_fs.existsSync(dir)) _fs.mkdirSync(dir);
-		let extension = name.split(".").pop();
+		let extension = name.split(".");
+		extension = extension.length==1?undefined:extension.pop();
 		_this.open("GET", url);
 		let locationPromise;
 		if(!location){
