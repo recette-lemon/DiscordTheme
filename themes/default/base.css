@@ -16,13 +16,40 @@ body::before{
 	background-color:rgba(0,0,0,0.5) !important;
 }
 
+/* The mess that is the top bar */
+[class*="wordmark-"]{
+	position:relative !important;
+	top:0 !important;
+	left:0 !important;
+	padding:0 0 0 8px !important;
+}
+[class*="winButton-"]{
+	top:0px !important;
+}
+#app-mount [class*="titleBar-"]{
+	flex-direction: row;
+	align-items:center;
+	height: 22px;
+	margin-top:0px;
+}
+[class*="winButtonMinMax-"] + [class*="winButtonMinMax-"]{
+	order:10;
+	margin-left:auto;
+}
+[class*="winButtonMinMax-"]{
+	order:11;
+}
+[class*="winButtonClose-"]{
+	order:12;
+}
+
 /* Background Color */
 .tooltip{
 	background-color:rgba(0,0,0,0.7) !important;
 }
 
 #app-mount [class*="app-"] > div[style],
-[class*="titleBar-"]{
+#app-mount [class*="titleBar-"]{
 	background-color:rgba(0,0,0,0.7) !important;
 }
 .messages-popout-wrap{
@@ -245,10 +272,6 @@ form > [class*="typing-"],
 [class*="layers-"],
 [class*="layer-"]{
 	background: none !important;
-}
-#app-mount [class*="titleBar-"]{
-	padding-top:4px;
-	margin-top:0px;
 }
 [class*="base-"]{
 	border-radius:0;

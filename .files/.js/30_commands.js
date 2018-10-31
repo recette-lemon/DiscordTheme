@@ -19,6 +19,7 @@ Discord.CommandParser = function(){
 	
 	/* A shadow command cannot be called directly, only through an alias. */
 	this.add = function(name, run, help, shadow){
+		name = name.toLowerCase();
 		commands[name] = {name, run, help};
 		if(shadow) shadowCommands[name] = true;
 	}
@@ -36,6 +37,7 @@ Discord.CommandParser = function(){
 				let parts = m.split(/ +/);
 				let first = parts.shift();
 				m = m.substring(m.match(RegExp(first+" *"))[0].length);
+				first = first.toLowerCase();
 				if(!shadowCommands[first] && alias[first])
 					return commands[alias[first]].run(channel, first, m, parts, aliasB4[first]());
 				if(!shadowCommands[first] && commands[first])
