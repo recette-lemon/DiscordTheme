@@ -105,6 +105,10 @@ body::before{
 	background:rgba(0,0,0,0.6) !important;
 }
 
+[class*="privateChannels-"] .search-bar {
+	background-color: rgba(255,255,255,0.1);
+}
+
 /* Borders */
 [class*="guildsWrapper-"],
 .private-channels,
@@ -117,6 +121,11 @@ body::before{
 }
 [class*="videoHeight-"]{
 	border-bottom:1px solid rgba(255,255,255,0.1);
+}
+[class*="privateChannels-"] [class*="searchBar-"]{
+	border-bottom:1px solid rgba(255,255,255,0.1);
+	box-shadow:none !important;
+	box-sizing: border-box;
 }
 header[class*="header-"],
 [class*="titleWrapper-"] [class*="title-"]:not([class*="weightSemiBold-"]),
@@ -159,6 +168,10 @@ header[class*="header-"],
 [class*="nameHoveredText-"]{
 	color:rgba(255,255,255,1) !important;
 }
+[class*="privateChannels-"] .search-bar input::-webkit-input-placeholder {
+	color: rgba(255,255,255,0.5);
+	font-weight: 14px;
+}
 .messages-popout-wrap .messages-popout .message-group .action-buttons .jump-button:hover .text{
 	color: white !important;
 }
@@ -182,11 +195,11 @@ header[class*="header-"],
 }
 
 /* Hovers and Selected and etc */
-.private-channels .channel:hover a,
+[class*="privateChannels-"] [class*="channel"]:hover a,
 [class*="contentHoveredText-"]{
 	background-color:rgba(255,255,255,0.1) !important;
 }
-.private-channels .channel.selected a,
+[class*="privateChannels-"] [class*="channel"][class*="selected"] a,
 [class*="contentSelectedText-"]{
 	background-color:rgba(255,255,255,0.2) !important;
 }
@@ -270,7 +283,10 @@ form > [class*="typing-"],
 [class*="videoHeight-"] [class*="vertical-"],
 [class*="title-"],
 [class*="layers-"],
-[class*="layer-"]{
+[class*="layer-"],
+
+[class*="privateChannels-"] .search-bar .search-bar-inner
+{
 	background: none !important;
 }
 [class*="base-"]{
