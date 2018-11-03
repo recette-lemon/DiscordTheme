@@ -132,7 +132,6 @@ window.addEventListener("load", function(){
 		}
 	});
 	Discord.Console.init();
-	Discord.MusicPlayer.init();
 });
 window.addEventListener("click", function(e){
 	let t = e.target;
@@ -191,6 +190,12 @@ window.addEventListener("DOMNodeInserted", function (e) {
 		
 		if(target.matches(textareaClass)){
 			fixTextArea(target);
+		}
+		
+		if(target.matches('[class*="modal-"]')){
+			let img = target.querySelector("img");
+			let name = img.src.split("/").pop().split(/(\?|\#)/)[0];
+			target.querySelector('[class*="imageWrapper-"]').setAttribute("filename", name);
 		}
 	}
 });

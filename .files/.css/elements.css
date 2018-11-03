@@ -166,40 +166,6 @@
 	color:#72767d;
 }
 
-/* Music Player */
-[class*="wordmark-"]{
-	top:-1px !important;
-}
-#app-mount > [class*="titleBar-"]{
-	position:relative;
-}
-.dt-music-player{
-	position: absolute;
-    top: 0;
-    left: 65px;
-    height: 100%;
-	display:flex;
-	align-items:center;
-	pointer-events:all !important;
-	-webkit-app-region: no-drag;
-}
-.dt-music-player svg{
-	fill:white;
-}
-.dt-music-player .dt-music-player-button{
-	width:20px;
-	height:20px;
-	padding:2px;
-	box-sizing:border-box;
-	cursor:pointer;
-}
-.dt-music-player.dt-music-player-playing #dt-music-player-play .svg-play{
-	display:none;
-}
-.dt-music-player:not(.dt-music-player-playing) #dt-music-player-play .svg-pause{
-	display:none;
-}
-
 /* LINE Stickers */
 [class*='channelTextArea-'] textarea{
 	padding-right:74px;
@@ -472,4 +438,17 @@
     padding: 5px 10px;
     font-size: 12px;
     font-family: Consolas,Liberation Mono,Menlo,Courier,monospace;
+}
+
+/* Image Name */
+[class*="modal-"] [class*="imageWrapper-"]{
+	overflow:visible !important;
+}
+[class*="modal-"] [class*="imageWrapper-"]::before{
+	content:attr(filename);
+	display:block;
+	position:absolute;
+	bottom:100%;
+	left:0;
+	color:white;
 }
