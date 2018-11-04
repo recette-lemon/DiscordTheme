@@ -432,10 +432,9 @@
 [class*="channelTextArea-"] > [class*="inner-"][count]::after {
     content: attr(count) "/2000";
     position: absolute;
-    right: 0;
-    top: 100%;
+    right: 0; bottom: 100%;
     color: white;
-    padding: 5px 10px;
+    padding: 4px 0px;
     font-size: 12px;
     font-family: Consolas,Liberation Mono,Menlo,Courier,monospace;
 }
@@ -448,7 +447,7 @@
 	content:attr(filename);
 	display:block;
 	position:absolute;
-	bottom:100%;
-	left:0;
+	bottom:100%; left:0;
+	padding-bottom:5px;
 	color:white;
 }

@@ -296,6 +296,7 @@ form > [class*="typing-"],
 form > [class*="typing-"]{
 	margin:0;
 	padding:0px 20px;
+	box-sizing: border-box;
 }
 .messages-popout-wrap .messages-popout .message-group .action-buttons{
 	box-shadow: none !important;
