@@ -166,7 +166,6 @@ general.addToggle("Image Links", "When posting an image link as a message, repla
 general.addToggle("Image Link Dialog", "Show a dialog when posting an image link with the above option enabled.", false);
 general.addToggle("Character Count", "Add a character count to the bottom right of the textarea.", false);
 general.addToggle("Greentext", "Color lines beginning with > in green.", false);
-general.addToggle("Desu", "Add desu to the end of messages.", false);
 
 //THEME
 let theme = Discord.Settings.Items.createGroup("Theme");
