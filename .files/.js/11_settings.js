@@ -62,12 +62,11 @@ Discord.Settings.Prefix = "DISCORD_THEME_";
 Discord.Settings.Raw = {};
 Discord.Settings.Title = "Theme Settings";
 Discord.Settings.Items = new (function(){
-	let groupsIndex = {};
+	let groupsIndex = this.Groups = {};
 	let groups = [];
 	function Group(group){
 		this.name = group;
-		this.div = document.createElement("div");
-		let div = this.div;
+		let div = this.div = document.createElement("div");
 		div.className = "dt-settings";
 		div.group = group;
 		let title = document.createElement("div");
@@ -108,6 +107,12 @@ Discord.Settings.Items = new (function(){
 			}
 		}
 		
+		this.addSeparator = function(name){
+			let title = document.createElement("div");
+			title.className = "dt-settings-title";
+			title.textContent = name;
+			div.appendChild(title);
+		}
 		this.addToggle = function(name, description, defaultValue){
 			let raw = getRaw(name);
 			let cookie = Discord.Settings.Prefix+raw;

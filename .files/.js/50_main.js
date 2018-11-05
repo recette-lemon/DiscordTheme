@@ -280,8 +280,8 @@ window.XMLHttpRequest = function(){
 							data = JSON.stringify(d);
 						}
 					}
-				}else if(Discord.Settings.Raw.GENERAL_DESU){
-					d.content += " desu";
+				}else if(Discord.Settings.Raw.GENERAL_MODIFIERS){
+					d.content = Discord.MessageModifiers.modify(Discord.Settings.Raw.GENERAL_MODIFIERS, d.content);
 					data = JSON.stringify(d);
 				}
 			}

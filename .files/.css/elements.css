@@ -144,6 +144,9 @@
 	margin-bottom:20px;
 	text-transform:uppercase;
 }
+.dt-settings .dt-settings-title ~ .dt-settings-title{
+	margin-top:50px;
+}
 .dt-settings .dt-settings-item{
 	border-bottom:1px solid hsla(218,5%,47%,.3);
 	padding-bottom:20px;
