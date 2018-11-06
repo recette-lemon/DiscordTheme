@@ -9,9 +9,21 @@
 
 /* Rainbow */
 html[rainbow] [class*="chat-"] [class*="markup"]{
-	background: linear-gradient(to right, orange , yellow, green, cyan, blue, violet);
+	background: linear-gradient(to right,
+		orange , yellow, green, cyan, blue, violet,
+		violet, blue, cyan, green, yellow, orange);
+	background-size: 200%;
+	
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
+
+	background-position: 0px 0px;
+	background-repeat: repeat-x;
+	animation: anim-rainbow 2.5s linear infinite;
+}
+@keyframes anim-rainbow {
+	from { background-position: 0 0; }
+	to { background-position: 200% 0; }
 }
 
 /* Discord Theme Global */
