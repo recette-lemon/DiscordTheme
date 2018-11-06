@@ -10,8 +10,7 @@
 /* Rainbow */
 html[rainbow] [class*="chat-"] [class*="markup"]{
 	background: linear-gradient(to right,
-		orange , yellow, green, cyan, blue, violet,
-		violet, blue, cyan, green, yellow, orange);
+		orange , yellow, green, cyan, blue, violet);
 	background-size: 200%;
 	
 	-webkit-background-clip: text;
