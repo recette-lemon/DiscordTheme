@@ -7,6 +7,13 @@
 	font-weight:500;
 }
 
+/* Rainbow */
+html[rainbow] [class*="chat-"] [class*="markup"]{
+	background: linear-gradient(to right, orange , yellow, green, cyan, blue, violet);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
 /* Discord Theme Global */
 .dt-switch{
 	display:inline-block;
@@ -454,3 +461,4 @@
 	padding-bottom:5px;
 	color:white;
 }
+

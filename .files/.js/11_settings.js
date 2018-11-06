@@ -113,7 +113,7 @@ Discord.Settings.Items = new (function(){
 			title.textContent = name;
 			div.appendChild(title);
 		}
-		this.addToggle = function(name, description, defaultValue){
+		this.addToggle = function(name, description, defaultValue, fn){
 			let raw = getRaw(name);
 			let cookie = Discord.Settings.Prefix+raw;
 			Discord.Settings.Raw[raw] = Discord.Cookies.get(cookie, defaultValue);
@@ -134,6 +134,7 @@ Discord.Settings.Items = new (function(){
 			input.addEventListener("change", function(){
 				Discord.Settings.Raw[raw] = this.checked;
 				Discord.Cookies.set(cookie, this.checked, 365);
+				if(fn) fn();
 			});
 			input.checked = Discord.Settings.Raw[raw];
 		};
@@ -166,6 +167,14 @@ general.addToggle("Image Links", "When posting an image link as a message, repla
 general.addToggle("Image Link Dialog", "Show a dialog when posting an image link with the above option enabled.", false);
 general.addToggle("Character Count", "Add a character count to the bottom right of the textarea.", false);
 general.addToggle("Greentext", "Color lines beginning with > in green.", false);
+general.addToggle("Rainbow Text", "Color all messages in rainbow.", false, setRainbow);
+function setRainbow(){
+	if(Discord.Settings.Raw.GENERAL_RAINBOW_TEXT)
+		document.documentElement.setAttribute("rainbow", true);
+	else
+		document.documentElement.removeAttribute("rainbow");
+}
+setRainbow();
 
 //THEME
 let theme = Discord.Settings.Items.createGroup("Theme");
