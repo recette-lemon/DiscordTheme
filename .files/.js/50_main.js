@@ -12,7 +12,7 @@ function reverseEach(obj, fn){
 	}
 }
 function checkMessageForOutput(child){
-	let nonce = child.getReactReturn(2).memoizedProps.messages[0].id;
+	let nonce = child.getReactReturn(1).memoizedProps.messages[0].id;
 	if(Discord.Nonces.has(nonce)){
 		child.style.display = "none";
 		return true;
@@ -69,7 +69,7 @@ function fixImageUpload(um){
 			submit.click();
 		}
 	}, true);
-	let fileState = um.getReactReturn(2).memoizedState.file;
+	let fileState = um.getReactReturn(1).memoizedState.file;
 	let ext = fileState.type.split("/")[1];
 	function setFilename(){
 		let filename = filenameElement.textContent;
@@ -141,7 +141,7 @@ window.addEventListener("click", function(e){
 		let msg = t.closest(messageClass);
 		let comment = msg.parentNode;
 		let index = Array.prototype.indexOf.call(comment.children, msg);
-		let message_id = comment.getReactReturn(2).memoizedProps.messages[index].id;
+		let message_id = comment.getReactReturn(1).memoizedProps.messages[index].id;
 		let message = Discord.ReactionMessages.get(message_id);
 		if(message){
 			let emoji = encodeURIComponent(t.querySelector("img").alt);

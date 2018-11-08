@@ -1,6 +1,6 @@
 Discord.ContextMenu = function(target){
 	if(!(target.className.startsWith("contextMenu") && target.parentNode.id=="app-mount")) return false;
-	let react = target.getReactReturn(2);
+	let react = target.getReactReturn(1);
 	if(!react.memoizedProps.type) react = react.return;
 	let props = react.memoizedProps;
 	let type = null;
