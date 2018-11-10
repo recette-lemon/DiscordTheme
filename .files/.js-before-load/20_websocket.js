@@ -21,7 +21,7 @@ window.WebSocket = new Proxy(window.WebSocket, {
 		});
 				
 		let openHandler = function(event){
-			//console.log('Open', event);
+			Discord.Gateway.setInstance(instance);
 		};
 		function toArrayBuffer(buf) {
 			var ab = new ArrayBuffer(buf.length);
@@ -42,8 +42,16 @@ window.WebSocket = new Proxy(window.WebSocket, {
 				inflate.once("data", function(chunk){
 					try{
 						let data = _erlpack.unpack(chunk);
-						let prevent = gateway.emit(data.t, data.d);
-						//if(!prevent)
+						let e = new (function(){
+							this.data = data.d;
+							
+							this.prevent = function(){
+								this.prevented = true;
+							}.bind(this);
+						})();
+						gateway.emit(data.t, e);
+						//if(e.prevented)
+						//console.log(data.t, data.d);
 					}catch(e){
 						//ERROR
 					}
@@ -64,16 +72,25 @@ window.WebSocket = new Proxy(window.WebSocket, {
 		
 		instance.send = new Proxy(instance.send, {
 			apply: function(target, thisArg, args) {
-				/*
-				let buffer = args[0];
-				try{
-					let data = _erlpack.unpack(Buffer.from(new Uint8Array(buffer)));
-					//console.log('Send:', data);
-				}catch(e){
-					console.log(e);
+				let ready = false;
+				let own = args[1];
+				if(own){
+					try{
+						args[0] = _erlpack.pack(args[0]).buffer;
+					}catch(e){
+						console.log(e);
+					}
+				}else{
+					let buffer = args[0];
+					try{
+						let data = _erlpack.unpack(Buffer.from(new Uint8Array(buffer)));
+						if(data.op == 2) ready = true;
+					}catch(e){
+						console.log(e);
+					}
 				}
-				*/
 				target.apply(thisArg, args);
+				if(ready) Discord.Gateway.ready();
 			}
 		});
 		
