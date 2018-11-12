@@ -149,6 +149,11 @@ header[class*="header-"],
 	border: 1px solid rgba(32, 194, 14, 0.3) !important;
 	overflow: hidden;
 }
+[class*="markup-"] code.inline{
+	border: 1px solid rgba(255,255,255,0.5) !important;
+	box-sizing:border-box;
+	line-height:1.5rem
+}
 
 /* Colors */
 [class*="nameCollapsed-"],
