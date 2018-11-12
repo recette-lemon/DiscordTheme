@@ -45,7 +45,7 @@ window.Discord = function(){
 		return "https://cdn.discordapp.com/avatars/"+user_id+"/"+avatar+"."+ext+size;
 	}
 	this.getCurrentChannel = function(){
-		return document.querySelector('[class*="chat-"]').getReactReturn(1).memoizedProps.location.pathname.split("/")[3];
+		return document.querySelector('[class*="chat-"]').getReactReturn(2).memoizedProps.location.pathname.split("/")[3];
 	}
 	
 	/* Users */

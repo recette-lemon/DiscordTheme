@@ -53,6 +53,7 @@ window.WebSocket = new Proxy(window.WebSocket, {
 						//if(e.prevented)
 						//console.log(data.t, data.d);
 					}catch(e){
+						//DO NOT REMOVE AGAIN IMPORTANT
 						//ERROR
 					}
 				});
