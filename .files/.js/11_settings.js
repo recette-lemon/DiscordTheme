@@ -1,6 +1,6 @@
 Discord.Settings = function(target){
 	let settings = target.querySelector('[class*="standardSidebarView-"]');
-	if(!settings || settings.getReactReturn(2).memoizedProps.section!="My Account") return false;
+	if(!settings || settings.getReact().memoizedProps.section!="My Account") return false;
 	function getClass(target, c){
 		let name;
 		target.querySelector('[class*="'+c+'-"]').classList.forEach(x=>x.startsWith(c+"-")&&(name=x));

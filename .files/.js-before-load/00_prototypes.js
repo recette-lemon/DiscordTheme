@@ -12,8 +12,15 @@ HTMLElement.prototype.getReactInstance = function(){
 }
 HTMLElement.prototype.getReactReturn = function(num){
 	let react = this.getReactInstance();
-	while(react.tag!=num)
+	while(react && react.tag!=num)
 		react = react.return;
+	return react;
+}
+HTMLElement.prototype.getReact = function(){
+	let react;
+	react = this.getReactReturn(1);
+	if(!react)
+		react = this.getReactReturn(2);
 	return react;
 }
 
