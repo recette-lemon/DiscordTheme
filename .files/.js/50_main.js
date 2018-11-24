@@ -192,7 +192,7 @@ window.addEventListener("DOMNodeInserted", function (e) {
 			fixTextArea(target);
 		}
 		
-		if(target.matches('[class*="modal-"]')){
+		if(target.matches('[class*="backdrop-"] + [class*="modal-"]')){
 			let img = target.querySelector("img");
 			let name = img.src.split("/").pop().split(/(\?|\#)/)[0];
 			target.querySelector('[class*="imageWrapper-"]').setAttribute("filename", name);

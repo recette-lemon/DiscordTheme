@@ -7,6 +7,7 @@ Discord.ContextMenu = function(target){
 	let context = {
 		type:null,
 		user:null,
+		guild:null,
 		channel:null,
 		message:null,
 		url:null
@@ -31,6 +32,12 @@ Discord.ContextMenu = function(target){
 				context.message = props.message.id;
 				context.target = props.target;
 			}
+			break;
+		}
+		case "GUILD_ICON_BAR":{
+			context.type = Discord.ContextMenu.TYPE_GUILD;
+			context.guild = props.guild.id;
+			context.channel = discord.getCurrentChannel();
 			break;
 		}
 		case "USER_GROUP_DM":
@@ -104,6 +111,7 @@ Discord.ContextMenu.TYPE_LINK = 0;
 Discord.ContextMenu.TYPE_ATTACHMENT = 1;
 Discord.ContextMenu.TYPE_MESSAGE = 2;
 Discord.ContextMenu.TYPE_USER = 3;
+Discord.ContextMenu.TYPE_GUILD = 4;
 
 /* Context Menu Colors */
 Discord.ContextMenu.COLOR_RED = "#ef4646";
@@ -174,6 +182,15 @@ Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_USER] = [
 		color:Discord.ContextMenu.COLOR_ORANGE,
 		fn:function(context){
 			discord.sendMessage(context.channel, {content:"/info <@"+context.user+">"});
+		}
+	},
+];
+Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_GUILD] = [
+	{
+		name:"Get Info",
+		color:Discord.ContextMenu.COLOR_ORANGE,
+		fn:function(context){
+			discord.sendMessage(context.channel, {content:"/server "+context.guild});
 		}
 	},
 ];

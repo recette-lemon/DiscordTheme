@@ -44,8 +44,21 @@ window.Discord = function(){
 		}
 		return "https://cdn.discordapp.com/avatars/"+user_id+"/"+avatar+"."+ext+size;
 	}
+	this.getGuildIcon = function(guild_id, guild_icon, size){
+		let ext = "jpg";
+		if(size){
+			size = "?size="+size;
+			ext = "png";
+		} else {
+			size = "";
+		}
+		return "https://cdn.discordapp.com/icons/"+guild_id+"/"+guild_icon+"."+ext+size;
+	}
 	this.getCurrentChannel = function(){
 		return document.querySelector('[class*="chat-"]').getReact().memoizedProps.location.pathname.split("/")[3];
+	}
+	this.getCurrentGuild = function(){
+		return document.querySelector('[class*="guild-"][class*="selected-"]').getReact().memoizedProps.guild.id;
 	}
 	
 	/* Users */
@@ -57,6 +70,9 @@ window.Discord = function(){
 	}
 	
 	/* Guilds */
+	this.getGuild = function(guild){
+		return this.get("/guilds/"+guild);
+	}
 	this.getUserFromGuild = function(guild, user){
 		return this.get("/guilds/"+guild+"/members/"+user);
 	}

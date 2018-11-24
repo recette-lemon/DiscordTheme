@@ -267,6 +267,31 @@ commands.add("info", function(channel, name, full, parts){
 	text += "This can be quickly shown by clicking 'Get Info' on the user context menu.\n";
 	return text;
 });
+commands.add("server", function(channel, name, full, parts){
+	let guild = parts[0];
+	if(!guild) guild = discord.getCurrentGuild();
+	
+	discord.getGuild(guild).then(function(guild){
+		let embed = new Discord.Embed();
+		let icon = discord.getGuildIcon(guild.id, guild.icon, 2048);
+		embed.setAuthorIcon(icon);
+		embed.setAuthorName(guild.name);
+		embed.setImage(icon);
+		embed.addField("Owner:", "<@"+guild.owner_id+">");
+		let createdDate = Discord.Date.fromId(guild.id);
+		let created = createdDate.toISOString().match(/(.+?)T(.+?)\./);
+		let createdDiff = Discord.Date.difference(new Date(), createdDate);
+		embed.addField("Created Guild:", created[1]+" ("+createdDiff+")");
+		discord.sendMessage(channel, {content:"", embed});
+	});
+	return true;
+}, function(){
+	let text = "```\n/server <id>\n```\n";
+	text += "Will show information about the server.\n";
+	text += "If no server is specified it will get info from the current server.\n";
+	text += "This can be quickly shown by clicking 'Get Info' on the server context menu.\n";
+	return text;
+});
 commands.add("react", function(channel, name, full, parts){
 	let message = parts.shift();
 	let letters = textToEmojis(parts.join(" "));
