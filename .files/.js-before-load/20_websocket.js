@@ -40,40 +40,31 @@ window.WebSocket = new Proxy(window.WebSocket, {
 				if(onmessage) onmessage(event);
 			};
 		}else{
+			let huge = new Buffer(0);
+			inflate.on("data", function(chunk){
+				try{
+					tryUnpack(chunk);
+					huge = new Buffer(0);
+				}catch(e){
+					try{
+						huge = Buffer.concat([huge, chunk]);
+						tryUnpack(huge);
+						huge = new Buffer(0);
+					}catch(e){
+						//IMPORTANT DO NOT REMOVE
+					}
+				}
+				function tryUnpack(buffer){
+					let data = _erlpack.unpack(buffer);
+					gateway.emit(data.t, data.d);
+				}
+			});
 			messageHandler = function(event){
 				if(onmessage) onmessage(event);
 				let buffer = event.data;
 				let end = buffer.slice(buffer.byteLength-4);
-				if(buf2hex(end) == ZLIB_SUFFIX){
-					let huge = new Buffer(0);
-					buffer = Buffer.from(new Uint8Array(buffer));
-					inflate.once("data", function(chunk){
-						try{
-							tryUnpack(chunk);
-							huge = new Buffer(0);
-						}catch(e){
-							try{
-								huge = Buffer.concat([huge, chunk]);
-								tryUnpack(huge);
-								huge = new Buffer(0);
-							}catch(e){
-								//IMPORTANT DO NOT REMOVE
-							}
-						}
-						function tryUnpack(buffer){
-							let data = _erlpack.unpack(buffer);
-							let e = new (function(){
-								this.data = data.d;
-								
-								this.prevent = function(){
-									this.prevented = true;
-								}.bind(this);
-							})();
-							gateway.emit(data.t, e);
-						}
-					});
-					inflate.write(buffer);
-				}
+				buffer = Buffer.from(new Uint8Array(buffer));
+				inflate.write(buffer);
 			}
 		}
 		
@@ -96,7 +87,6 @@ window.WebSocket = new Proxy(window.WebSocket, {
 		}else{
 			instance.send = new Proxy(instance.send, {
 				apply: function(target, thisArg, args) {
-					let ready = false;
 					let own = args[1];
 					if(own){
 						try{
@@ -108,13 +98,11 @@ window.WebSocket = new Proxy(window.WebSocket, {
 						let buffer = args[0];
 						try{
 							let data = _erlpack.unpack(Buffer.from(new Uint8Array(buffer)));
-							if(data.op == 2) ready = true;
 						}catch(e){
 							console.log(e);
 						}
 					}
 					target.apply(thisArg, args);
-					if(ready) Discord.Gateway.ready();
 				}
 			});
 		}

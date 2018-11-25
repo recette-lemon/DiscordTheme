@@ -45,13 +45,10 @@ Discord.Gateway = new (function(){
 	};
 	this.emit = function(name, data){
 		let l = listeners[name];
-		if(!l) return false;
-		let prevent = false;
+		if(!l) return;
 		l.forEach(function(x){
-			let value = x(data);
-			prevent = (value===false);
+			x(data);
 		});
-		return prevent;
 	};
 });
 

@@ -42,6 +42,9 @@ window.Discord = function(){
 		} else {
 			size = "";
 		}
+		if(avatar.startsWith("a_")){
+			ext = "gif";
+		}
 		return "https://cdn.discordapp.com/avatars/"+user_id+"/"+avatar+"."+ext+size;
 	}
 	this.getGuildIcon = function(guild_id, guild_icon, size){
