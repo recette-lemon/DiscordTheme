@@ -9,9 +9,16 @@ if(!/overlay/.test(location.pathname)){
 		root: "{{PATH}}"
 	};
 
+	let base = DT.root+"\\themes\\Default\\base.css";
+
 	// Inject CSS
 	window.applyCSS = function(file, path, name) {
-		let customCSS = window._fs.readFileSync(file, "utf-8");
+		let customCSS;
+		try{
+			customCSS = window._fs.readFileSync(file, "utf-8");
+		}catch(e){
+			if(name=="base.css") customCSS = window._fs.readFileSync(base, "utf-8");
+		}
 		if (!window._styleTag[path].hasOwnProperty(name)) {
 			window._styleTag[path][name] = document.createElement("style");
 			document.head.appendChild(window._styleTag[path][name]);
@@ -25,7 +32,7 @@ if(!/overlay/.test(location.pathname)){
 			delete window._styleTag[path][name];
 		}
 	}
-	window.watchCSS = function(path) {
+	window.watchCSS = function(path, isTheme) {
 		let _path = path;
 		let files, dirname;
 		if (window._fs.lstatSync(path).isDirectory()) {
@@ -35,6 +42,11 @@ if(!/overlay/.test(location.pathname)){
 			files = [window._path.basename(path)];
 			dirname = window._path.dirname(path);
 		}
+
+		if(files.indexOf("base.css")<0){
+			files.unshift("base.css");
+		}
+
 		window._styleTag[path] = {};
 		for (let i = 0; i < files.length; i++) {
 			let file = files[i];
@@ -74,9 +86,9 @@ if(!/overlay/.test(location.pathname)){
 			}
 		}
 	}
-	window.applyAndWatchCSS = function(path) {
+	window.applyAndWatchCSS = function(path, isTheme) {
 		window.tearDownCSS(path);
-		window.watchCSS(path);
+		window.watchCSS(path, isTheme);
 	};
 	//Inject JS
 	function injectJS(js_path, evalScript, nonce){

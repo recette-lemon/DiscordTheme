@@ -194,4 +194,4 @@ themes.forEach(function(x){
 		changeTheme(x);
 	});
 });
-if(Discord.Settings.Raw.THEME_THEME) window.applyAndWatchCSS(themesFolder+Discord.Settings.Raw.THEME_THEME);
+if(Discord.Settings.Raw.THEME_THEME) window.applyAndWatchCSS(themesFolder+Discord.Settings.Raw.THEME_THEME, true);

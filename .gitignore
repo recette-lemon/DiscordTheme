@@ -1,5 +1,8 @@
 .files/injection.js
 
+themes/*
+!themes/Default
+
 images/*
 !images/costanza.jpg
 !images/duck.jpg
