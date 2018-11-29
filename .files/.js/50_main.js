@@ -19,7 +19,7 @@ function checkMessageForOutput(child){
 	}
 }
 function checkMessageForGreenText(child){
-	if(!Discord.Settings.Raw.GENERAL_GREENTEXT) return;
+	if(!Discord.Settings.Raw.General.General.Greentext) return;
 	let markup = child.querySelector("[class*='markup-']");
 	if(!markup || markup.greentext || markup.editing) return;
 	markup.greentext = markup.cloneNode(true);
@@ -92,7 +92,7 @@ function fixTextArea(textarea){
 	let t = textarea.querySelector("textarea");
 	Discord.Line.appendTo(t.parentNode);
 	function setLength(length){
-		if(!Discord.Settings.Raw.GENERAL_CHARACTER_COUNT) return;
+		if(!Discord.Settings.Raw.General.General.CharacterCount) return;
 		if(!length)
 			inner.removeAttribute("count");
 		else
@@ -280,8 +280,8 @@ window.XMLHttpRequest = function(){
 							data = JSON.stringify(d);
 						}
 					}
-				}else if(Discord.Settings.Raw.GENERAL_MODIFIERS){
-					d.content = Discord.MessageModifiers.modify(Discord.Settings.Raw.GENERAL_MODIFIERS, d.content);
+				}else if(Discord.Settings.Raw.General.MessageModifiers.Modifiers){
+					d.content = Discord.MessageModifiers.modify(Discord.Settings.Raw.General.MessageModifiers.Modifiers, d.content);
 					data = JSON.stringify(d);
 				}
 			}

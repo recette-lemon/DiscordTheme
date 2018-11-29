@@ -586,11 +586,11 @@ commands.add("translate", function(channel, name, full, parts){
 	return text;
 });
 commands.catch = function(channel, message){
-	if(Discord.Settings.Raw.GENERAL_IMAGE_LINKS && 
+	if(Discord.Settings.Raw.General.General.ImageLinks && 
 	   message.match(/^https?:\/\/[^ \r\n#]+(jpg|gif|png|jpeg)(\?[^ ]*)?$/i)){
 		let r = new Discord.Request();
 		r.getFile(message.trim()).then(function(file){
-			if(Discord.Settings.Raw.GENERAL_IMAGE_LINK_DIALOG){
+			if(Discord.Settings.Raw.General.General.ImageLinkDialog){
 				(new Discord.FileDialog(file)).show();
 			}else{
 				let form = new FormData();

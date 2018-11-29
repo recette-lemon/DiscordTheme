@@ -7,7 +7,7 @@
 	font-weight:500;
 }
 
-/* Rainbow */
+/* Color cycling */
 html[rainbow] [class*="chat-"] [class*="markup"]{
 	background: linear-gradient(to right,
 		orange , yellow, green, cyan, blue, violet);
@@ -18,9 +18,9 @@ html[rainbow] [class*="chat-"] [class*="markup"]{
 
 	background-position: 0px 0px;
 	background-repeat: repeat-x;
-	animation: anim-rainbow 2.5s linear infinite;
+	animation: cycle-colors 2.5s linear infinite;
 }
-@keyframes anim-rainbow {
+@keyframes cycle-colors {
 	from { background-position: 0 0; }
 	to { background-position: 200% 0; }
 }
@@ -163,6 +163,11 @@ html[rainbow] [class*="chat-"] [class*="markup"]{
 	text-transform:uppercase;
 }
 .dt-settings .dt-settings-title ~ .dt-settings-title{
+	margin-bottom:10px;
+	letter-spacing: .5px;
+	font-size: 12px;
+}
+.dt-settings .dt-settings-title + .dt-settings-title ~ .dt-settings-title{
 	margin-top:50px;
 }
 .dt-settings .dt-settings-item{
