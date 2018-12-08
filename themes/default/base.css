@@ -101,7 +101,9 @@ body::before{
 	background-color:linear-gradient(270deg,transparent 0,rgba(0,0,0,0.8)) !important;
 }
 
-[class*="markup-"] code{
+[class*="markup-"] code,
+[class*="messageGroupBlockedBtn-"],
+[class*="messageGroupBlocked-"]{
 	background:rgba(0,0,0,0.6) !important;
 }
 
@@ -225,6 +227,11 @@ header[class*="header-"],
 }
 [class*="activityFeed-"] [class*="card-"] [class*="cardHeader-"]:hover{
 	background-color:rgba(255,255,255,0.2) !important;
+}
+
+[class*="card-"]:hover:before{
+	background-color: rgba(255, 255, 255, 0.2) !important;
+	border-color: rgba(255, 255, 255, 0.2) !important;
 }
 
 /* Scrollbar */

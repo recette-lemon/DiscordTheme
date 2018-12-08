@@ -126,6 +126,28 @@ Discord.Settings.Items = new (function(){
 				}
 			}
 			
+			this.addText = function(name, description, defaultValue, fn){
+				name = buildRaw(name);
+				let cookie = buildCookieName(name);
+				Discord.Settings.Raw[rawTab][rawGroup][name] = Discord.Cookies.get(cookie, defaultValue);
+				let item = document.createElement("div");
+				item.className = "dt-settings-item";
+				item.innerHTML = `
+					<div class="dt-settings-item-main">
+						<div class="dt-settings-item-name">${name}</div>
+						<input type="text"/>
+					</div>
+					<div class="dt-settings-item-description">${description}</div>
+				`;
+				div.appendChild(item);
+				let input = item.querySelector("input");
+				input.addEventListener("change", function(){
+					Discord.Settings.Raw[rawTab][rawGroup][name] = this.checked;
+					Discord.Cookies.set(cookie, this.checked, 365);
+					if(fn) fn();
+				});
+				input.checked = Discord.Settings.Raw[rawTab][rawGroup][name];
+			}
 			this.addToggle = function(name, description, defaultValue, fn){
 				name = buildRaw(name);
 				let cookie = buildCookieName(name);
@@ -205,6 +227,7 @@ function setRainbow(){
 		document.documentElement.removeAttribute("rainbow");
 }
 setRainbow();
+
 
 //THEME
 let themeTab = Discord.Settings.Items.createTab("Theme");
