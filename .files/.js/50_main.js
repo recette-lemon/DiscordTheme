@@ -280,8 +280,8 @@ window.XMLHttpRequest = function(){
 							data = JSON.stringify(d);
 						}
 					}
-				}else if(Discord.Settings.Raw.General.MessageModifiers.Modifiers){
-					d.content = Discord.MessageModifiers.modify(Discord.Settings.Raw.General.MessageModifiers.Modifiers, d.content);
+				}else if(Discord.Settings.Raw.MessageModifiers.MessageModifiers.Modifiers){
+					d.content = Discord.MessageModifiers.modify(Discord.Settings.Raw.MessageModifiers.MessageModifiers.Modifiers, d.content);
 					data = JSON.stringify(d);
 				}
 			}
