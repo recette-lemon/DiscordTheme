@@ -333,8 +333,12 @@ form > [class*="typing-"]{
     background: none!important;
     box-shadow: none!important;
 }
-.topic-2QX7LI:before{
+.topic-2QX7LI::before{
 	display:none;
+}
+
+[class*=newMessagesBar]{
+	z-index:3 !important;
 }
 
 /* Image placeholder */

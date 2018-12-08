@@ -1,6 +1,8 @@
 Discord.MessageModifiers = new (function(){
 	let modifiers = {};
-	let mm = Discord.Settings.Items.Tabs.General.createGroup("Message Modifiers");
+	let tab = Discord.Settings.Items.createTab("Message Modifiers");
+	let mm = tab.createGroup("Message Modifiers");
+	//let mm = Discord.Settings.Items.Tabs.General.createGroup("Message Modifiers");
 	let options = mm.createOptions("Modifiers", "");
 	options.add("None", "", function(){});
 	

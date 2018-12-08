@@ -9,7 +9,8 @@ if(!/overlay/.test(location.pathname)){
 		root: "{{PATH}}"
 	};
 
-	let base = DT.root+"\\themes\\Default\\base.css";
+	let base = DT.root+"themes\\Default\\base.css";
+	let css = DT.root+".files\\.css";
 
 	// Inject CSS
 	window.applyCSS = function(file, path, name) {
@@ -17,7 +18,7 @@ if(!/overlay/.test(location.pathname)){
 		try{
 			customCSS = window._fs.readFileSync(file, "utf-8");
 		}catch(e){
-			if(name=="base.css") customCSS = window._fs.readFileSync(base, "utf-8");
+			if(name=="base.css" && path!=css) customCSS = window._fs.readFileSync(base, "utf-8");
 		}
 		if (!window._styleTag[path].hasOwnProperty(name)) {
 			window._styleTag[path][name] = document.createElement("style");
