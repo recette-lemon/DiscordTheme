@@ -142,11 +142,11 @@ Discord.Settings.Items = new (function(){
 				div.appendChild(item);
 				let input = item.querySelector("input");
 				input.addEventListener("change", function(){
-					Discord.Settings.Raw[rawTab][rawGroup][name] = this.checked;
-					Discord.Cookies.set(cookie, this.checked, 365);
+					Discord.Settings.Raw[rawTab][rawGroup][name] = this.value;
+					Discord.Cookies.set(cookie, this.value, 365);
 					if(fn) fn();
 				});
-				input.checked = Discord.Settings.Raw[rawTab][rawGroup][name];
+				input.value = Discord.Settings.Raw[rawTab][rawGroup][name];
 			}
 			this.addToggle = function(name, description, defaultValue, fn){
 				name = buildRaw(name);
