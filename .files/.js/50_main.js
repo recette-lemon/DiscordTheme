@@ -192,10 +192,35 @@ window.addEventListener("DOMNodeInserted", function (e) {
 			fixTextArea(target);
 		}
 		
+		/* Modal */
 		if(target.matches('[class*="backdrop-"] + [class*="modal-"]')){
 			let img = target.querySelector("img");
-			let name = img.src.split("/").pop().split(/(\?|\#)/)[0];
-			target.querySelector('[class*="imageWrapper-"]').setAttribute("filename", name);
+			let nameTag = target.querySelector("[class*='nameTag-']");
+			
+			if(img){ /* Image Modal Text */
+				let src = img.src;
+				let name = src.split("/").pop().split(/(\?|\#)/)[0];
+				target.querySelector('[class*="imageWrapper-"]').setAttribute("filename", name);
+			}else if(nameTag){ /* User Modal Date */
+				let id = nameTag.getReact().memoizedProps.user.id;
+				let createdDate = Discord.Date.fromId(id);
+				let created = createdDate.toISOString().match(/(.+?)T(.+?)\./);
+				let createdDiff = Discord.Date.difference(new Date(), createdDate);
+				let text = created[1]+" ("+createdDiff+")";
+				
+				let userInfo = target.querySelector("[class*='userInfoSection-']");
+				let before = userInfo.children[0];
+				let first = userInfo.children[0].cloneNode(true);
+				let second = userInfo.children[1].cloneNode(true);
+				let textArea = second.children[0];
+				first.textContent = "Creation Date";
+				textArea.value = text;
+				textArea.style.height = "24px";
+				textArea.setAttribute("readonly", "true");
+				
+				userInfo.insertBefore(first, before);
+				userInfo.insertBefore(second, before);
+			}
 		}
 	}
 });

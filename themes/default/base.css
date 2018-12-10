@@ -353,6 +353,11 @@ form > [class*="typing-"]{
 	display:none !important;
 }
 
+/* User Note */
+[class*=note-] {
+    margin-top: -8px !important;
+    margin-bottom: 8px !important;
+}
 
 /* Search Results */
 .search-results-wrap [class*="scroller-"]{
