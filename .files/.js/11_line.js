@@ -34,7 +34,7 @@ Discord.Line = new (function(){
 	});
 	
 	this.appendTo = function(place){
-		place.appendChild(trigger);
+		place.insertBefore(trigger, place.children[0]);
 	};
 	
 	//Building Stickers

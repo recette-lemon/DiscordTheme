@@ -253,6 +253,7 @@ header[class*="header-"],
 }
 
 /* Reset and shit */
+textarea + [class*=buttons-] > :not([class*=emojiButton-]):not(.dt-line-trigger),
 [class*="noChannel-"]{
 	display:none;
 }
@@ -371,3 +372,4 @@ form > [class*="typing-"]{
 	height:10px;
 	margin:20px 0px;
 }
+

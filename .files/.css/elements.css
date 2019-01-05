@@ -215,16 +215,19 @@ html[rainbow] [class*="chat-"] [class*="markup"]{
 	padding-right:74px;
 }
 .dt-line-trigger{
-	position:absolute;
-	width:22px; height:22px;
-	top:11px; right:46px;
-	background-size:contain;
-	cursor:pointer;
-	
+	width: 22px;
+	height: 100%;
+	background-size: contain;
+	cursor: pointer;
 	filter: grayscale(100%);
 	opacity: 0.5;
 	transform: scale(1);
 	transition: all .1s ease-in-out;
+	background-repeat: no-repeat;
+	background-position: center;
+	padding: 5px;
+	box-sizing: border-box;
+	margin-right: 5px;
 }
 .dt-line-trigger:hover{
 	filter: grayscale(0);
