@@ -191,7 +191,8 @@ window.addEventListener("DOMNodeInserted", function (e) {
 			fixTextArea(target.children[0]);
 		}
 		
-		if(target.matches(textareaClass)){
+		let c = target.children[0];
+		if(c && c.matches(textareaClass)){
 			fixTextArea(target);
 		}
 		
