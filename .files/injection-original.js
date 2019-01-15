@@ -1,4 +1,5 @@
 if(!/overlay/.test(location.pathname)){
+	let electron = require("electron");
 	window._fs = require("fs");
 	window._path = require("path");
 	window._fileWatcher = {};
@@ -92,7 +93,7 @@ if(!/overlay/.test(location.pathname)){
 		window.watchCSS(path, isTheme);
 	};
 	//Inject JS
-	function injectJS(js_path, evalScript, nonce){
+	function injectJS(js_path){
 		let files, dirname;
 		if (window._fs.lstatSync(js_path).isDirectory()) {
 			files = window._fs.readdirSync(js_path);
@@ -104,22 +105,15 @@ if(!/overlay/.test(location.pathname)){
 		for (let i = 0; i < files.length; i++) {
 			let file = files[i];
 			if (file.endsWith(".js")) {
-				if(evalScript){
-					eval(window._fs.readFileSync(window._path.join(dirname, file), "utf-8"));
-				}else{
-					let js = document.createElement("script");
-					js.setAttribute("nonce", nonce);
-					js.innerHTML = window._fs.readFileSync(window._path.join(dirname, file), "utf-8");
-					document.head.appendChild(js);
-				}
+				let code = window._fs.readFileSync(window._path.join(dirname, file), "utf-8");
+				electron.webFrame.executeJavaScript(code);
 			}
 		}
 	}
-	window.addEventListener("DOMContentLoaded", function(){
-		let nonce = DT.nonce = document.querySelector("[nonce]").getAttribute("nonce");
-		window.applyAndWatchCSS(DT.root+".files\\.css", false, nonce);
-		injectJS(DT.root+".files\\.js", false, nonce);
-		injectJS(DT.root+"code", false, nonce);
+	window.addEventListener("DOMContentLoaded", e => {
+		window.applyAndWatchCSS(DT.root+".files\\.css", false);
+		injectJS(DT.root+".files\\.js");
+		injectJS(DT.root+"code");
 	});
-	injectJS(DT.root+".files\\.js-before-load", true);
+	injectJS(DT.root+".files\\.js-before-load");
 }
