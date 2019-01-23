@@ -356,7 +356,7 @@ form > [class*="typing-"]{
 }
 
 /* User Note */
-[class*=note-] {
+[class*="userInfoSection-"] [class*=note-] {
     margin-top: -8px !important;
     margin-bottom: 8px !important;
 }
