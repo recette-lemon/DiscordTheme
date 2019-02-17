@@ -255,7 +255,8 @@ header[class*="header-"],
 /* Reset and shit */
 textarea + [class*=buttons-] > :not([class*=emojiButton-]):not(.dt-line-trigger),
 [class*="gifFavoriteButton-"],
-[class*="noChannel-"]{
+[class*="noChannel-"],
+[class*="guildsDiscover-"]{
 	display:none;
 }
 
