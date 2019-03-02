@@ -35,6 +35,7 @@ window.Discord = function(){
 		});
 	}
 	this.getUserIcon = function(user_id, avatar, size){
+		if(!avatar) return "";
 		let ext = "jpg";
 		if(size){
 			size = "?size="+size;
