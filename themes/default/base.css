@@ -116,6 +116,7 @@ body::before{
 .private-channels,
 [class*="channels-"]{
 	border-right:1px solid rgba(255,255,255,0.1);
+	border-left:1px solid rgba(255,255,255,0.1);
 }
 [class*="channels-"] > :not(:first-child){
 	border-bottom:0;
@@ -285,6 +286,8 @@ textarea + [class*=buttons-] > :not([class*=emojiButton-]):not(.dt-line-trigger)
 [class*="activityFeed-"],
 [class*="activityFeed-"] [class*="card-"],
 
+[class*="wrapper-"],
+[class*="circleIconButton-"],
 
 [class*="standardSidebarView-"],
 [class*="sidebarRegion-"],
