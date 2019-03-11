@@ -254,6 +254,8 @@ header[class*="header-"],
 }
 
 /* Reset and shit */
+[class*=friendsOnline-] ~ [class*=container-]:last-child,
+
 textarea + [class*=buttons-] > :not([class*=emojiButton-]):not(.dt-line-trigger),
 [class*="gifFavoriteButton-"],
 [class*="noChannel-"],
