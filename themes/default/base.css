@@ -288,7 +288,7 @@ textarea + [class*=buttons-] > :not([class*=emojiButton-]):not(.dt-line-trigger)
 [class*="activityFeed-"],
 [class*="activityFeed-"] [class*="card-"],
 
-:not([class*="iconSpacing-"]):not([class*=centerContent-]) > [class*="wrapper-"]:not([class*="badge-"]),
+:not([class*="iconSpacing-"]):not([class*=centerContent-]):not([class*=playCenter-]) > [class*="wrapper-"]:not([class*="badge-"]),
 [class*="circleIconButton-"],
 
 [class*="standardSidebarView-"],
