@@ -89,6 +89,10 @@ body::before{
 	background:rgba(0,0,0,0.6) !important;
 }
 
+[class*=homeButton-],
+[class*=guildIcon-]{
+	background-color:rgba(0,0,0,0.4) !important;
+}
 
 [class*="activityFeed-"] [class*="article-"],
 [class*="activityFeed-"] [class*="news-"]{
@@ -288,7 +292,7 @@ textarea + [class*=buttons-] > :not([class*=emojiButton-]):not(.dt-line-trigger)
 [class*="activityFeed-"],
 [class*="activityFeed-"] [class*="card-"],
 
-:not([class*="iconSpacing-"]):not([class*=centerContent-]):not([class*=playCenter-]) > [class*="wrapper-"]:not([class*="badge-"]),
+:not([class*="iconSpacing-"]):not([class*=centerContent-]):not([class*=playCenter-]) > [class*="wrapper-"]:not([class*="badge-"]):not([class*=homeButton-]),
 [class*="circleIconButton-"],
 
 [class*="standardSidebarView-"],
