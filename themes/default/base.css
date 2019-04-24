@@ -63,7 +63,8 @@ body::before{
 }
 [class*="guildInner-"],
 [class*="guildsAdd-"],
-:not(x1):not(x2):not(x3):not(x4) > [class*="blobContainer-"] [class*="wrapper-"] > svg > foreignObject:not([class*="iconSpacing-"]):not([class*=centerContent-]):not([class*=playCenter-]) > [class*="wrapper-"]:not([class*="badge-"]):not([class*=homeButton-]){
+:not(x1):not(x2):not(x3):not(x4) > [class*="blobContainer-"] [class*="wrapper-"] > svg > foreignObject:not([class*="iconSpacing-"]):not([class*=centerContent-]):not([class*=playCenter-]) > [class*="wrapper-"]:not([class*="badge-"]):not([class*=homeButton-]),
+:not(x1):not(x2):not(x3):not(x4) > [class*="blob-"][class*="wrapper-"] > svg > foreignObject:not([class*="iconSpacing-"]):not([class*=centerContent-]):not([class*=playCenter-]) > [class*="wrapper-"]:not([class*="badge-"]):not([class*=homeButton-]){
 	background-color:rgba(0,0,0,0.4) !important;
 }
 .tab-bar-item:hover{
@@ -266,7 +267,7 @@ textarea + [class*=buttons-] > :not([class*=emojiButton-]):not(.dt-line-trigger)
 [class*="gifFavoriteButton-"],
 [class*="noChannel-"],
 [class*="guildsDiscover-"],
-[class*=listItem-]:nth-last-child(-n+2){
+[class*=scroller-] > [class*=listItem-]:last-child{
 	display:none !important;
 }
 
