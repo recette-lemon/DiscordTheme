@@ -62,7 +62,8 @@ body::before{
 	background-color:rgba(0,0,0,0.4) !important;
 }
 [class*="guildInner-"],
-[class*="guildsAdd-"]{
+[class*="guildsAdd-"],
+:not(x1):not(x2):not(x3):not(x4) > [class*="blobContainer-"] [class*="wrapper-"] > svg > foreignObject:not([class*="iconSpacing-"]):not([class*=centerContent-]):not([class*=playCenter-]) > [class*="wrapper-"]:not([class*="badge-"]):not([class*=homeButton-]){
 	background-color:rgba(0,0,0,0.4) !important;
 }
 .tab-bar-item:hover{
@@ -212,8 +213,9 @@ header[class*="header-"],
 	background-color:rgba(255,255,255,0.1) !important;
 }
 [class*="privateChannels-"] [class*="channel"][class*="selected"] a,
-[class*="contentSelectedText-"]{
-	background-color:rgba(255,255,255,0.2) !important;
+[class*="contentSelectedText-"],
+[class*=modeSelected-] > [class*=content-]{
+	background-color:rgba(255,255,255,0.15) !important;
 }
 #friends .friends-table .friends-row:hover{
 	background-color:rgba(255,255,255,0.2) !important;
@@ -263,8 +265,9 @@ header[class*="header-"],
 textarea + [class*=buttons-] > :not([class*=emojiButton-]):not(.dt-line-trigger),
 [class*="gifFavoriteButton-"],
 [class*="noChannel-"],
-[class*="guildsDiscover-"]{
-	display:none;
+[class*="guildsDiscover-"],
+[class*=listItem-]:nth-last-child(-n+2){
+	display:none !important;
 }
 
 #app-mount,
@@ -298,6 +301,9 @@ textarea + [class*=buttons-] > :not([class*=emojiButton-]):not(.dt-line-trigger)
 [class*="standardSidebarView-"],
 [class*="sidebarRegion-"],
 [class*="contentRegion-"],
+
+[class*=content-],
+[class*=children-]:after,
 
 :not([class*="popout-"]) > [class*="container-"]:not([class*="modal-"]):not([role="menu"]):not([class*="isMentionedCozy-"]),
 [class*="titleWrapper-"],

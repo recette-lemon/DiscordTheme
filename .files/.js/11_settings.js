@@ -12,13 +12,14 @@ Discord.Settings = function(target){
 	let sidebar = settings.querySelector('[class*="sidebar-"]').children[0];
 	let headerClass = getClass(sidebar, "header");
 	let itemClass = getClass(sidebar, "item");
-	let itemDefaultClass = getClass(sidebar, "itemDefault");
-	let itemSelectedClass = getClass(sidebar, "itemSelected");
-	let notSelectedClass = getClass(sidebar, "notSelected");
+	let itemDefaultClass = "";//getClass(sidebar, "itemDefault");
+	let itemSelectedClass = "";//getClass(sidebar, "itemSelected");
+	let notSelectedClass = "";//getClass(sidebar, "notSelected");
 	let selectedClass = getClass(sidebar, "selected");
+	let themedClass = getClass(sidebar, "themed");
 	let place = sidebar.children[sidebar.children.length-5];
-	let notSelectedClassName = [itemDefaultClass, itemClass, notSelectedClass].join(" ");
-	let selectedClassName = [itemSelectedClass, itemClass, selectedClass].join(" ");
+	let notSelectedClassName = [itemDefaultClass, itemClass, notSelectedClass, themedClass].join(" ");
+	let selectedClassName = [itemSelectedClass, itemClass, selectedClass, themedClass].join(" ");
 	
 	let title = document.createElement("div");
 	title.className = headerClass;
@@ -39,9 +40,7 @@ Discord.Settings = function(target){
 	
 	Discord.Settings.Items.forEach(function(x){
 		let item = document.createElement("div");
-		item.classList.add(itemDefaultClass);
-		item.classList.add(itemClass);
-		item.classList.add(notSelectedClass);
+		item.className = notSelectedClassName;
 		item.innerHTML = x.name;
 		item.addEventListener("mousedown", function(){
 			let last = sidebar.querySelector("."+selectedClass);
