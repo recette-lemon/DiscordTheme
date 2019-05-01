@@ -2,6 +2,8 @@
 let ZLIB_SUFFIX = '0000ffff';
 window.WebSocket = new Proxy(window.WebSocket, {
 	construct: function(target, args) {
+		const INTERCEPT = false;
+		
 		let voice = args[0].indexOf("gateway.discord.gg")<0;
 		let Buffer = _buffer.Buffer;
 		let inflate = _zlib.createInflate();
@@ -40,16 +42,16 @@ window.WebSocket = new Proxy(window.WebSocket, {
 				if(onmessage) onmessage(event);
 			};
 		}else{
-			let huge = new Buffer(0);
+			let huge = Buffer.alloc(0);
 			inflate.on("data", function(chunk){
 				try{
 					tryUnpack(chunk);
-					huge = new Buffer(0);
+					huge = Buffer.alloc(0);
 				}catch(e){
 					try{
 						huge = Buffer.concat([huge, chunk]);
 						tryUnpack(huge);
-						huge = new Buffer(0);
+						huge = Buffer.alloc(0);
 					}catch(e){
 						//IMPORTANT DO NOT REMOVE
 					}
@@ -60,6 +62,7 @@ window.WebSocket = new Proxy(window.WebSocket, {
 				}
 			});
 			messageHandler = function(event){
+				if(!INTERCEPT && onmessage) return onmessage(event);
 				if(onmessage) onmessage(event);
 				let buffer = event.data;
 				let end = buffer.slice(buffer.byteLength-4);
