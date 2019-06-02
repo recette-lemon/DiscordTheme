@@ -549,6 +549,7 @@ commands.alias("verb", "kill", function(){return ["killed", "https://i.imgur.com
 commands.alias("verb", "awoo", function(){return ["awooed", "https://i.imgur.com/9LG19PH.jpg"]});
 commands.alias("verb", "pat", function(){return ["patted", "https://i.imgur.com/uRc2B0v.gif"]});
 commands.alias("verb", "bully", function(){return ["bullied", "https://i.imgur.com/8WvdHZA.gif"]});
+commands.alias("verb", "puke", function(){return ["puked", "https://i.imgur.com/Qh1JLeB.png"]});
 commands.add("eval", function(channel, name, full, parts){
 	let result;
 	try {
