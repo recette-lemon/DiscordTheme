@@ -59,7 +59,7 @@ window.Discord = function(){
 		return "https://cdn.discordapp.com/icons/"+guild_id+"/"+guild_icon+"."+ext+size;
 	}
 	this.getCurrentChannel = function(){
-		return document.querySelector('[class*="chat-"]').getReact().memoizedProps.location.pathname.split("/")[3];
+		return document.querySelector('[class*="chat-"]').getReact().memoizedProps.channel.id;
 	}
 	this.getCurrentGuild = function(){
 		return document.querySelector('[class*="guild-"][class*="selected-"]').getReact().memoizedProps.guild.id;

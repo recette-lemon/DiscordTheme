@@ -70,23 +70,31 @@ function fixImageUpload(um){
 			submit.click();
 		}
 	}, true);
-	let fileState = um.getReact().memoizedState.file;
-	let ext = fileState.type.split("/")[1];
+	
+	let props = um.getReact().memoizedProps;
+	let file, ext;
+	function waitFile(){
+		if(!props.file) return setTimeout(waitFile, 500);
+		file = props.file;
+		ext = file.type.split('/')[1];
+		setFilename();
+	}
+	setTimeout(waitFile, 500);
+	
 	function setFilename(){
 		let filename = filenameElement.textContent;
 		if(!filename.match(/\..+/)){
-			Object.defineProperty(fileState, "name", {
+			Object.defineProperty(file, "name", {
 				value:filename+(ext?"."+ext:""),
 				configurable: true
 			});
-		}else if(filename!=fileState.name){
-			Object.defineProperty(fileState, "name", {
+		}else if(filename!=file.name){
+			Object.defineProperty(file, "name", {
 				value:filename,
 				configurable: true
 			});
 		}
 	}
-	setFilename();
 }
 function fixTextArea(textarea){
 	let inner = textarea.children[0];
@@ -158,16 +166,23 @@ window.addEventListener("DOMNodeInserted", function (e) {
 		if(Discord.ContextMenu(target)) return;
 		if(Discord.Settings(target)) return;
 		
-		if(target.matches('[class*="messagesWrapper-"]')){
+		/* New DOMNodeInserted */
+		if(target.matches('[class*="chat-"]')){
+			let textArea = target.querySelector('[class*="channelTextArea-"]');
+			if(textArea) fixTextArea(textArea);
+			
 			let mg = document.querySelectorAll(messageGroupClass);
-			for(let i=0;i<mg.length;i++){
-				if(checkMessageForOutput(mg[i])) continue;
-				let msg = mg[i].querySelectorAll(messageClass);
-				for(let i=0;i<msg.length;i++)
-					checkMessageForGreenText(msg[i]);
+			if(mg){
+				for(let i=0;i<mg.length;i++){
+					if(checkMessageForOutput(mg[i])) continue;
+					let msg = mg[i].querySelectorAll(messageClass);
+					for(let i=0;i<msg.length;i++)
+						checkMessageForGreenText(msg[i]);
+				}
+				return;
 			}
-			return;
 		}
+
 		let mg = target.matches(messageGroupClass)?target:target.closest(messageGroupClass);
 		if(mg){
 			if(checkMessageForOutput(mg)) return;
@@ -184,19 +199,7 @@ window.addEventListener("DOMNodeInserted", function (e) {
 			return;
 		}
 		
-		if(target.matches('[class*="content-"]')){
-			fixTextArea(target.querySelector(textareaClass));
-		}
-		if(target.matches(textAreaId)){
-			fixTextArea(target.children[0]);
-		}
-		
-		let c = target.children[0];
-		if(c && c.matches(textareaClass)){
-			fixTextArea(target);
-		}
-		
-		/* Modal */
+		/* User Modal */
 		if(target.matches('[class*="backdrop-"] + [class*="modal-"]')){
 			let img = target.querySelector("img");
 			let nameTag = target.querySelector("[class*='nameTag-']");
