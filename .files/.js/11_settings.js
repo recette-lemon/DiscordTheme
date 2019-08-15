@@ -148,6 +148,7 @@ Discord.Settings.Items = new (function(){
 				input.value = Discord.Settings.Raw[rawTab][rawGroup][name];
 			}
 			this.addToggle = function(name, description, defaultValue, fn){
+				let _n = name;
 				name = buildRaw(name);
 				let cookie = buildCookieName(name);
 				Discord.Settings.Raw[rawTab][rawGroup][name] = Discord.Cookies.get(cookie, defaultValue);
@@ -155,7 +156,7 @@ Discord.Settings.Items = new (function(){
 				item.className = "dt-settings-item";
 				item.innerHTML = `
 					<div class="dt-settings-item-main">
-						<div class="dt-settings-item-name">${name}</div>
+						<div class="dt-settings-item-name">${_n}</div>
 						<label class="dt-switch">
 							<input type="checkbox"/>
 							<div></div>
@@ -218,6 +219,7 @@ general.addToggle("Image Links", "When posting an image link as a message, repla
 general.addToggle("Image Link Dialog", "Show a dialog when posting an image link with the above option enabled.", false);
 general.addToggle("Character Count", "Add a character count to the bottom right of the textarea.", false);
 general.addToggle("Greentext", "Color lines beginning with > in green.", false);
+general.addToggle("Don't Send Typing", "Other users will stop seeing you type.", false);
 general.addToggle("Rainbow Text", "Color all messages in rainbow.", false, setRainbow);
 function setRainbow(){
 	if(Discord.Settings.Raw.General.General.RainbowText)

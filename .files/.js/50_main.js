@@ -328,12 +328,20 @@ window.XMLHttpRequest = function(){
 			}
 		}
 		
-		/* Message being edited */
+		/* Block Science */
 		if(!parts){
-			parts = requestUrl.match(/api\/v.\/channels\/(.+?)\/messages\/(.+?)$/);
+			parts = requestUrl.match(/api\/v.\/science$/);
 			if(parts){
-				let channel = parts[1];
-				let message = parts[2];
+				return blockRequest();
+			}
+		}
+		
+		//if(!Discord.Settings.Raw.General.General.Greentext) return;
+		/* Block Typing */
+		if(!parts){
+			parts = requestUrl.match(/api\/v.\/channels\/(.+?)\/typing$/);
+			if(parts && Discord.Settings.Raw.General.General["Don'tSendTyping"]){
+				return blockRequest();
 			}
 		}
 		
@@ -346,6 +354,21 @@ window.XMLHttpRequest = function(){
 			}
 		}
 		send.apply(xhr, [data]);
+	}
+	function blockRequest(){
+		xhr.getResponseHeader = function(h){
+			let headers = {
+				"content-type": "application/json"
+			};
+			return headers[h.toLowerCase()];
+		}
+		xhr.setProperty("status", 404);
+		xhr.setProperty("readyState", 4);
+		xhr.setProperty("responseText", JSON.stringify({
+			"code": 0,
+			"message": "404: Not Found"
+		}));
+		xhr.onreadystatechange();
 	}
 	function sendBotMessage(xhr, content, nonce){
 		xhr.setProperty("status", 200);
