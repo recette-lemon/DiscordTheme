@@ -48,7 +48,8 @@ body::before{
 	background-color:rgba(0,0,0,0.7) !important;
 }
 
-#app-mount [class*="app-"] > div[style],
+/* removed over bug */
+/*#app-mount [class*="app-"] > div[style],*/
 #app-mount [class*="titleBar-"]{
 	background-color:rgba(0,0,0,0.7) !important;
 }
