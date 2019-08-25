@@ -597,7 +597,7 @@ commands.catch = function(channel, message){
 				let form = new FormData();
 				form.append("content", "");
 				form.append("file", file);
-				discord.sendMessage(discord.getCurrentChannel(), form);
+				discord.sendMessage(channel, form);
 			}
 		}).catch(function(err, res){
 			let embed = new Discord.Embed();
