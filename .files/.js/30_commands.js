@@ -586,6 +586,24 @@ commands.add("translate", function(channel, name, full, parts){
 	text += "Will translate the text into the given language.\n";
 	return text;
 });
+commands.add("presence", function(channel, name, full, parts){
+	if(parts.length){
+		let type = +parts.shift();
+		let name = parts.join(" ");
+		Discord.Gateway.setPresence({
+			game:{type, name}
+		});
+	}else{
+		Discord.Gateway.setPresence();
+	}
+	return true;
+}, function(){
+	let text = "```\n/presence <type> <name>\n```\n";
+	text += "Changes your presence.\n";
+	text += "Types available are 0, 1, 2, 3 (playing, streaming, listening, watching).\n";
+	text += "Send no parameters to reset.\n";
+	return text;
+});
 commands.catch = function(channel, message){
 	if(Discord.Settings.Raw.General.General.ImageLinks && 
 	   message.match(/^https?:\/\/[^ \r\n#]+(jpg|gif|png|jpeg)(\?[^ ]*)?$/i)){
