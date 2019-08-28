@@ -332,6 +332,8 @@ window.XMLHttpRequest = function(){
 		if(!parts){
 			parts = requestUrl.match(/api\/v.\/science$/);
 			if(parts){
+				let d = JSON.parse(data);
+				discord.user = atob(d.token.split(".")[0]);
 				return blockRequest();
 			}
 		}
@@ -342,15 +344,6 @@ window.XMLHttpRequest = function(){
 			parts = requestUrl.match(/api\/v.\/channels\/(.+?)\/typing$/);
 			if(parts && Discord.Settings.Raw.General.General["Don'tSendTyping"]){
 				return blockRequest();
-			}
-		}
-		
-		/* Token */
-		if(!parts){
-			parts = requestUrl.match(/api\/v.\/science$/);
-			if(parts){
-				let d = JSON.parse(data);
-				discord.user = atob(d.token.split(".")[0]);
 			}
 		}
 		send.apply(xhr, [data]);
