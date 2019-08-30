@@ -2,7 +2,7 @@
 let ZLIB_SUFFIX = '0000ffff';
 window.WebSocket = new Proxy(window.WebSocket, {
 	construct: function(target, args) {
-		const INTERCEPT = false;
+		const INTERCEPT = true;
 		
 		let voice = args[0].indexOf("gateway.discord.gg")<0;
 		let Buffer = _buffer.Buffer;
@@ -24,7 +24,7 @@ window.WebSocket = new Proxy(window.WebSocket, {
 		});
 				
 		let openHandler = function(event){
-			if(!voice) Discord.Gateway.setInstance(instance);
+			if(!voice) gateway.setInstance(instance);
 		};
 		function toArrayBuffer(buf) {
 			var ab = new ArrayBuffer(buf.length);
