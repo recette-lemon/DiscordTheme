@@ -3,7 +3,6 @@ let ZLIB_SUFFIX = '0000ffff';
 window.WebSocket = new Proxy(window.WebSocket, {
 	construct: function(target, args) {
 		const INTERCEPT = true;
-		
 		let voice = args[0].indexOf("gateway.discord.gg")<0;
 		let Buffer = _buffer.Buffer;
 		let inflate = _zlib.createInflate();
