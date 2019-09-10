@@ -16,234 +16,50 @@ body::before{
 	background-color:rgba(0,0,0,0.5) !important;
 }
 
-/* The mess that is the top bar */
-[class*="wordmark-"]{
-	position:relative !important;
-	top:0 !important;
-	left:0 !important;
-	padding:0 0 0 8px !important;
-}
-[class*="winButton-"]{
-	top:0px !important;
-}
-#app-mount [class*="titleBar-"]{
-	flex-direction: row;
-	align-items:center;
-	height: 22px;
-	margin-top:0px;
-}
-[class*="winButtonMinMax-"] + [class*="winButtonMinMax-"]{
-	order:10;
-	margin-left:auto;
-}
-[class*="winButtonMinMax-"]{
-	order:11;
-}
-[class*="winButtonClose-"]{
-	order:12;
-}
 
-/* Background Color */
-.tooltip{
-	background-color:rgba(0,0,0,0.7) !important;
-}
-
-/* removed over bug */
-/*#app-mount [class*="app-"] > div[style],*/
-#app-mount [class*="titleBar-"]{
-	background-color:rgba(0,0,0,0.7) !important;
-}
-.messages-popout-wrap{
-	background-color:rgba(0,0,0,0.85) !important;
-}
-.channel-members,
-.search-results-wrap,
-[class*="members-"],
-#app-mount [class*="videoHeight-"]{
-	background-color:rgba(0,0,0,0.4) !important;
-}
-[class*="guildInner-"],
-[class*="guildsAdd-"],
-:not(x1):not(x2):not(x3):not(x4) > [class*="blobContainer-"] [class*="wrapper-"] > svg > foreignObject:not([class*="iconSpacing-"]):not([class*=centerContent-]):not([class*=playCenter-]) > [class*="wrapper-"]:not([class*="badge-"]):not([class*=homeButton-]),
-:not(x1):not(x2):not(x3):not(x4) > [class*="blob-"][class*="wrapper-"] > svg > foreignObject:not([class*="iconSpacing-"]):not([class*=centerContent-]):not([class*=playCenter-]) > [class*="wrapper-"]:not([class*="badge-"]):not([class*=homeButton-]){
-	background-color:rgba(0,0,0,0.4) !important;
-}
-.tab-bar-item:hover{
-	background-color:rgba(255,255,255,0.2) !important;
-}
-
-.messages-popout-wrap .messages-popout .message-group{
-	background-color: rgba(255,255,255,0.15) !important;
-}
-.messages-popout-wrap .messages-popout .message-group:hover .action-buttons{
-	background-color: rgba(0,0,0,0.2) !important;
-}
-.messages-popout-wrap .messages-popout .message-group .action-buttons .jump-button{
-	background-color: rgba(255,255,255,0.1) !important;
-}
-.messages-popout-wrap .messages-popout .message-group .action-buttons .jump-button:hover{
-	background-color: rgba(255,255,255,0.4) !important;
-}
-.search-results-wrap .search-result .hit{
-	background-color: rgba(255,255,255,0.2) !important;
-}
-
-#app-mount [class*="noticeRegion-"] [class*="container-"]{
-	background:rgba(0,0,0,0.6) !important;
-}
-
-[class*=homeButton-],
-[class*=guildIcon-]{
-	background-color:rgba(0,0,0,0.4) !important;
-}
-
-[class*="activityFeed-"] [class*="article-"],
-[class*="activityFeed-"] [class*="news-"]{
-	background-color:rgba(0,0,0,0.6) !important;
-}
-[class*="activityFeed-"] [class*="card-"] [class*="cardHeader-"]{
-	background-color:rgba(255,255,255,0.15) !important;
-}
-[class*="activityFeed-"] [class*="paginationItem-"]:after{
-	background-color:linear-gradient(270deg,transparent 0,rgba(0,0,0,0.8)) !important;
-}
-
-[class*="markup-"] code,
-[class*="messageGroupBlockedBtn-"],
-[class*="messageGroupBlocked-"]{
-	background:rgba(0,0,0,0.6) !important;
-}
-
-[class*="privateChannels-"] .search-bar {
-	background-color: rgba(255,255,255,0.1);
-}
-
-/* Borders */
-[class*="guildsWrapper-"],
-.private-channels,
-[class*="channels-"]{
-	border-right:1px solid rgba(255,255,255,0.1);
-	border-left:1px solid rgba(255,255,255,0.1);
-}
-[class*="channels-"] > :not(:first-child){
-	border-bottom:0;
-	border-top:1px solid rgba(255,255,255,0.1);
-}
-[class*="videoHeight-"]{
-	border-bottom:1px solid rgba(255,255,255,0.1);
-}
-[class*="privateChannels-"] [class*="searchBar-"]{
-	border-bottom:1px solid rgba(255,255,255,0.1);
-	box-shadow:none !important;
-	box-sizing: border-box;
-}
-header[class*="header-"],
-[class*="titleWrapper-"] [class*="title-"]:not([class*="weightSemiBold-"]),
-[class*="headerBar-"],
-.search-bar,
-.themed-popout .header,
-.search-results-wrap .search-header{
-	box-shadow: 0 1px 0 rgba(255,255,255,.2), 0 2px 0 rgba(255,255,255,.06) !important;
-	box-shadow:none !important;
-	border-bottom:1px solid rgba(255,255,255,0.1);
-	box-sizing:border-box;
-}
-.messages-popout-wrap .messages-popout .message-group{
-	border:1px solid rgba(255,255,255,0.1) !important;
-}
-.search-result.expanded{
-	border:1px solid rgba(255,255,255,0.1) !important;
-}
-
-[class*="markup-"] pre{
-	border: 1px solid rgba(32, 194, 14, 0.3) !important;
-	overflow: hidden;
-}
-[class*="markup-"] code.inline{
-	border: 1px solid rgba(255,255,255,0.5) !important;
-	box-sizing:border-box;
-	line-height:1.5rem
-}
-
-/* Colors */
-[class*="nameCollapsed-"],
-[class*="nameHoveredCollapsed-"],
-[class*="nameHovered-"],
-[class*="nameDefault-"],
-[class*="nameUnreadText-"]{
-	color:rgba(255,255,255,1) !important;
-}
-[class*="nameDefaultText-"],
-[class*="nameDefaultVoice-"]{
-	color:rgba(255,255,255,0.4) !important;
-}
-[class*="nameSelectedText-"]{
-	color:rgba(255,255,255,1) !important;
-}
-[class*="nameHoveredText-"]{
-	color:rgba(255,255,255,1) !important;
-}
-[class*="privateChannels-"] .search-bar input::-webkit-input-placeholder {
-	color: rgba(255,255,255,0.5);
-	font-weight: 14px;
-}
-.messages-popout-wrap .messages-popout .message-group .action-buttons .jump-button:hover .text{
+/* DISCORD */
+[name="DiscordWordmark"]{
 	color: white !important;
 }
-.messages-popout .message-group:hover .action-buttons .close-button:hover{
-	opacity: 1 !important;
+
+
+
+/* BACKGROUND */
+#app-mount > [class*="titleBar-"]{
+	background: rgba(0,0,0,0.5);
+	margin-top:0;
+	padding-top:4px;
 }
-[class*="nameMutedText-"]{
-	color:rgba(255,255,255,0.2) !important;
+[class*="modal-"] [class*="root-"]{
+	background: rgba(64,64,64,0.8);
 }
-.tooltip-bottom::after{
-	border-bottom-color:rgba(0,0,0,0.7) !important;
-}
-.tooltip-top::after{
-	border-top-color:rgba(0,0,0,0.7) !important;
-}
-.tooltip-right::after{
-	border-right-color:rgba(0,0,0,0.7) !important;
-}
-.tooltip-left::after{
-	border-left-color:rgba(0,0,0,0.7) !important;
+[class*="topSectionPlaying-"]{
+	background: #7289daaa;
 }
 
-/* Hovers and Selected and etc */
-[class*="privateChannels-"] [class*="channel"]:hover a,
-[class*="contentHoveredText-"]{
-	background-color:rgba(255,255,255,0.1) !important;
-}
-[class*="privateChannels-"] [class*="channel"][class*="selected"] a,
-[class*="contentSelectedText-"],
-[class*=modeSelected-] > [class*=content-]{
-	background-color:rgba(255,255,255,0.15) !important;
-}
-#friends .friends-table .friends-row:hover{
-	background-color:rgba(255,255,255,0.2) !important;
-}
-#friends .friends-table .friends-row .friends-column-actions .friends-action{
-	background-color:rgba(0,0,0,0.3) !important;
+
+/* MARGINS */
+[class*="sidebar-"]{
+	margin-left: 1px;
 }
 
-[class*="member-"]:hover [class*="content-"],
-[class*="member-"].popout-open [class*="content-"]{
-	background-color: rgba(255, 255, 255, 0.15) !important;
+
+/* BORDERS */
+[class*="sidebar-"],
+[class*="guilds-"]{
+	border-right: 1px solid var(--background-modifier-selected);
+}
+[class*="panels-"]{
+	border-top: 1px solid var(--background-modifier-selected);
+}
+[class*="sidebar-"] [class*="header-"]{
+	border-bottom: 1px solid var(--background-modifier-selected);
+}
+[class*="chat-"] > [class*="title-"]{
+	border-bottom: 1px solid var(--background-modifier-selected);
 }
 
-[class*="dockItem-"]:hover{
-	background-color:rgba(255,255,255,0.1) !important;
-}
-[class*="activityFeed-"] [class*="card-"] [class*="cardHeader-"]:hover{
-	background-color:rgba(255,255,255,0.2) !important;
-}
-
-[class*="card-"]:hover:before{
-	background-color: rgba(255, 255, 255, 0.2) !important;
-	border-color: rgba(255, 255, 255, 0.2) !important;
-}
-
-/* Scrollbar */
+/* SCROLLBAR */
 ::-webkit-scrollbar{
 	width:5px !important;
 }
@@ -261,134 +77,54 @@ header[class*="header-"],
 	background:transparent !important;
 }
 
-/* Reset and shit */
-[class*=friendsOnline-] ~ [class*=container-]:last-child,
-
-textarea + [class*=buttons-] > :not([class*=emojiButton-]):not(.dt-line-trigger),
-[class*="gifFavoriteButton-"],
-[class*="noChannel-"],
-[class*="guildsDiscover-"],
-[class*=scroller-] > [class*=listItem-]:last-child{
-	display:none !important;
-}
-
+/* RESET */
 #app-mount,
-[class*="guildsWrapper-"],
-.private-channels,
-[class*="messagesWrapper-"],
-[class*="chat-"] form,
-#friends,
-.private-channel-call,
-[class*="chat-"],
-[class*="chat-"] > [class*="content-"],
-[class*="markup-"] pre,
-.friends-table,
-.themed-popout .header,
-.search-results-wrap .search-header,
-.search-results-wrap .channel-separator .channel-name,
-.ui-standard-sidebar-view,
-.sidebar-region,
-.content-region,
-.friends-table [class*="messages-"] [class*="divider-"]:before,
-.friends-table [class*="messages-"] [class*="divider-"] span,
-[class*="messagesWrapper-"] [class*="messages-"] [class*="divider-"]:before,
-[class*="messagesWrapper-"] [class*="messages-"] [class*="divider-"] span,
-
-[class*="activityFeed-"],
-[class*="activityFeed-"] [class*="card-"],
-
-:not([class*="iconSpacing-"]):not([class*=centerContent-]):not([class*=playCenter-]) > [class*="wrapper-"]:not([class*="badge-"]):not([class*=homeButton-]),
-[class*="circleIconButton-"],
-
-[class*="standardSidebarView-"],
-[class*="sidebarRegion-"],
-[class*="contentRegion-"],
-
-[class*=content-],
-[class*=children-]:after,
-
-:not([class*="popout-"]) > [class*="container-"]:not([class*="modal-"]):not([role="menu"]):not([class*="isMentionedCozy-"]),
-[class*="titleWrapper-"],
-[class*="channels-"],
-form > [class*="typing-"],
-[class*="headerBar-"],
-[class*="videoHeight-"] [class*="vertical-"],
-[class*="title-"],
-[class*="layers-"],
-[class*="layer-"],
-
-[class*="privateChannels-"] .search-bar .search-bar-inner
-{
+#theme-menu,
+.theme-dark,
+.theme-dark [class*="layer-"],
+.theme-dark [class*="container-"]{
 	background: none !important;
 }
-[class*="base-"]{
-	border-radius:0;
-}
-[class*="chat-"] form,
-form > [class*="typing-"]{
-	margin:0;
-	padding:0px 20px;
-	box-sizing: border-box;
-}
-.messages-popout-wrap .messages-popout .message-group .action-buttons{
-	box-shadow: none !important;
-	padding:6px 4px !important;
-	margin-top:-6px !important;
-	border-radius:4px !important;
-}
-.search-results-wrap .search-result:before,
-.search-results-wrap .search-result:after{
-	display:none !important;
-}
-.search-results-wrap .search-result .hit{
-	border:0 !important;
-	box-shadow:none !important;
-}
-.search-result-message.sibling.before{
-	transform:scale(.98) translateY(0px) !important;
-	padding:0 !important;
-	border:0 !important;
-}
-[class*="videoHeight-"]{
-	top:0 !important;
-	margin-bottom:0 !important;
-}
-[class*="divider-"] + [class*="divider-"]{
-	display:none;
-}
-.message-group {
-    background: none!important;
-    box-shadow: none!important;
-}
-.topic-2QX7LI::before{
-	display:none;
-}
 
-[class*=newMessagesBar]{
-	z-index:3 !important;
+.theme-dark {
+	
+	
+    --background-primary: transparent;
+    --background-secondary: transparent;
+    --background-tertiary: transparent;
+	
+    --deprecated-panel-background: transparent;
+    --channeltextarea-background: rgba(255,255,255,0.15);
+		
+    --elevation-low: none;
+    --elevation-high: none;
+		
+		
+    --header-primary: #fff;
+    --header-secondary: #b9bbbe;
+    --text-normal: #dcddde;
+    --text-muted: #72767d;
+    --text-link: #00b0f4;
+    --channels-default: #8e9297;
+    --interactive-normal: #b9bbbe;
+    --interactive-hover: #dcddde;
+    --interactive-active: #fff;
+    --interactive-muted: #4f545c;
+    --background-accent: #4f545c;
+    --background-floating: #18191c;
+    --background-modifier-hover: rgba(79,84,92,0.16);
+    --background-modifier-active: rgba(79,84,92,0.24);
+    --background-modifier-selected: rgba(79,84,92,0.32);
+    --background-modifier-accent: hsla(0,0%,100%,0.06);
+    --activity-card-background: #202225;
+    --deprecated-card-bg: rgba(32,34,37,0.6);
+    --deprecated-card-editable-bg: rgba(32,34,37,0.3);
+    --deprecated-store-bg: #36393f;
+    --deprecated-quickswitcher-input-background: #72767d;
+    --deprecated-quickswitcher-input-placeholder: hsla(0,0%,100%,0.3);
+    --deprecated-text-input-bg: rgba(0,0,0,0.1);
+    --deprecated-text-input-border: rgba(0,0,0,0.3);
+    --deprecated-text-input-border-hover: #040405;
+    --deprecated-text-input-border-disabled: #202225;
+    --deprecated-text-input-prefix: #dcddde;
 }
-
-/* Image placeholder */
-[class*="imagePlaceholder-"]{
-	display:none !important;
-}
-
-/* User Note */
-[class*="userInfoSection-"] [class*=note-] {
-    margin-top: -8px !important;
-    margin-bottom: 8px !important;
-}
-
-/* Search Results */
-.search-results-wrap [class*="scroller-"]{
-	margin-bottom:50px;
-	border-bottom: 1px solid rgba(255,255,255,0.2);
-}
-.search-results-wrap .pagination{
-	position:absolute;
-	bottom:0; left:0;
-	width:100%;
-	height:10px;
-	margin:20px 0px;
-}
-
