@@ -130,7 +130,7 @@ code{
 #theme-menu,
 .theme-dark,
 [class*="layer-"],
-[class*="container-"],
+[class*="container-"]:not([class*="isMentioned-"]),
 [class*="option-"]::after,
 [class*="channelSeparator-"] [class*="channelName-"],
 [class*="searchHeader-"]{
