@@ -1,5 +1,7 @@
 Discord.ContextMenu = function(target){
-	if(!(target.className.startsWith("contextMenu") && target.parentNode.parentNode.id=="app-mount")) return false;
+	if(!target.matches('[class*="layer-"]') || !target.children[0].matches('[class*="contextMenu-"]'))
+		return false;
+	target = target.children[0];
 	let react = target.getReact();
 	if(!react.memoizedProps.type) react = react.return;
 	let props = react.memoizedProps;
@@ -55,11 +57,13 @@ Discord.ContextMenu = function(target){
 	if(!extension) return;
 	function getClass(target, c){
 		let name;
-		target.querySelector('[class^="'+c+'-"]').classList.forEach(x=>x.startsWith(c+"-")&&(name=x));
+		target.querySelector('[class*="'+c+'-"]').classList.forEach(x=>x.startsWith(c+"-")&&(name=x));
 		return name;
 	}
 	let groupClass = getClass(target, "itemGroup");
 	let itemClass = getClass(target, "item");
+	let itemBaseClass = getClass(target, "itemBase");
+	let clickableClass = getClass(target, "clickable");
 	let group = document.createElement("div");
 	group.className = groupClass;
 	target.insertBefore(group, target.children[0]);
@@ -69,7 +73,7 @@ Discord.ContextMenu = function(target){
 	function createItem(e, parent){
 		if(e.filter && !e.filter(context)) return false;
 		let item = document.createElement("div");
-		item.className = itemClass;
+		item.className = `${itemClass} ${itemBaseClass} ${clickableClass}`;
 		if(e.sub){
 			item.className+=" itemSubMenu-1vN_Yn";//HARDCODED class name
 			let menu = document.createElement("div");
@@ -130,23 +134,19 @@ function reactWithText(context){
 function isImg(context){return context.target.tagName=="IMG";}
 
 /* Auxiliary Objects */
-let reverseImage = {
-	name:"Search Image On",
+let reverseImageGoogle = {
+	name:"Reverse Image (Google)",
 	filter:isImg,
-	sub:[
-		{
-			name:"Google",
-			fn:function(context){
-				window.open("http://www.google.com/searchbyimage?image_url="+encodeURIComponent(context.url));
-			}
-		},
-		{
-			name:"Iqdb",
-			fn:function(context){
-				window.open("http://www.iqdb.org/?url="+encodeURIComponent(context.url));
-			}
-		}
-	]
+	fn:function(context){
+		window.open("http://www.google.com/searchbyimage?image_url="+encodeURIComponent(context.url));
+	}
+};
+let reverseImageIQDB = {
+	name:"Reverse Image (iqdb)",
+	filter:isImg,
+	fn:function(context){
+		window.open("http://www.iqdb.org/?url="+encodeURIComponent(context.url));
+	}
 };
 let react = {
 	name:"React With Text",
@@ -157,7 +157,8 @@ let react = {
 /* Extensions */
 Discord.ContextMenu.Extension = {};
 Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_LINK] = [
-	reverseImage,
+	reverseImageGoogle,
+	reverseImageIQDB,
 	{
 		name:"Save Link As",
 		color:Discord.ContextMenu.COLOR_BLUE,
@@ -165,7 +166,8 @@ Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_LINK] = [
 	},
 ];
 Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_ATTACHMENT] = [
-	reverseImage,
+	reverseImageGoogle,
+	reverseImageIQDB,
 	react,
 	{
 		name:"Save Attachment As",

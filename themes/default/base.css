@@ -1,7 +1,5 @@
 body{
 	height:100vh;
-	background-image: url("https://i.imgur.com/h8gP84E.png");
-	background-image: url("https://i.imgur.com/ldtZOxx.jpg");
 	background-image: url("https://i.imgur.com/wfCknld.gif");
 	background-size:cover;
 	background-position:center;
@@ -15,32 +13,79 @@ body::before{
 	height:100%;
 	background-color:rgba(0,0,0,0.5) !important;
 }
+.theme-dark {
+	--trans-main: rgba(0,0,0,0.5);
+	--trans-primary: rgba(64,64,64,0.8);
+	--trans-secondary: rgba(32,32,32,0.8);
+	
+	--background-primary: transparent;
+	--background-secondary: transparent;
+	--background-tertiary: transparent;
 
+	--deprecated-panel-background: transparent;
+	--channeltextarea-background: rgba(255,255,255,0.15);
+	
+	--elevation-low: none;
+	--elevation-high: none;
+}
 
 /* DISCORD */
 [name="DiscordWordmark"]{
 	color: white !important;
 }
 
+/* LOGIN */
+html [class*="authBox-"]{
+	background: rgba(32,32,32,0.7) !important;
+}
+[class*="authBox-"] input{
+	background: rgba(255,255,255,0.1) !important;
+}
+[class*="authBox-"] [class*="title-"],
+[class*="authBox-"] [class*="subTitle-"]{
+	color: white !important;
+}
+[class*="authBox-"] [type="submit"] + div{
+	color: white;
+}
 
-
-/* BACKGROUND */
+/* ELEMENTS */
 #app-mount > [class*="titleBar-"]{
-	background: rgba(0,0,0,0.5);
+	background: var(--trans-main);
 	margin-top:0;
 	padding-top:4px;
 }
-[class*="modal-"] [class*="root-"]{
-	background: rgba(64,64,64,0.8);
+code{
+	background: var(--trans-secondary) !important;
+	border: 1px solid white !important;
 }
+
+/* BACKGROUND */
 [class*="topSectionPlaying-"]{
 	background: #7289daaa;
 }
+[class*="modal-"] [class*="root-"],
+[class*="searchResultMessage-"],
+[class*="quickswitcher"]{
+	background: var(--trans-primary) !important;
+}
+[class*="popouts-"] > [class*="popout-"] {
+	background: var(--trans-secondary);
+}
+[class*="members-"],
+[class*="search-"] [class*="searchBar-"],
+[class*="searchResultsWrap-"],
+[href^="/channels/@me"]{
+	background: var(--trans-main)!important;
+}
 
 
-/* MARGINS */
+/* PADDINGS/MARGINS */
 [class*="sidebar-"]{
 	margin-left: 1px;
+}
+[class*='channelTextArea-'] textarea{
+	padding-right: 20px !important;
 }
 
 
@@ -52,11 +97,14 @@ body::before{
 [class*="panels-"]{
 	border-top: 1px solid var(--background-modifier-selected);
 }
-[class*="sidebar-"] [class*="header-"]{
+[class*="content-"] [class*="sidebar-"] [class*="header-"],
+[class*="chat-"] > [class*="title-"],
+[class*="searchHeader-"]{
 	border-bottom: 1px solid var(--background-modifier-selected);
 }
-[class*="chat-"] > [class*="title-"]{
-	border-bottom: 1px solid var(--background-modifier-selected);
+[class*="searchResultMessage-"],
+[class*="searchResult-"][class*="expanded-"]{
+	border: 1px solid rgba(255,255,255,0.4) !important;
 }
 
 /* SCROLLBAR */
@@ -81,50 +129,30 @@ body::before{
 #app-mount,
 #theme-menu,
 .theme-dark,
-.theme-dark [class*="layer-"],
-.theme-dark [class*="container-"]{
+[class*="layer-"],
+[class*="container-"],
+[class*="option-"]::after,
+[class*="channelSeparator-"] [class*="channelName-"],
+[class*="searchHeader-"]{
 	background: none !important;
 }
+[class*="searchResult-"][class*="expanded-"] [class*="searchResultMessage-"]{
+	border: none !important;
+}
+[class*="searchResultMessage-"]{
+	box-shadow: none !important;
+}
+[class*="searchResult-"]::before,
+[class*="searchResult-"]::after{
+	background-image: none !important;
+}
+[class*="privateChannels-"] [class*="header"]{
+	border: none !important;
+}
 
-.theme-dark {
-	
-	
-    --background-primary: transparent;
-    --background-secondary: transparent;
-    --background-tertiary: transparent;
-	
-    --deprecated-panel-background: transparent;
-    --channeltextarea-background: rgba(255,255,255,0.15);
-		
-    --elevation-low: none;
-    --elevation-high: none;
-		
-		
-    --header-primary: #fff;
-    --header-secondary: #b9bbbe;
-    --text-normal: #dcddde;
-    --text-muted: #72767d;
-    --text-link: #00b0f4;
-    --channels-default: #8e9297;
-    --interactive-normal: #b9bbbe;
-    --interactive-hover: #dcddde;
-    --interactive-active: #fff;
-    --interactive-muted: #4f545c;
-    --background-accent: #4f545c;
-    --background-floating: #18191c;
-    --background-modifier-hover: rgba(79,84,92,0.16);
-    --background-modifier-active: rgba(79,84,92,0.24);
-    --background-modifier-selected: rgba(79,84,92,0.32);
-    --background-modifier-accent: hsla(0,0%,100%,0.06);
-    --activity-card-background: #202225;
-    --deprecated-card-bg: rgba(32,34,37,0.6);
-    --deprecated-card-editable-bg: rgba(32,34,37,0.3);
-    --deprecated-store-bg: #36393f;
-    --deprecated-quickswitcher-input-background: #72767d;
-    --deprecated-quickswitcher-input-placeholder: hsla(0,0%,100%,0.3);
-    --deprecated-text-input-bg: rgba(0,0,0,0.1);
-    --deprecated-text-input-border: rgba(0,0,0,0.3);
-    --deprecated-text-input-border-hover: #040405;
-    --deprecated-text-input-border-disabled: #202225;
-    --deprecated-text-input-prefix: #dcddde;
+/* REMOVE */
+[aria-label="Send a gift"],
+[aria-label="Send a gift"] + div,
+[class*="guilds-"] [class*="listItem-"]:last-child{
+	display: none !important;
 }
