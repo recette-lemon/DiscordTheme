@@ -13,7 +13,7 @@ body::before{
 	height:100%;
 	background-color:rgba(0,0,0,0.5) !important;
 }
-.theme-dark {
+.theme-dark{
 	--trans-main: rgba(0,0,0,0.5);
 	--trans-primary: rgba(64,64,64,0.8);
 	--trans-secondary: rgba(32,32,32,0.8);
@@ -66,7 +66,8 @@ code{
 }
 [class*="modal-"] [class*="root-"],
 [class*="searchResultMessage-"],
-[class*="quickswitcher"]{
+[class*="quickswitcher"],
+[class*="videoHeight-"]{
 	background: var(--trans-primary) !important;
 }
 [class*="popouts-"] > [class*="popout-"] {
@@ -75,7 +76,8 @@ code{
 [class*="members-"],
 [class*="search-"] [class*="searchBar-"],
 [class*="searchResultsWrap-"],
-[href^="/channels/@me"]{
+[href^="/channels/@me"],
+[href^="/channels/@me"] > *{
 	background: var(--trans-main)!important;
 }
 
@@ -133,7 +135,8 @@ code{
 [class*="container-"]:not([class*="isMentioned-"]),
 [class*="option-"]::after,
 [class*="channelSeparator-"] [class*="channelName-"],
-[class*="searchHeader-"]{
+[class*="searchHeader-"],
+[class*="video-"]{
 	background: none !important;
 }
 [class*="searchResult-"][class*="expanded-"] [class*="searchResultMessage-"]{
@@ -153,6 +156,7 @@ code{
 /* REMOVE */
 [aria-label="Send a gift"],
 [aria-label="Send a gift"] + div,
-[class*="guilds-"] [class*="listItem-"]:last-child{
+[class*="guilds-"] [class*="scroller-"] > [class*="listItem-"]:last-child,
+[class*="gifFavoriteButton-"]{
 	display: none !important;
 }
