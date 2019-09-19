@@ -70,14 +70,14 @@ code{
 [class*="videoHeight-"]{
 	background: var(--trans-primary) !important;
 }
-[class*="popouts-"] > [class*="popout-"] {
-	background: var(--trans-secondary);
+[class*="popouts-"] > [class*="popout-"],
+html [class*="modal-"] [class*="modal-"]{
+	background: var(--trans-secondary) !important;
 }
 [class*="members-"],
 [class*="search-"] [class*="searchBar-"],
 [class*="searchResultsWrap-"],
-[href^="/channels/@me"],
-[href^="/channels/@me"] > *{
+[href^="/channels/@me"] > [class*="childWrapper-"]{
 	background: var(--trans-main)!important;
 }
 
@@ -136,7 +136,8 @@ code{
 [class*="option-"]::after,
 [class*="channelSeparator-"] [class*="channelName-"],
 [class*="searchHeader-"],
-[class*="video-"]{
+[class*="video-"],
+[class*="modal-"] [class*="footer-"]{
 	background: none !important;
 }
 [class*="searchResult-"][class*="expanded-"] [class*="searchResultMessage-"]{
