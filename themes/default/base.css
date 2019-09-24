@@ -77,7 +77,8 @@ html [class*="modal-"] [class*="modal-"]{
 [class*="members-"],
 [class*="search-"] [class*="searchBar-"],
 [class*="searchResultsWrap-"],
-[href^="/channels/@me"] > [class*="childWrapper-"]{
+[href^="/channels/@me"] > [class*="childWrapper-"],
+html [class*="app-"] > [style="opacity: 1;"]{
 	background: var(--trans-main)!important;
 }
 
