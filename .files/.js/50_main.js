@@ -1,7 +1,5 @@
-let messageGroupClass = "[class*='messages-'] > [class*='containerCozy-'][class*='container-'], [class*='messages-'] > [class*='containerCompact-'][class*='container-']";
-let messageClass = "[class*='containerCozy-'] > div, [class*='containerCompact-'] > div";
-let textareaClass = "[class*='channelTextArea-']";
-let textAreaId = "#channel-text-area-wrapper";
+let messageGroupClass = "[class*='containerCozy-'][class*='container-'], [class*='containerCompact-'][class*='container-']";
+let messageClass = "[class*='contentCozy-'][class*='content'], [class*='contentCompact-'][class*='content']";
 let reactionClass = "[class*='reaction-'][class*='reactionMe-']";
 
 /* Auxiliary Functions */
@@ -13,9 +11,9 @@ function reverseEach(obj, fn){
 	}
 }
 function checkMessageForOutput(child){
-	let nonce = child.getReact().memoizedProps.messages[0].id;
+	let nonce = child.getReact().memoizedProps.message.id;
 	if(Discord.Nonces.has(nonce)){
-		child.style.display = "none";
+		child.parentNode.parentNode.style.display = "none";
 		return true;
 	}
 }
@@ -117,6 +115,48 @@ function fixTextArea(textarea){
 	});
 	setLength(t.value.length);
 }
+function fixModal(target){
+	let img = target.querySelector("img");
+	let nameTag = target.querySelector("[class*='nameTag-']");
+	let uploadModal = target.querySelector('[class*="uploadModal-"]');
+	
+	if(uploadModal){ /* Upload Modal */
+		fixImageUpload(uploadModal);
+	}else if(nameTag){ /* User Modal Date */
+		let body = target.querySelector("[class*=body-]");
+		body.addEventListener("DOMNodeInserted", function(e){
+			let userInfo = target.querySelector("[class*='userInfoSection-']");
+			if(!userInfo || userInfo.added) return;
+			addUserInfo(userInfo);
+		});
+		function addUserInfo(userInfo){
+			userInfo.added = true;
+			let id = nameTag.getReact().return.memoizedProps.user.id;
+			let createdDate = Discord.Date.fromId(id);
+			let created = createdDate.toISOString().match(/(.+?)T(.+?)\./);
+			let createdDiff = Discord.Date.difference(new Date(), createdDate);
+			let text = created[1]+" ("+createdDiff+")";
+			
+			let before = userInfo.children[0];
+			let first = userInfo.children[0].cloneNode(true);
+			let second = userInfo.children[1].cloneNode(true);
+			let textArea = second.children[0];
+			first.textContent = "Creation Date";
+			textArea.value = text;
+			textArea.style.height = "24px";
+			textArea.setAttribute("readonly", "true");
+			
+			userInfo.insertBefore(first, before);
+			userInfo.insertBefore(second, before);
+		}
+		addUserInfo(target.querySelector("[class*='userInfoSection-']"));
+	}else if(img){ /* Image Modal Text */
+		let src = img.src;
+		let name = src.split("/").pop().split(/(\?|\#)/)[0];
+		target.querySelector('[class*="imageWrapper-"]').setAttribute("filename", name);
+	}
+}
+
 
 /* Window Events */
 Discord.Console.onCommand = function(command){
@@ -159,87 +199,73 @@ window.addEventListener("click", function(e){
 		}
 	}
 }, true);
-window.addEventListener("DOMNodeInserted", function (e) {
-	let target = e.target;
-	if(target instanceof HTMLElement){
-		if(target.matches(".greentext-container")) return;
-		if(Discord.ContextMenu(target)) return;
-		if(Discord.Settings(target)) return;
-		
-		/* New DOMNodeInserted */
-		if(target.matches('[class*="chat-"]')){
-			let textArea = target.querySelector('[class*="channelTextArea-"]');
-			if(textArea) fixTextArea(textArea);
-			
-			let mg = document.querySelectorAll(messageGroupClass);
-			if(mg){
-				for(let i=0;i<mg.length;i++){
-					if(checkMessageForOutput(mg[i])) continue;
-					let msg = mg[i].querySelectorAll(messageClass);
-					for(let i=0;i<msg.length;i++)
-						checkMessageForGreenText(msg[i]);
-				}
-				return;
-			}
-		}
 
-		let mg = target.matches(messageGroupClass)?target:target.closest(messageGroupClass);
-		if(mg){
-			if(checkMessageForOutput(mg)) return;
-			let msg = mg.querySelectorAll(messageClass);
-			for(let i=0;i<msg.length;i++)
-				checkMessageForGreenText(msg[i]);
-			return;
-		}
+/* Mutation Observers */
+window.addEventListener("load", e => {
+	let settingsParent = document.querySelector('[class*="app-"] > [class*="layers-"]');
+	settingsParent.onMutation('addedNodes', e => {
+		Discord.Settings(e)
+	});
+	
+	let zLayersParent = document.querySelector("#app-mount > [data-no-focus-lock]");
+	let contextMenuParent = zLayersParent.children[2];
+	contextMenuParent.onMutation('addedNodes', e => {
+		Discord.ContextMenu(e);
+	});
+	
+	let modalsParent = zLayersParent.children[1];
+	modalsParent.onMutation('addedNodes', e => {
+		if(e.matches('[class*="backdrop-"] + [class*="modal-"]'))
+			fixModal(e);
+	});
+	
+	document.waitFor('[class*="chat-"]').then(chat => {
+		let chatParent = chat.parentNode;
+		chatParent.onMutation('addedNodes', e => {
+			if(e.matches('[class*="chat-"]'))
+				observeChat(e);
+		});
 		
-		let umClass = '[class*="uploadModal-"]';
-		let um = target.matches(umClass)?target:target.querySelector(umClass);
-		if(um){
-			fixImageUpload(um);
-			return;
-		}
-		
-		/* User Modal */
-		if(target.matches('[class*="backdrop-"] + [class*="modal-"]')){
-			let img = target.querySelector("img");
-			let nameTag = target.querySelector("[class*='nameTag-']");
+		observeChat(chat);
+		function observeChat(chat){
+			let messagesParent = chat.children[1];
+			messagesParent.onMutation('addedNodes', e => {
+				let textArea = e.querySelector('[class*="channelTextArea-"]');
+				if(textArea) fixTextArea(textArea);
+				checkMessages(e);
+				observeMessages(e.firstElementChild.firstElementChild.firstElementChild);
+			});
 			
-			if(img){ /* Image Modal Text */
-				let src = img.src;
-				let name = src.split("/").pop().split(/(\?|\#)/)[0];
-				target.querySelector('[class*="imageWrapper-"]').setAttribute("filename", name);
-			}else if(nameTag){ /* User Modal Date */
-				let body = target.querySelector("[class*=body-]");
-				body.addEventListener("DOMNodeInserted", function(e){
-					let userInfo = target.querySelector("[class*='userInfoSection-']");
-					if(!userInfo || userInfo.added) return;
-					addUserInfo(userInfo);
-				});
-				function addUserInfo(userInfo){
-					userInfo.added = true;
-					let id = nameTag.getReact().memoizedProps.user.id;
-					let createdDate = Discord.Date.fromId(id);
-					let created = createdDate.toISOString().match(/(.+?)T(.+?)\./);
-					let createdDiff = Discord.Date.difference(new Date(), createdDate);
-					let text = created[1]+" ("+createdDiff+")";
-					
-					let before = userInfo.children[0];
-					let first = userInfo.children[0].cloneNode(true);
-					let second = userInfo.children[1].cloneNode(true);
-					let textArea = second.children[0];
-					first.textContent = "Creation Date";
-					textArea.value = text;
-					textArea.style.height = "24px";
-					textArea.setAttribute("readonly", "true");
-					
-					userInfo.insertBefore(first, before);
-					userInfo.insertBefore(second, before);
+			checkMessages(messagesParent.firstElementChild);
+			observeMessages(messagesParent.firstElementChild.firstElementChild.firstElementChild.firstElementChild);
+			function observeMessages(messagesContainer){
+				if(!messagesContainer.observer)
+					messagesContainer.observer = messagesContainer.onMutation('addedNodes', e => {
+						if(!e.matches(messageGroupClass)) return;
+						let msg = e.querySelectorAll(messageClass);
+						for(let i=0;i<msg.length;i++){
+							if(checkMessageForOutput(msg[i])) continue;
+							checkMessageForGreenText(msg[i]);
+						}
+						return;
+					});
+			}
+			function checkMessages(messageParent){
+				let mg = messageParent.querySelectorAll(messageGroupClass);
+				if(mg){
+					for(let i=0;i<mg.length;i++){
+						let msg = mg[i].querySelectorAll(messageClass);
+						for(let i=0;i<msg.length;i++){
+							if(checkMessageForOutput(msg[i])) continue;
+							checkMessageForGreenText(msg[i]);
+						}
+					}
 				}
-				addUserInfo(target.querySelector("[class*='userInfoSection-']"));
 			}
 		}
-	}
+	});
 });
+
 
 /* Get tokens and intercept messages before they are sent */
 let _XMLHttpRequest = window.XMLHttpRequest;

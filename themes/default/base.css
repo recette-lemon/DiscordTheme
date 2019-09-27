@@ -78,7 +78,8 @@ html [class*="modal-"] [class*="modal-"]{
 [class*="search-"] [class*="searchBar-"],
 [class*="searchResultsWrap-"],
 [href^="/channels/@me"] > [class*="childWrapper-"],
-html [class*="app-"] > [style="opacity: 1;"]{
+html [class*="app-"] > [style="opacity: 1;"],
+[topSectionNormal-]{
 	background: var(--trans-main)!important;
 }
 
