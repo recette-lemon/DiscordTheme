@@ -238,6 +238,8 @@ window.addEventListener("click", function(e){
 				observeMessages(e.firstElementChild.firstElementChild.firstElementChild);
 			});
 			
+			let textArea = chat.querySelector('[class*="channelTextArea-"]');
+			if(textArea) fixTextArea(textArea);
 			checkMessages(messagesParent.firstElementChild);
 			observeMessages(messagesParent.firstElementChild.firstElementChild.firstElementChild.firstElementChild);
 			function observeMessages(messagesContainer){
