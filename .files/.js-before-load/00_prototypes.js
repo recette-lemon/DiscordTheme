@@ -40,16 +40,32 @@ File.prototype.toBase64 = function(){
 };
 
 /* Document */
+document.waitForCallbacks = {};
 document.waitFor = function(selector){
 	return new Promise((succ) => {
-		function waitFor(){
-			let element = document.querySelector(selector);
-			if(element) return succ(element);
-			requestIdleCallback(waitFor);
-		}
-		requestIdleCallback(waitFor);
+		let callbacks = document.waitForCallbacks;
+		if(!callbacks[selector]) callbacks[selector] = [];
+		callbacks[selector].push(succ);
 	});
 };
+(function(){
+	let callbacks = document.waitForCallbacks;
+	function waitFor(){
+		requestIdleCallback(waitFor);
+		if(!Object.keys(callbacks).length) return;
+		for(let selector in callbacks){
+			let element = document.querySelector(selector);
+			if(!element) continue
+			
+			let _callbacks = callbacks[selector];
+			while(_callbacks.length){
+				_callbacks.shift()(element);
+			}
+			delete callbacks[selector];
+		}
+	}
+	requestIdleCallback(waitFor);
+})();
 
 /* A simple MutationObserver wrapper */
 HTMLElement.prototype.onMutation = function(type, callback, config){

@@ -201,22 +201,24 @@ window.addEventListener("click", function(e){
 }, true);
 
 /* Mutation Observers */
-window.addEventListener("load", e => {
-	let settingsParent = document.querySelector('[class*="app-"] > [class*="layers-"]');
-	settingsParent.onMutation('addedNodes', e => {
-		Discord.Settings(e)
+(function(){
+	document.waitFor('[class*="app-"] > [class*="layers-"]').then(settingsParent => {
+		settingsParent.onMutation('addedNodes', e => {
+			Discord.Settings(e)
+		});
 	});
 	
-	let zLayersParent = document.querySelector("#app-mount > [data-no-focus-lock]");
-	let contextMenuParent = zLayersParent.children[2];
-	contextMenuParent.onMutation('addedNodes', e => {
-		Discord.ContextMenu(e);
-	});
-	
-	let modalsParent = zLayersParent.children[1];
-	modalsParent.onMutation('addedNodes', e => {
-		if(e.matches('[class*="backdrop-"] + [class*="modal-"]'))
-			fixModal(e);
+	document.waitFor("#app-mount > [data-no-focus-lock]").then(zLayersParent => {
+		let contextMenuParent = zLayersParent.children[2];
+		contextMenuParent.onMutation('addedNodes', e => {
+			Discord.ContextMenu(e);
+		});
+		
+		let modalsParent = zLayersParent.children[1];
+		modalsParent.onMutation('addedNodes', e => {
+			if(e.matches('[class*="backdrop-"] + [class*="modal-"]'))
+				fixModal(e);
+		});
 	});
 	
 	document.waitFor('[class*="chat-"]').then(chat => {
@@ -264,7 +266,7 @@ window.addEventListener("load", e => {
 			}
 		}
 	});
-});
+})();
 
 
 /* Get tokens and intercept messages before they are sent */
