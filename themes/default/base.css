@@ -79,7 +79,7 @@ html [class*="modal-"] [class*="modal-"]{
 [class*="searchResultsWrap-"],
 [href^="/channels/@me"] > [class*="childWrapper-"],
 html [class*="app-"] > [style="opacity: 1;"],
-[topSectionNormal-]{
+[class*="topSectionNormal-"]{
 	background: var(--trans-main)!important;
 }
 
