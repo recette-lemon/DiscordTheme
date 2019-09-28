@@ -111,6 +111,13 @@ html [class*="app-"] > [style="opacity: 1;"],
 	border: 1px solid rgba(255,255,255,0.4) !important;
 }
 
+
+/* TEXT */
+[class*="embedDescription-"]{
+	margin-bottom: 4px;
+}
+
+
 /* SCROLLBAR */
 ::-webkit-scrollbar{
 	width:5px !important;

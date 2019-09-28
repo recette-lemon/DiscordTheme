@@ -190,7 +190,7 @@ window.addEventListener("click", function(e){
 		let msg = t.closest(messageClass);
 		let comment = msg.parentNode;
 		let index = Array.prototype.indexOf.call(comment.children, msg);
-		let message_id = comment.getReact().memoizedProps.messages[index].id;
+		let message_id = msg.getReact().memoizedProps.message.id;
 		let message = Discord.ReactionMessages.get(message_id);
 		if(message){
 			let emoji = encodeURIComponent(t.querySelector("img").alt);
