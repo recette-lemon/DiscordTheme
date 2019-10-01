@@ -11,7 +11,9 @@ function reverseEach(obj, fn){
 	}
 }
 function checkMessageForOutput(child){
-	let nonce = child.getReact().memoizedProps.message.id;
+	let react = child.getReact();
+	if(!react) return;
+	let nonce = react.memoizedProps.message.id;
 	if(Discord.Nonces.has(nonce)){
 		child.parentNode.parentNode.style.display = "none";
 		return true;
@@ -231,19 +233,23 @@ window.addEventListener("click", function(e){
 		observeChat(chat);
 		function observeChat(chat){
 			let messagesParent = chat.children[1];
-			messagesParent.onMutation('addedNodes', e => {
-				let textArea = e.querySelector('[class*="channelTextArea-"]');
-				if(textArea) fixTextArea(textArea);
-				checkMessages(e);
-				observeMessages(e.firstElementChild.firstElementChild.firstElementChild);
-			});
+			if(!messagesParent.observer)
+				messagesParent.observer = messagesParent.onMutation('addedNodes', e => {
+					let textArea = e.querySelector('[class*="channelTextArea-"]');
+					if(textArea) fixTextArea(textArea);
+					
+					let scroller = e.querySelector('[class*="scroller-"]');
+					checkMessages(scroller);
+					observeMessages(scroller);
+				});
 			
 			let textArea = chat.querySelector('[class*="channelTextArea-"]');
 			if(textArea) fixTextArea(textArea);
-			checkMessages(messagesParent.firstElementChild);
-			observeMessages(messagesParent.firstElementChild.firstElementChild.firstElementChild.firstElementChild);
+			let scroller = messagesParent.querySelector('[class*="scroller-"]');
+			checkMessages(scroller);
+			observeMessages(scroller);
 			function observeMessages(messagesContainer){
-				if(!messagesContainer.observer)
+				if(!messagesContainer.observer){
 					messagesContainer.observer = messagesContainer.onMutation('addedNodes', e => {
 						if(!e.matches(messageGroupClass)) return;
 						let msg = e.querySelectorAll(messageClass);
@@ -253,6 +259,7 @@ window.addEventListener("click", function(e){
 						}
 						return;
 					});
+				}
 			}
 			function checkMessages(messageParent){
 				let mg = messageParent.querySelectorAll(messageGroupClass);
