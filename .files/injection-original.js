@@ -10,8 +10,8 @@ if(!/overlay/.test(location.pathname)){
 		root: "{{PATH}}"
 	};
 
-	let base = DT.root+"themes\\Default\\base.css";
-	let css = DT.root+".files\\.css";
+	let base = DT.root+"themes/Default/base.css";
+	let css = DT.root+".files/.css";
 
 	// Inject CSS
 	window.applyCSS = function(file, path, name) {
@@ -111,9 +111,9 @@ if(!/overlay/.test(location.pathname)){
 		}
 	}
 	window.addEventListener("DOMContentLoaded", e => {
-		window.applyAndWatchCSS(DT.root+".files\\.css", false);
-		injectJS(DT.root+".files\\.js");
+		window.applyAndWatchCSS(DT.root+".files/.css", false);
+		injectJS(DT.root+".files/.js");
 		injectJS(DT.root+"code");
 	});
-	injectJS(DT.root+".files\\.js-before-load");
+	injectJS(DT.root+".files/.js-before-load");
 }

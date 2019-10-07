@@ -1,7 +1,7 @@
 Discord.Line = new (function(){
 	let trigger = document.createElement("div");
 	trigger.className = "dt-line-trigger";
-	let file = new Discord.File("line\\line.png");
+	let file = new Discord.File("line/line.png");
 	file.readBase64().then(function(b64){
 		trigger.style.backgroundImage = "url("+b64+")";
 	});

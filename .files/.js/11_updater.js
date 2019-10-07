@@ -1,6 +1,6 @@
 Discord.Updater = new (function(){
-	let version = "https://raw.githubusercontent.com/masterzagh/DiscordTheme/master/.files/.version";
-	let file = new Discord.File(".files\\.version");
+	let version = "https://raw.githubusercontent.com/recette-lemon/DiscordTheme/master/.files/.version";
+	let file = new Discord.File(".files/.version");
 	
 	this.check = function(){
 		return new Promise(function(succ){

@@ -234,7 +234,7 @@ setRainbow();
 let themeTab = Discord.Settings.Items.createTab("Theme");
 let theme = themeTab.createGroup("Theme");
 let themeOptions = theme.createOptions("Theme", "default");
-let themesFolder = DT.root+"themes\\";
+let themesFolder = DT.root+"themes/";
 let themes = window._fs.readdirSync(themesFolder);
 function changeTheme(newTheme){
 	if(Discord.Settings.Raw.Theme.Theme.Theme)

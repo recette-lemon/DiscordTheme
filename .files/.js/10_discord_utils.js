@@ -54,7 +54,7 @@ Discord.File = function(filename){
 	let _this = this;
 	this.root = DT.root;
 	this.filename = filename.indexOf(":")<0 ? this.root+filename : filename;
-	this.basename = this.filename.split("\\");
+	this.basename = this.filename.split("/");
 	this.basename = this.basename[this.basename.length-1];
 	this.isDir = false;
 	if(_fs.lstatSync(this.filename).isDirectory()){
@@ -115,7 +115,7 @@ Discord.File = function(filename){
 		if(_this.isDir){
 			let folders = [];
 			_fs.readdirSync(_this.filename).forEach(file => {
-				let f = new Discord.File(_this.filename+"\\"+file);
+				let f = new Discord.File(_this.filename+"/"+file);
 				if(f.isDir){
 					if(filter){
 						var regex = new RegExp(filter, "i");
@@ -137,9 +137,9 @@ Discord.File = function(filename){
 				if(filter){
 					var regex = new RegExp(filter, "i");
 					if(file.match(regex))
-						files.push(new Discord.File(_this.filename+"\\"+file));
+						files.push(new Discord.File(_this.filename+"/"+file));
 				}else{
-					files.push(new Discord.File(_this.filename+"\\"+file));
+					files.push(new Discord.File(_this.filename+"/"+file));
 				}
 			});
 			return files;
