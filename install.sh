@@ -2,7 +2,7 @@
 if [ ! -x "$(command -v asar)" ]; then
 	echo "asar not installed.
 pacaur -S asar
-apt install asar"
+snap install asar"
 fi
 
 echo "starting"

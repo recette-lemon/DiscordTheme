@@ -1,4 +1,12 @@
-# Discord Theme
+# Discord Theme Linux Version
+
+Fork of Manuel's thing to support linux. Bash replacements for the batch files, and diretory structure fixed for linux.
+
+Tested and seems to be working on Manjaro and Ubuntu.
+
+I'll get around to replacing the rest of the batch files in a bit.
+
+
 
 This theme enables you to set custom css and js to run inside discord.
 
@@ -8,8 +16,8 @@ It comes with a default css theme and some aditional functions coded in.
 
 ## Installing
 
-* Download the zip or clone the project
-* Run `install.bat` while discord is running (this will close discord and start it again)
+* Download the zip or clone the project.
+* Run `install.sh` with discord closed.
 
 ## Problems
 
