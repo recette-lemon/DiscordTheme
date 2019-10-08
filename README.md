@@ -6,8 +6,6 @@ Tested and seems to be working on Manjaro and Ubuntu.
 
 I'll get around to replacing the rest of the batch files in a bit.
 
-
-
 This theme enables you to set custom css and js to run inside discord.
 
 It comes with a default css theme and some aditional functions coded in.
@@ -17,7 +15,7 @@ It comes with a default css theme and some aditional functions coded in.
 ## Installing
 
 * Download the zip or clone the project.
-* Run `install.sh` with discord closed.
+* Run `install.sh`.
 
 ## Problems
 
