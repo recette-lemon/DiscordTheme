@@ -14,4 +14,4 @@ rm -r /tmp/DiscordTheme-master
 rm /tmp/master.zip
 
 echo 'running installer'
-#chmod +x install.sh && ./install.sh" | bash
+chmod +x install.sh && ./install.sh" | bash
