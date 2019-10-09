@@ -2,7 +2,7 @@
 
 Fork of Manuel's thing to support linux. Bash replacements for the batch files, and directory structure fixed for linux.
 
-Tested and seems to be working on Manjaro and Ubuntu and Arch Linux.
+Tested and seems to be working on Manjaro, Ubuntu, and Arch Linux.
 
 I'll get around to replacing the rest of the batch files in a bit.
 
@@ -28,11 +28,11 @@ If that doesn't solve it then it might be fixed soon, but just in case it doesn'
 
 ## Update
 
-To update just run the `updater.sh`. If it fails or breaks the theme just re-download the zip.
+To update just run `updater.sh`. If it fails or breaks the theme just re-download the zip.
 
 ## Uninstall
 
-To uninstall just run the `uninstall.sh`.
+To uninstall just run `uninstall.sh`.
 
 ## Features
 
