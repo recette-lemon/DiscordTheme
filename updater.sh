@@ -1,15 +1,17 @@
-echo "downloading zip archive"
-wget "https://github.com/recette-lemon/DiscordTheme/archive/master.zip" > /dev/null
+#!/usr/bin/env bash
+echo "
+echo 'downloading zip archive'
+wget -P /tmp/ 'https://github.com/recette-lemon/DiscordTheme/archive/master.zip' &> /dev/null
 
-echo "unzipping"
-unzip master.zip > /dev/null
+echo 'unzipping'
+unzip -u /tmp/master.zip -d /tmp/ > /dev/null
 
-echo "overwriting files"
-cp -r DiscordTheme-master/* .
+echo 'overwriting files'
+cp -r /tmp/DiscordTheme-master/* .
 
-echo "cleaning up"
-rm -r DiscordTheme-master
-rm master.zip
+echo 'cleaning up'
+rm -r /tmp/DiscordTheme-master
+rm /tmp/master.zip
 
-echo "running installer"
-chmod +x install.sh && ./install.sh
+echo 'running installer'
+#chmod +x install.sh && ./install.sh" | bash

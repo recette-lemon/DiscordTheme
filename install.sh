@@ -1,15 +1,14 @@
 #!/usr/bin/env bash
 if [ ! -x "$(command -v asar)" ]; then
-	echo "asar not installed.
-pacman -S asar
-snap install asar"
+	echo >&2 "asar not installed."
+	exit 1
 fi
 
 theme_root="$(pwd)"
 
 echo "finding asar location"
 cd "$HOME/.config/discord/"
-cd "$(ls | grep -E ".\..\.." | sort | tail -n 1)/modules/discord_desktop_core"
+cd "$(ls | grep -E ".\..\.." | sort | tail -n 1)/modules/discord_desktop_core" &> /dev/null || { echo >&2 "asar location not found. exiting"; exit 1; }
 asar_location="$(pwd)"
 
 if [ ! -f core.asar.backup ]; then
@@ -17,9 +16,8 @@ if [ ! -f core.asar.backup ]; then
 	echo "created core.asar.backup"
 fi
 
-rm -r /tmp/discord_theme &> /dev/null
-
 echo "extracting core.asar.backup"
+rm -r /tmp/discord_theme &> /dev/null
 mkdir /tmp/discord_theme
 asar e core.asar.backup /tmp/discord_theme
 

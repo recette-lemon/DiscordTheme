@@ -13,7 +13,10 @@ It comes with a default css theme and some aditional functions coded in.
 ![ss](https://i.imgur.com/m8s5iSj.png)
 
 ## Installing
-
+* Install Asar package
+  * Universal: `npm install asar` 
+  * Ubuntu: `snap install asar`
+  * Arch/Manjaro: `pacman -S asar`
 * Download the zip or clone the project.
 * Run `install.sh`.
 
@@ -25,7 +28,7 @@ If that doesn't solve it then it might be fixed soon, but just in case it doesn'
 
 ## Update
 
-To update just run the `updater.bat`. If it fails or breaks the theme just re-download the zip.
+To update just run the `updater.sh`. If it fails or breaks the theme just re-download the zip.
 
 ## Features
 
@@ -59,9 +62,9 @@ Some extra options have been added to different context menus.
 
 ### LINE Stickers
 
-* LINE Stickers can be added by using the `get_stickers.bat`.
+* LINE Stickers can be added by using `get_stickers.sh`, with the ids as args. E.g., `get_stickers.sh id id id`.
 * The id is the number in the sticker url.
-* The default platform is iphone ( for better resolution ) so pressing enter selects iphone.
+* The default platform is iphone ( for better resolution ). If that fucks up, use `-a` to get the android version.
 
 ![ss](https://i.imgur.com/hv6wPqz.png)
 

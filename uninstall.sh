@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 echo "starting
 finding asar location"
 cd "$HOME/.config/discord/"

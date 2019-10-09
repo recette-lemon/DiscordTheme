@@ -10,7 +10,7 @@ images/*
 instalation.log
 
 line/*
-!line/get_stickers.bat
+!line/get_stickers.sh
 !line/line.png
 
 code/*
