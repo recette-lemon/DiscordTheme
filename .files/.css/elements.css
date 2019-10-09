@@ -275,8 +275,8 @@ html[rainbow] [class*="chat-"] [class*="markup"]{
 }
 .dt-line-inner{
 	display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
+	align-items: flex-start;
+	justify-content: flex-start;
 	flex-wrap:wrap;
 	width:100%;
 	height:100%;
@@ -308,13 +308,13 @@ html[rainbow] [class*="chat-"] [class*="markup"]{
 	width:100%;
 	height:100%;
 	background-size:contain;
-    background-repeat: no-repeat;
+  background-repeat: no-repeat;
 	background-position: center;
-	transform:scale(1);
+	transform: translateZ(0) scale(1);
 	transition: all 0.1s ease-in-out;
 }
 .dt-line-container .dt-line-sticker:hover .dt-line-sticker-inner{
-	transform:scale(1.1);
+	transform: translateZ(0) scale(1.1);
 }
 .dt-line-container .dt-line-sticker[name]:hover .dt-line-sticker-inner{
 	opacity: 0.2;
