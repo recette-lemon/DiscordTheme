@@ -8,6 +8,7 @@ theme_root="$(pwd)"
 
 echo "finding asar location"
 cd "$HOME/.config/discord/"
+sed "s/{{user}}/$USER/g" "$theme_root/.files/quotes.json" > quotes.json
 cd "$(ls | grep -E ".\..\.." | sort | tail -n 1)/modules/discord_desktop_core" &> /dev/null || { echo >&2 "asar location not found. exiting"; exit 1; }
 asar_location="$(pwd)"
 
