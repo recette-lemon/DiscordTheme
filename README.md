@@ -32,7 +32,7 @@ To update just run the `updater.sh`. If it fails or breaks the theme just re-dow
 
 ## Uninstall
 
-To uninstall just run the `uninstall.sh`. If it fails or breaks the theme just re-download the zip.
+To uninstall just run the `uninstall.sh`.
 
 ## Features
 
