@@ -23,8 +23,8 @@ asar e core.asar.backup /tmp/discord_theme
 
 echo "creating injection.js and deploying payload"
 cd "$theme_root/.files"
-cat injection-original.js | sed "s|{{PATH}}|$theme_root/|" > injection.js
-cat payload-original.js | sed "s|{{FILE}}|$theme_root/.files/injection.js|" >> /tmp/discord_theme/app/mainScreenPreload.js
+sed "s|{{PATH}}|$theme_root/|" injection-original.js > injection.js
+sed "s|{{FILE}}|$theme_root/.files/injection.js|" payload-original.js >> /tmp/discord_theme/app/mainScreenPreload.js
 
 echo "repacking asar"
 rm "$asar_location/core.asar"
