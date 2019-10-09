@@ -53,7 +53,7 @@ Discord.Console = new (function(){
 Discord.File = function(filename){
 	let _this = this;
 	this.root = DT.root;
-	this.filename = filename.indexOf(":")<0 ? this.root+filename : filename;
+	this.filename = filename[0] != "/" ? this.root+filename : filename;
 	this.basename = this.filename.split("/");
 	this.basename = this.basename[this.basename.length-1];
 	this.isDir = false;
