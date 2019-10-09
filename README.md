@@ -1,8 +1,8 @@
 # Discord Theme Linux Version
 
-Fork of Manuel's thing to support linux. Bash replacements for the batch files, and diretory structure fixed for linux.
+Fork of Manuel's thing to support linux. Bash replacements for the batch files, and directory structure fixed for linux.
 
-Tested and seems to be working on Manjaro and Ubuntu.
+Tested and seems to be working on Manjaro and Ubuntu and Arch Linux.
 
 I'll get around to replacing the rest of the batch files in a bit.
 
@@ -14,7 +14,7 @@ It comes with a default css theme and some aditional functions coded in.
 
 ## Installing
 * Install Asar package
-  * Universal: `npm install asar` 
+  * Universal: `npm install asar`
   * Ubuntu: `snap install asar`
   * Arch/Manjaro: `pacman -S asar`
 * Download the zip or clone the project.
@@ -29,6 +29,10 @@ If that doesn't solve it then it might be fixed soon, but just in case it doesn'
 ## Update
 
 To update just run the `updater.sh`. If it fails or breaks the theme just re-download the zip.
+
+## Uninstall
+
+To uninstall just run the `uninstall.sh`. If it fails or breaks the theme just re-download the zip.
 
 ## Features
 
