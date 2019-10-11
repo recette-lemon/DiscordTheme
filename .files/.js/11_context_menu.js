@@ -183,7 +183,7 @@ Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_USER] = [
 		name:"Get Info",
 		color:Discord.ContextMenu.COLOR_ORANGE,
 		fn:function(context){
-			discord.sendMessage(context.channel, {content:"/info <@"+context.user+">"});
+			commands.run("/info <@"+context.user+">", context.channel);
 		}
 	},
 ];
@@ -192,7 +192,7 @@ Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_GUILD] = [
 		name:"Get Info",
 		color:Discord.ContextMenu.COLOR_ORANGE,
 		fn:function(context){
-			discord.sendMessage(context.channel, {content:"/server "+context.guild});
+			commands.run("/server "+context.guild, context.channel);
 		}
 	},
 ];
