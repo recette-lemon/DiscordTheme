@@ -14,6 +14,7 @@ window.addEventListener('keypress', e => {
 		e.stopImmediatePropagation();
 	}
 	t.value = t.defaultValue = t.textContent = t.innerHTML = newValue;
+	t.style.height = "";
 	t._wrapperState.initialValue = newValue;
 	t._valueTracker.setValue(newValue);
 	

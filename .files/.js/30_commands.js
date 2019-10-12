@@ -490,7 +490,14 @@ commands.add("loop", function(channel, name, full, parts){
 	let rq = new Discord.RequestQueue();
 	for(let i=0;i<n;i++){
 		rq.add(function(callback){
-			discord.sendMessage(channel, {content}).then(callback, callback);
+			let data = commands.run(content, channel);
+			if(data) return callback();
+			
+			let newContent = content;
+			if(Discord.Settings.Raw.MessageModifiers.MessageModifiers.Modifiers){
+				newContent = Discord.MessageModifiers.modify(Discord.Settings.Raw.MessageModifiers.MessageModifiers.Modifiers, content);
+			}
+			discord.sendMessage(channel, {content:newContent}).then(callback, callback);
 		});
 	}
 	rq.run();

@@ -45,6 +45,7 @@ Discord.Gateway = new (function(){
 		if(name=="READY" && ready) fn();
 	};
 	this.emit = function(name, data){
+		//console.log(name, data);
 		let l = listeners[name];
 		if(!l) return;
 		l.forEach(function(x){
