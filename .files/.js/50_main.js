@@ -310,57 +310,9 @@ window.XMLHttpRequest = function(){
 			let channel = parts[1];
 			if(typeof data == "string"){
 				let d = JSON.parse(data);
-				let newData = commands.run(d.content, channel);
-				if(newData !== false){
-					if(newData === true){
-						Discord.Nonces.add(d.nonce);
-						xhr.getResponseHeader = function(h){
-							let headers = {
-								"content-type": "application/json"
-							};
-							return headers[h.toLowerCase()];
-						}
-						/*
-						xhr.setProperty("status", 404);
-						xhr.setProperty("readyState", 4);
-						xhr.setProperty("responseText", JSON.stringify({
-							"code": 0,
-							"message": "404: Not Found"
-						}));
-						xhr.onreadystatechange();
-						*/
-						xhr.setProperty("status", 200);
-						xhr.setProperty("readyState", 4);
-						xhr.setProperty("responseText", JSON.stringify({
-							"nonce": d.nonce, 
-							"timestamp": new Date().toISOString(), 
-							"author": {
-								"id": "0",
-								"avatar": "0"
-							},
-							"id": d.nonce,
-							"embeds":[],
-							"mention_roles": [], 
-							"content": "[nonce:"+d.nonce+"]", 
-							"mentions": [], 
-							"type": 0
-						}));
-						xhr.onreadystatechange();
-						return;
-					}else if(newData !== undefined){
-						if(newData.bot){
-							sendBotMessage(xhr, newData.content, d.nonce);
-							return;
-						}else{
-							for(let nd in newData){
-								d[nd] = newData[nd];
-							}
-							data = JSON.stringify(d);
-						}
-					}
-				}else if(Discord.Settings.Raw.MessageModifiers.MessageModifiers.Modifiers){
-					d.content = Discord.MessageModifiers.modify(Discord.Settings.Raw.MessageModifiers.MessageModifiers.Modifiers, d.content);
-					data = JSON.stringify(d);
+				if(d.bot===true){
+					sendBotMessage(xhr, d.content, d.nonce);
+					return;
 				}
 			}
 		}

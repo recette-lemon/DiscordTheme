@@ -2,6 +2,7 @@ Discord.Gateway = new (function(){
 	let _this = this;
 	let instance, ready = false;
 	let listeners = {};
+	let lastPresence = "online";
 	this.setInstance = function(i){
 		instance = i;
 		ready = false;
@@ -19,7 +20,7 @@ Discord.Gateway = new (function(){
 		let o = {
 			op:3,
 			d: {
-				status: "online",
+				status: lastPresence,
 				afk:false,
 				since: 0
 			}
@@ -44,11 +45,17 @@ Discord.Gateway = new (function(){
 		if(name=="READY" && ready) fn();
 	};
 	this.emit = function(name, data){
+		//console.log(name, data);
 		let l = listeners[name];
 		if(!l) return;
 		l.forEach(function(x){
 			x(data);
 		});
 	};
+	
+	this.on("USER_SETTINGS_UPDATE", e => {
+		lastPresence = e.status;
+	});
+	
 });
 

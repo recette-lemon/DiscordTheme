@@ -67,7 +67,7 @@ let commands = new Discord.CommandParser();
 commands.add("help", function(channel, name, full, parts){
 	let c = parts[0];
 	if(c){
-		return {content:commands.help(c), bot:true};
+		return discord.sendMessage(channel, {content:commands.help(c), bot:true});
 	}else{
 		let list = commands.list();
 		let text = "";
@@ -79,7 +79,7 @@ commands.add("help", function(channel, name, full, parts){
 		}
 		let content = "Do ``/help <command>`` to get more information about commands.\n";
 		content += "```\n"+text+"\n```";
-		return {content, bot:true};
+		return discord.sendMessage(channel, {content, bot:true});
 	}
 }, function(){
 	return "Are you retarded?";
@@ -317,7 +317,7 @@ commands.add("8ball", function(channel, name, full, parts){
 	embed.setAuthorName("8Ball");
 	embed.setColor("#000000");
 	embed.addField(full, answers[(Math.random()*answers.length)|0]);
-	return {content:"", embed};
+	return discord.sendMessage(channel, {content:"", embed});
 }, function(){
 	let text = "```\n/8ball <message>\n```\n";
 	text += "How do i 8ball?\n";
@@ -347,7 +347,7 @@ commands.add("fortune", function(channel, name, full, parts){
 	embed.setAuthorName("Fortune");
 	embed.setColor(answer.color);
 	embed.addField(full, answer.name);
-	return {content:"", embed};
+	return discord.sendMessage(channel, {content:"", embed});
 }, function(){
 	let text = "```\n/fortune <message>\n```\n";
 	text += "Have your fortune taken.\n";
@@ -478,7 +478,7 @@ commands.add("roll", function(channel, name, full, parts){
 			}
 		}
 	}
-	return {content:"", embed};
+	return discord.sendMessage(channel, {content:"", embed});
 }, function(){
 	let text = "```\n/roll <message>\n```\n";
 	text += "Time to get those repeating digits.\n";
@@ -490,7 +490,14 @@ commands.add("loop", function(channel, name, full, parts){
 	let rq = new Discord.RequestQueue();
 	for(let i=0;i<n;i++){
 		rq.add(function(callback){
-			discord.sendMessage(channel, {content}).then(callback, callback);
+			let data = commands.run(content, channel);
+			if(data) return callback();
+			
+			let newContent = content;
+			if(Discord.Settings.Raw.MessageModifiers.MessageModifiers.Modifiers){
+				newContent = Discord.MessageModifiers.modify(Discord.Settings.Raw.MessageModifiers.MessageModifiers.Modifiers, content);
+			}
+			discord.sendMessage(channel, {content:newContent}).then(callback, callback);
 		});
 	}
 	rq.run();
@@ -562,7 +569,7 @@ commands.add("eval", function(channel, name, full, parts){
 	embed.setAuthorName("Eval");
 	embed.addField("Code:", "```js\n"+full+"\n```");
 	embed.addField("Result:", "```js\n"+result+"\n```");
-	return {content:"", embed};
+	return discord.sendMessage(channel, {content:"", embed});
 }, function(){
 	let text = "```\n/eval <code>\n```\n";
 	text += "Will evaluate the code and will print the result.\n";
