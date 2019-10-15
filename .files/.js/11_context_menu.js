@@ -123,84 +123,94 @@ Discord.ContextMenu.COLOR_GREEN = "#43b55f";
 Discord.ContextMenu.COLOR_BLUE = "#0096cf";
 Discord.ContextMenu.COLOR_ORANGE = "#faa61a";
 
-/* Auxiliary Functions */
-function downloadFile(context){
-	let r = new Discord.Request();
-	r.downloadFile(context.url);
-}
-function reactWithText(context){
-	Discord.Console.show("/react "+context.message+" ");
-}
-function isImg(context){return context.target.tagName=="IMG";}
-
-/* Auxiliary Objects */
-let reverseImageGoogle = {
-	name:"Reverse Image (Google)",
-	filter:isImg,
-	fn:function(context){
-		window.open("http://www.google.com/searchbyimage?image_url="+encodeURIComponent(context.url));
+(function(){
+	
+	/* Auxiliary Functions */
+	function downloadFile(context){
+		let r = new Discord.Request();
+		r.downloadFile(context.url);
 	}
-};
-let reverseImageIQDB = {
-	name:"Reverse Image (iqdb)",
-	filter:isImg,
-	fn:function(context){
-		window.open("http://www.iqdb.org/?url="+encodeURIComponent(context.url));
+	function reactWithText(context){
+		Discord.Console.show("/react "+context.message+" ");
 	}
-};
-let react = {
-	name:"React With Text",
-	color:Discord.ContextMenu.COLOR_GREEN,
-	fn:reactWithText
-};
+	function isImg(context){return context.target.tagName=="IMG";}
 
-/* Extensions */
-Discord.ContextMenu.Extension = {};
-Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_LINK] = [
-	reverseImageGoogle,
-	reverseImageIQDB,
-	{
-		name:"Save Link As",
-		color:Discord.ContextMenu.COLOR_BLUE,
-		fn:downloadFile
-	},
-];
-Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_ATTACHMENT] = [
-	reverseImageGoogle,
-	reverseImageIQDB,
-	react,
-	{
-		name:"Save Attachment As",
-		color:Discord.ContextMenu.COLOR_BLUE,
-		fn:downloadFile
-	},
-];
-Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_MESSAGE] = [
-	react
-];
-Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_USER] = [
-	{
-		name:"Get Info",
-		color:Discord.ContextMenu.COLOR_ORANGE,
+	/* Auxiliary Objects */
+	let reverseImageGoogle = {
+		name:"Reverse Image (Google)",
+		filter:isImg,
 		fn:function(context){
-			commands.run("/info <@"+context.user+">", context.channel);
+			window.open("http://www.google.com/searchbyimage?image_url="+encodeURIComponent(context.url));
 		}
-	},
-];
-Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_GUILD] = [
-	{
-		name:"Get Info",
-		color:Discord.ContextMenu.COLOR_ORANGE,
+	};
+	let reverseImageIQDB = {
+		name:"Reverse Image (iqdb)",
+		filter:isImg,
 		fn:function(context){
-			commands.run("/server "+context.guild, context.channel);
+			window.open("http://www.iqdb.org/?url="+encodeURIComponent(context.url));
 		}
-	},
-];
+	};
+	let react = {
+		name:"React With Text",
+		color:Discord.ContextMenu.COLOR_GREEN,
+		fn:reactWithText
+	};
+	let clipboard = {
+		name: "Copy Image",
+		color:Discord.ContextMenu.COLOR_BLUE,
+		fn: function(context){
+			let req = new Discord.Request();
+			req.getBuffer(context.url).then(buffer => {
+				let nativeImage = _electron.nativeImage.createFromBuffer(buffer);
+				_electron.clipboard.writeImage(nativeImage, "clipboard");
+			});
+		}
+	};
+
+	/* Extensions */
+	Discord.ContextMenu.Extension = {};
+	Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_LINK] = [
+		reverseImageGoogle,
+		reverseImageIQDB,
+		{
+			name:"Save Link As",
+			color:Discord.ContextMenu.COLOR_BLUE,
+			fn:downloadFile
+		},
+		clipboard
+	];
+	Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_ATTACHMENT] = [
+		reverseImageGoogle,
+		reverseImageIQDB,
+		react,
+		{
+			name:"Save Attachment As",
+			color:Discord.ContextMenu.COLOR_BLUE,
+			fn:downloadFile
+		},
+		clipboard
+	];
+	Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_MESSAGE] = [
+		react
+	];
+	Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_USER] = [
+		{
+			name:"Get Info",
+			color:Discord.ContextMenu.COLOR_ORANGE,
+			fn:function(context){
+				commands.run("/info <@"+context.user+">", context.channel);
+			}
+		},
+	];
+	Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_GUILD] = [
+		{
+			name:"Get Info",
+			color:Discord.ContextMenu.COLOR_ORANGE,
+			fn:function(context){
+				commands.run("/server "+context.guild, context.channel);
+			}
+		},
+	];
 
 
-
-
-
-
-
-
+})();
