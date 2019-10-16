@@ -5,7 +5,7 @@ window.addEventListener('keypress', e => {
 	if(e.key!='Enter') return;
 	if(!t.matches || !t.matches('[class*="channelTextArea-"] [class*="textArea-"]')) return;
 	let data = commands.run(t.value, channel);
-	if(Discord.Settings.Raw.MessageModifiers.MessageModifiers.Modifiers){
+	if(!data && Discord.Settings.Raw.MessageModifiers.MessageModifiers.Modifiers){
 		newValue = Discord.MessageModifiers.modify(Discord.Settings.Raw.MessageModifiers.MessageModifiers.Modifiers, t.value);
 	}else if(!data){
 		return;

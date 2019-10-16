@@ -217,6 +217,17 @@ Discord.Request = function(){
 		});
 	}
 	
+	this.getBuffer = function(url){
+		return new Promise(function(succ, error){
+			let name = url.split("/").pop().split(/(\?|\#)/)[0];
+			_this.open("GET", url);
+			_this.encoding = null;
+			_this.send().then(function(response){
+				succ(response.body);
+			}).catch(error);
+		});
+	}
+	
 	this.getFile = function(url){
 		return new Promise(function(succ, error){
 			let name = url.split("/").pop().split(/(\?|\#)/)[0];
