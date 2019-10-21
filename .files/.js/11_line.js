@@ -48,6 +48,7 @@ Discord.Line = new (function(){
 		stickerInner.className = "dt-line-sticker-inner";
 		sticker.appendChild(stickerInner);
 		let pack = packs[i].list();
+		if(!pack.length) continue;
 		pack[0].readBase64().then(function(b64){
 			stickerInner.style.backgroundImage = "url("+b64+")";
 		});
