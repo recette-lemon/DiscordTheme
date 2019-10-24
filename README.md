@@ -4,8 +4,6 @@ Fork of Manuel's thing to support linux. Bash replacements for the batch files, 
 
 Tested and seems to be working on Manjaro, Ubuntu, and Arch Linux.
 
-I'll get around to replacing the rest of the batch files in a bit.
-
 This theme enables you to set custom css and js to run inside discord.
 
 It comes with a default css theme and some aditional functions coded in.
