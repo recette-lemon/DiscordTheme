@@ -67,7 +67,7 @@ let commands = new Discord.CommandParser();
 commands.add("help", function(channel, name, full, parts){
 	let c = parts[0];
 	if(c){
-		return discord.sendMessage(channel, {content:commands.help(c), bot:true});
+		return commands.help(c);
 	}else{
 		let list = commands.list();
 		let text = "";
@@ -79,7 +79,7 @@ commands.add("help", function(channel, name, full, parts){
 		}
 		let content = "Do ``/help <command>`` to get more information about commands.\n";
 		content += "```\n"+text+"\n```";
-		return discord.sendMessage(channel, {content, bot:true});
+		return content;
 	}
 }, function(){
 	return "Are you retarded?";
