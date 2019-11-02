@@ -18,6 +18,7 @@ window.addEventListener('keypress', e => {
 		e.preventDefault();
 		e.stopImmediatePropagation();
 	}
+	t.blur();
 	t.value = t.defaultValue = t.textContent = t.innerHTML = newValue;
 	t.style.height = "";
 	t._wrapperState.initialValue = newValue;
@@ -37,4 +38,5 @@ window.addEventListener('keypress', e => {
 	let draftStore = JSON.parse(_localStorage.DraftStore);
 	delete draftStore._state[channel];
 	_localStorage.DraftStore = JSON.stringify(draftStore);
+	t.focus();
 }, true);
