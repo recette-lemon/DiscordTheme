@@ -304,13 +304,15 @@ window.XMLHttpRequest = function(){
 	let send = xhr.send;
 	xhr.send = function(data){
 		let parts;
+		
 		/* Message being sent */
 		parts = requestUrl.match(/api\/v.\/channels\/(.+?)\/messages$/);
 		if(parts){
 			let channel = parts[1];
 			if(typeof data == "string"){
 				let d = JSON.parse(data);
-				if(d.bot===true){
+				if(d.content.startsWith("/help")){
+					d.content = commands.run(d.content, channel);
 					sendBotMessage(xhr, d.content, d.nonce);
 					return;
 				}
@@ -327,7 +329,6 @@ window.XMLHttpRequest = function(){
 			}
 		}
 		
-		//if(!Discord.Settings.Raw.General.General.Greentext) return;
 		/* Block Typing */
 		if(!parts){
 			parts = requestUrl.match(/api\/v.\/channels\/(.+?)\/typing$/);

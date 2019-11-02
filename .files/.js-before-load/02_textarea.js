@@ -4,6 +4,11 @@ window.addEventListener('keypress', e => {
 	let channel = discord.getCurrentChannel();
 	if(e.key!='Enter') return;
 	if(!t.matches || !t.matches('[class*="channelTextArea-"] [class*="textArea-"]')) return;
+	
+	// Quick fix for help command
+	// Can't think of a better way right now
+	if(t.value.startsWith("/help")) return;
+		
 	let data = commands.run(t.value, channel);
 	if(!data && Discord.Settings.Raw.MessageModifiers.MessageModifiers.Modifiers){
 		newValue = Discord.MessageModifiers.modify(Discord.Settings.Raw.MessageModifiers.MessageModifiers.Modifiers, t.value);

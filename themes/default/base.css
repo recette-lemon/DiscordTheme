@@ -71,7 +71,9 @@ code{
 	background: var(--trans-primary) !important;
 }
 [class*="popouts-"] > [class*="popout-"],
-html [class*="modal-"] [class*="modal-"]{
+html [class*="modal-"] [class*="modal-"],
+html [class*="container-"][class*="elevationHigh-"],
+html [class*="container-"][class*="invite-"]{
 	background: var(--trans-secondary) !important;
 }
 [class*="members-"],
