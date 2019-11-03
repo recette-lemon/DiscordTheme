@@ -275,6 +275,7 @@ html[rainbow] [class*="chat-"] [class*="markup"]{
 }
 .dt-line-inner{
 	display: flex;
+	align-content: flex-start;
 	align-items: flex-start;
 	justify-content: flex-start;
 	flex-wrap:wrap;
