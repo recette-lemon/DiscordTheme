@@ -70,6 +70,7 @@ Discord.ContextMenu = function(target){
 	for(let i=0;i<extension.length;i++){
 		if(!createItem(extension[i], group))continue;
 	}
+	props.onHeightUpdate();
 	function createItem(e, parent){
 		if(e.filter && !e.filter(context)) return false;
 		let item = document.createElement("div");
