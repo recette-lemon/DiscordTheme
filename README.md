@@ -16,21 +16,24 @@ It comes with a default css theme and some aditional functions coded in.
   * Ubuntu: `snap install asar`
   * Arch/Manjaro: `pacman -S asar`
 * Download the zip or clone the project.
-* Run `install.sh`.
+* Run `chmod +x install.sh`.
+* Run `./install.sh`.
+
+## Update
+
+* Run `chmod +x updater.sh`
+* Run `./updater.sh`
+
+## Uninstall
+
+* Run `chmod +x uninstall.sh`
+* Run `./uninstall.sh`
 
 ## Problems
 
 After a discord update the theme might break. If that happens try installing it again.
 
 If that doesn't solve it then it might be fixed soon, but just in case it doesn't you can always open a pull request.
-
-## Update
-
-To update just run `updater.sh`. If it fails or breaks the theme just re-download the zip.
-
-## Uninstall
-
-To uninstall just run `uninstall.sh`.
 
 ## Features
 
