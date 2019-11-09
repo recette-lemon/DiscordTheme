@@ -188,6 +188,9 @@ Discord.Embed = function(){
 	this.setFooterText = function(text){
 		this.footer.text = text;
 	};
+	this.setFooterIcon = function(url){
+		this.footer.icon_url = url;
+	};
 }
 Discord.Emoji = new (function(){
 	this.arrow_forward = emoji("▶");
