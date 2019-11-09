@@ -320,64 +320,11 @@ Discord.Search = function(type){
 	let _this = this;
 	let channel, message, search;
 	let elements, index=0;
-	let types = {
-		gi:{
-			name:"Google Images",
-			icon:"https://i.imgur.com/JHeQgVA.png",
-			color:"#4885ed",
-			init: function(search){
-				return new Promise(function(succ){
-					getRaw("https://www.google.pt/search?espv=2&biw=1366&bih=667&site=webhp&source=lnms&tbm=isch&sa=X&ei=XosDVaCXD8TasATItgE&ved=0CAcQ_AUoAg&q="+search).then(function(doc){
-						elements = doc.match(/>{.+?}</g);
-						succ();
-					});
-				});
-			},
-			get: function(index){
-				return new Promise(function(succ){
-					let e = elements[index];
-					e = JSON.parse(e.substring(1, e.length-1));
-					succ(e.ou);
-				});
-			}
-		},
-		sankaku:{
-			name:"Sankaku",
-			icon:"https://www.sankakucomplex.com/wp-content/uploads/2017/12/favicon.png",
-			color:"#ff761c",
-			init: function(search){
-				return new Promise(function(succ){
-					search = search.trim().replace(/\s+/, "+");
-					getDocument("https://chan.sankakucomplex.com?tags="+search).then(function(doc){
-						let first = doc.querySelector("#popular-preview");
-						if(first!=null)
-							first.parentNode.removeChild(first);
-						elements = doc.querySelectorAll(".thumb");
-						succ();
-					});
-				});
-			},
-			get: function(index){
-				return new Promise(function(succ){
-					getDocument("https://chan.sankakucomplex.com/post/show/"+elements[index].id.substring(1)).then(function(doc){
-						let i = doc.querySelector("#non-image-content");
-						let newurl="";
-						if(i==null){
-							let link = doc.querySelector("#image-link");
-							if(link!=null)
-								newurl = link.getAttribute("href");
-							if(newurl == null)
-								newurl = doc.querySelector("#image").getAttribute("src");
-						}else{
-							newurl = i.querySelector("embed").getAttribute("src");
-						}
-						succ("https:"+newurl);
-					});
-				});
-			}
-		}
-	};
+	let types = Discord.Search.types;
 	
+	this.addType = function(name, type){
+		types[name] = type;
+	}
 	this.list = function(){
 		let list = [];
 		for(let i in types){
@@ -385,13 +332,13 @@ Discord.Search = function(type){
 		}
 		return list;
 	}
-	
 	this.search = function(_search, _channel){
 		search = _search;
 		channel = _channel;
 		return new Promise(function(succ){
 			type = types[type]?types[type]:types["gi"];
-			type.init(search).then(function(){
+			type.init(search).then(function(_elements){
+				elements = _elements;
 				getEmbed(index).then(function(embed){
 					discord.sendMessage(channel, {content:"", embed}).then(function(_message){
 						Discord.ReactionMessages.add(message = _message.id, _this);
@@ -408,7 +355,6 @@ Discord.Search = function(type){
 			});
 		});
 	}
-	
 	this.react = function(reaction){
 		let ret = false;
 		let i = index;
@@ -427,41 +373,100 @@ Discord.Search = function(type){
 		}
 		return ret;
 	}
-	
 	function getEmbed(index){
 		return new Promise(function(succ){
-			type.get(index).then(function(url){
+			type.get(elements, index).then(function(url){
 				let embed = new Discord.Embed();
 				embed.setAuthorIcon(type.icon);
 				embed.setAuthorName(type.name);
 				embed.setColor(type.color);
-				embed.addField("Search:", search);
+				embed.addField("Search:", search, true);
 				embed.setImage(url);
 				embed.setFooterText((index+1)+"/"+elements.length);
+				if(type.embed)
+					type.embed(embed, elements[index]);
 				succ(embed);
 			});
 		});
 	}
-	function getDocument(url){
-		return new Promise(function(succ){
-			let request = new Discord.Request();
-			request.open("GET", url);
-			request.setHeader("User-Agent", Discord.UserAgent);
-			request.send().then(function(response){
-				let doc = new DOMParser().parseFromString(response.body, "text/html");
-				succ(doc);
-			});
-		});
-	}
-	function getRaw(url){
-		return new Promise(function(succ){
-			let request = new Discord.Request();
-			request.open("GET", url);
-			request.setHeader("User-Agent", Discord.UserAgent);
-			request.send().then(function(response){succ(response.body)});
-		});
-	}
 }
+Discord.Search.types = {
+	gi:{
+		name:"Google Images",
+		icon:"https://i.imgur.com/JHeQgVA.png",
+		color:"#4885ed",
+		init: function(search){
+			return new Promise(function(succ){
+				Discord.Search.getRaw("https://www.google.pt/search?espv=2&biw=1366&bih=667&site=webhp&source=lnms&tbm=isch&sa=X&ei=XosDVaCXD8TasATItgE&ved=0CAcQ_AUoAg&q="+search).then(function(doc){
+					let elements = doc.match(/>{.+?}</g);
+					succ(elements);
+				});
+			});
+		},
+		get: function(elements, index){
+			return new Promise(function(succ){
+				let e = elements[index];
+				e = JSON.parse(e.substring(1, e.length-1));
+				succ(e.ou);
+			});
+		}
+	},
+	sankaku:{
+		name:"Sankaku",
+		icon:"https://www.sankakucomplex.com/wp-content/uploads/2017/12/favicon.png",
+		color:"#ff761c",
+		init: function(search){
+			return new Promise(function(succ){
+				search = search.trim().replace(/\s+/, "+");
+				Discord.Search.getDocument("https://chan.sankakucomplex.com?tags="+search).then(function(doc){
+					let first = doc.querySelector("#popular-preview");
+					if(first!=null)
+						first.parentNode.removeChild(first);
+					let elements = doc.querySelectorAll(".thumb");
+					succ(elements);
+				});
+			});
+		},
+		get: function(elements, index){
+			return new Promise(function(succ){
+				Discord.Search.getDocument("https://chan.sankakucomplex.com/post/show/"+elements[index].id.substring(1)).then(function(doc){
+					let i = doc.querySelector("#non-image-content");
+					let newurl="";
+					if(i==null){
+						let link = doc.querySelector("#image-link");
+						if(link!=null)
+							newurl = link.getAttribute("href");
+						if(newurl == null)
+							newurl = doc.querySelector("#image").getAttribute("src");
+					}else{
+						newurl = i.querySelector("embed").getAttribute("src");
+					}
+					succ("https:"+newurl);
+				});
+			});
+		}
+	}
+};
+Discord.Search.getDocument = function(url){
+	return new Promise(function(succ){
+		let request = new Discord.Request();
+		request.open("GET", url);
+		request.setHeader("User-Agent", Discord.UserAgent);
+		request.send().then(function(response){
+			let doc = new DOMParser().parseFromString(response.body, "text/html");
+			succ(doc);
+		});
+	});
+};
+Discord.Search.getRaw = function(url){
+	return new Promise(function(succ){
+		let request = new Discord.Request();
+		request.open("GET", url);
+		request.setHeader("User-Agent", Discord.UserAgent);
+		request.send().then(function(response){succ(response.body)});
+	});
+};
+
 Discord.Translator = new (function(){
 	let url = "https://translate.google.com/m";
 	
