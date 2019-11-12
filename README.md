@@ -10,24 +10,21 @@ It comes with a default css theme and some aditional functions coded in.
 
 ![ss](https://i.imgur.com/m8s5iSj.png)
 
-## Installing
+## Install
 * Install Asar package
   * Universal: `npm install asar`
   * Ubuntu: `snap install asar`
   * Arch/Manjaro: `pacman -S asar`
 * Download the zip or clone the project.
-* Run `chmod +x install.sh`.
-* Run `./install.sh`.
+* Run `chmod +x install.sh && ./install.sh`.
 
 ## Update
 
-* Run `chmod +x updater.sh`
-* Run `./updater.sh`
+* Run `chmod +x updater.sh && ./updater.sh`
 
 ## Uninstall
 
-* Run `chmod +x uninstall.sh`
-* Run `./uninstall.sh`
+* Run `chmod +x uninstall.sh && ./uninstall.sh`
 
 ## Problems
 
