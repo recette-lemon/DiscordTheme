@@ -10,7 +10,7 @@ if(!/overlay/.test(location.pathname)){
 		root: "{{PATH}}"
 	};
 
-	let base = DT.root+"themes/default";
+	let base = DT.root+"themes/Default";
 	let css = DT.root+".files/.css";
 
 	// Inject CSS
