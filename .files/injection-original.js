@@ -10,7 +10,7 @@ if(!/overlay/.test(location.pathname)){
 		root: "{{PATH}}"
 	};
 
-	let base = DT.root+"themes/Default/base.css";
+	let base = DT.root+"themes/Default/";
 	let css = DT.root+".files/.css";
 
 	// Inject CSS
@@ -46,7 +46,7 @@ if(!/overlay/.test(location.pathname)){
 		}
 
 		if(files.indexOf("base.css")<0){
-			files.unshift("base.css");
+			window.applyAndWatchCSS(base);
 		}
 
 		window._styleTag[path] = {};
@@ -57,16 +57,17 @@ if(!/overlay/.test(location.pathname)){
 			}
 		}
 		if(window._fileWatcher[path] === undefined) {
-		window._fileWatcher[path] = window._fs.watch(path, { encoding: "utf-8" },
-			function(eventType, filename) {
-				if (!filename.endsWith(".css")) return;
-				path = window._path.join(dirname, filename);
-				if (eventType === "rename" && !window._fs.existsSync(path)) {
-					window.clearCSS(_path, filename);
-				} else {
-					window.applyCSS(window._path.join(dirname, filename), _path, filename);
+			window._fileWatcher[path] = window._fs.watch(path, { encoding: "utf-8" },
+				function(eventType, filename) {
+					if (!filename.endsWith(".css")) return;
+					path = window._path.join(dirname, filename);
+					if (eventType === "rename" && !window._fs.existsSync(path)) {
+						window.clearCSS(_path, filename);
+					} else {
+						window.applyCSS(window._path.join(dirname, filename), _path, filename);
+					}
 				}
-			});
+			);
 		}
 	};
 	window.tearDownCSS = function(path) {
