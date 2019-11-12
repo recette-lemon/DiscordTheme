@@ -10,7 +10,7 @@ if(!/overlay/.test(location.pathname)){
 		root: "{{PATH}}"
 	};
 
-	let base = DT.root+"themes/Default/";
+	let base = DT.root+"themes/default";
 	let css = DT.root+".files/.css";
 
 	// Inject CSS
@@ -46,6 +46,7 @@ if(!/overlay/.test(location.pathname)){
 		}
 
 		if(files.indexOf("base.css")<0){
+			console.log(files);
 			window.applyAndWatchCSS(base);
 		}
 
@@ -61,6 +62,7 @@ if(!/overlay/.test(location.pathname)){
 				function(eventType, filename) {
 					if (!filename.endsWith(".css")) return;
 					path = window._path.join(dirname, filename);
+					console.log("PATH", path);
 					if (eventType === "rename" && !window._fs.existsSync(path)) {
 						window.clearCSS(_path, filename);
 					} else {
