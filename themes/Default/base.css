@@ -82,7 +82,9 @@ html [class*="container-"][class*="invite-"]{
 [class*="searchResultsWrap-"],
 [href^="/channels/@me"] > [class*="childWrapper-"],
 html [class*="app-"] > [style="opacity: 1;"],
-[class*="topSectionNormal-"]{
+[class*="topSectionNormal-"],
+[class*="emojiPicker-"],
+[class*="stickyHeader-"]{
 	background: var(--trans-main)!important;
 }
 html [class*="embedFull-"]{
