@@ -167,6 +167,9 @@ Discord.Embed = function(){
 		if(hex.length==3) hex = hex.replace(/(.)/g, "$1$1");
 		this.color = parseInt(hex, 16);
 	}
+	this.setDiscordColor = function(){
+		this.setColor("#7289DA");
+	}
 	this.setColor("#ffffff");
 	
 	this.setAuthorIcon = function(url){

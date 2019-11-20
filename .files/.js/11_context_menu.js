@@ -24,16 +24,18 @@ Discord.ContextMenu = function(target){
 		case "MESSAGE_MAIN":{
 			if(props.attachment){
 				context.type = Discord.ContextMenu.TYPE_ATTACHMENT;
-				context.channel = props.channel.id;
-				context.message = props.message.id;
 				context.url = props.attachment.url;
-				context.target = props.target;
 			}else{
 				context.type = Discord.ContextMenu.TYPE_MESSAGE;
-				context.channel = props.channel.id;
-				context.message = props.message.id;
-				context.target = props.target;
 			}
+			context.guild = props.channel.guild_id;
+			context.channel = props.channel.id;
+			context.message = props.message.id;
+			context.content = props.message.content;
+			context.target = props.target;
+			context.user = props.message.author.id;
+			
+			context._user = props.message.author;
 			break;
 		}
 		case "GUILD_ICON_BAR":{
@@ -95,10 +97,14 @@ Discord.ContextMenu = function(target){
 			});
 		}else{
 			item.onclick = function(){
-				target.style.display="none";
+				// Click makes context menu disappear
+				document.body.click();
+				e.fn(context);
+				/* Don't remember why I used timeout
 				setTimeout(function(){
 					e.fn(context);
-				}, 15);
+				}, 1000);
+				*/
 			};
 		}
 		let span = document.createElement("span");
@@ -167,6 +173,26 @@ Discord.ContextMenu.COLOR_ORANGE = "#faa61a";
 			});
 		}
 	};
+	let quote = {
+		name: "Quote",
+		color:Discord.ContextMenu.COLOR_ORANGE,
+		fn: function(context){
+			let ids = [context.guild, context.channel, context.message].join('/');
+			let url = "https://discordapp.com/channels/"+ids;
+			
+			let icon = discord.getUserIcon(context.user, context._user.avatar, 128);
+			let embed = new Discord.Embed();
+			embed.setAuthorName(context._user.username);
+			embed.setAuthorIcon(icon);
+			embed.setDiscordColor();
+			embed.addField("Link", `[${context.message}](${url})`);
+			if(context.content)
+				embed.addField("Message", context.content);
+			if(context.url)
+				embed.setImage(context.url);
+			discord.sendMessage(context.channel, {content:"", embed});
+		}
+	};
 
 	/* Extensions */
 	Discord.ContextMenu.Extension = {};
@@ -183,6 +209,7 @@ Discord.ContextMenu.COLOR_ORANGE = "#faa61a";
 	Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_ATTACHMENT] = [
 		reverseImageGoogle,
 		reverseImageIQDB,
+		quote,
 		react,
 		{
 			name:"Save Attachment As",
@@ -192,7 +219,8 @@ Discord.ContextMenu.COLOR_ORANGE = "#faa61a";
 		clipboard
 	];
 	Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_MESSAGE] = [
-		react
+		react,
+		quote
 	];
 	Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_USER] = [
 		{
