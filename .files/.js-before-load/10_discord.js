@@ -34,9 +34,9 @@ window.Discord = function(){
 			}, err);
 		});
 	}
-	this.getUserIcon = function(user_id, avatar, size){
+	this.getUserIcon = function(user_id, avatar, size, ext){
 		if(!avatar) return "";
-		let ext = "jpg";
+		if(!ext) ext = "jpg";
 		if(size){
 			size = "?size="+size;
 			ext = "png";

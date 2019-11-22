@@ -180,12 +180,13 @@ Discord.ContextMenu.COLOR_ORANGE = "#faa61a";
 			let ids = [context.guild, context.channel, context.message].join('/');
 			let url = "https://discordapp.com/channels/"+ids;
 			
-			let icon = discord.getUserIcon(context.user, context._user.avatar, 128);
+			let icon = discord.getUserIcon(context.user, context._user.avatar, 128, "webp");
 			let embed = new Discord.Embed();
 			embed.setAuthorName(context._user.username);
 			embed.setAuthorIcon(icon);
 			embed.setDiscordColor();
-			embed.addField("Link", `[${context.message}](${url})`);
+			embed.addField("Mention", `<@${context.user}>`, true);
+			embed.addField("Link", `[Go to Message](${url})`, true);
 			if(context.content)
 				embed.addField("Message", context.content);
 			if(context.url)
