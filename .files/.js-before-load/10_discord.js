@@ -36,16 +36,16 @@ window.Discord = function(){
 	}
 	this.getUserIcon = function(user_id, avatar, size, ext){
 		if(!avatar) return "";
-		if(!ext) ext = "jpg";
 		if(size){
 			size = "?size="+size;
-			ext = "png";
+			if(!ext) ext = "png";
 		} else {
 			size = "";
 		}
 		if(avatar.startsWith("a_")){
 			ext = "gif";
 		}
+		if(!ext) ext = "jpg";
 		return "https://cdn.discordapp.com/avatars/"+user_id+"/"+avatar+"."+ext+size;
 	}
 	this.getGuildIcon = function(guild_id, guild_icon, size){
