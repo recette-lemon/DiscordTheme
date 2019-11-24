@@ -12,5 +12,7 @@ instalation.log
 line/*
 !line/get_stickers.sh
 !line/line.png
+!line/pngdefry
+!line/pngfix
 
 code/*
