@@ -34,18 +34,18 @@ window.Discord = function(){
 			}, err);
 		});
 	}
-	this.getUserIcon = function(user_id, avatar, size){
+	this.getUserIcon = function(user_id, avatar, size, ext){
 		if(!avatar) return "";
-		let ext = "jpg";
 		if(size){
 			size = "?size="+size;
-			ext = "png";
+			if(!ext) ext = "png";
 		} else {
 			size = "";
 		}
 		if(avatar.startsWith("a_")){
 			ext = "gif";
 		}
+		if(!ext) ext = "jpg";
 		return "https://cdn.discordapp.com/avatars/"+user_id+"/"+avatar+"."+ext+size;
 	}
 	this.getGuildIcon = function(guild_id, guild_icon, size){
@@ -166,6 +166,9 @@ Discord.Embed = function(){
 		hex = hex.substring(1);
 		if(hex.length==3) hex = hex.replace(/(.)/g, "$1$1");
 		this.color = parseInt(hex, 16);
+	}
+	this.setDiscordColor = function(){
+		this.setColor("#7289DA");
 	}
 	this.setColor("#ffffff");
 	

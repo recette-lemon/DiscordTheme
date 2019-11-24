@@ -297,9 +297,6 @@ html[rainbow] [class*="chat-"] [class*="markup"]{
 	width:25%;
 	cursor:pointer;
 }
-.dt-line-container .dt-line-sticker[name]{
-	overflow:hidden;
-}
 .dt-line-container .dt-line-sticker:hover{
 	z-index:1;
 }
@@ -311,11 +308,9 @@ html[rainbow] [class*="chat-"] [class*="markup"]{
 	background-size:contain;
   background-repeat: no-repeat;
 	background-position: center;
-	transform: translateZ(0) scale(1);
-	transition: all 0.1s ease-in-out;
 }
-.dt-line-container .dt-line-sticker:hover .dt-line-sticker-inner{
-	transform: translateZ(0) scale(1.1);
+.dt-line-container .dt-line-sticker:not([name]):hover .dt-line-sticker-inner{
+	filter: drop-shadow(0 0 10px white);
 }
 .dt-line-container .dt-line-sticker[name]:hover .dt-line-sticker-inner{
 	opacity: 0.2;
