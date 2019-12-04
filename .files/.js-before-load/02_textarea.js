@@ -8,12 +8,12 @@ window.addEventListener('keypress', e => {
 	
 	// Quick fix for help command
 	// Can't think of a better way right now
-	if(t.value.startsWith("/help")) return;
+	if(t.textContent.startsWith("/help")) return;
 	
 	// Trying to run command
-	let data = commands.run(t.value, channel);
+	let data = commands.run(t.textContent, channel);
 	if(!data && Discord.Settings.Raw.MessageModifiers.MessageModifiers.Modifiers){ // Not a command AND message modifiers are active
-		newValue = Discord.MessageModifiers.modify(Discord.Settings.Raw.MessageModifiers.MessageModifiers.Modifiers, t.value);
+		newValue = Discord.MessageModifiers.modify(Discord.Settings.Raw.MessageModifiers.MessageModifiers.Modifiers, t.textContent);
 	}else if(!data){ // Not a command
 		return; // Return since there's no need to do anything
 	}else{ // Is a command
