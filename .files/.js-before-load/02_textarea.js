@@ -1,4 +1,4 @@
-window.addEventListener('keypress', e => {
+window.addEventListener('keydown', e => {
 	let newValue = "";
 	let t = e.target;
 	let channel = discord.getCurrentChannel();
