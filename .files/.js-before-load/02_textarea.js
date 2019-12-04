@@ -3,7 +3,7 @@ window.addEventListener('keydown', e => {
 	let t = e.target;
 	let channel = discord.getCurrentChannel();
 	if(e.key!='Enter') return;
-	if(!t.matches || !t.matches('[class*="channelTextArea-"] [class*="textArea-"]')) return;
+	if(!t.matches || !t.matches('[class*="channelTextArea-"] [class*="textArea-"], [class*="channelTextArea-"] [class*="slateTextArea-"]')) return;
 	let channelTextArea = t.closest('[class*="channelTextArea-"]');
 	
 	// Quick fix for help command
