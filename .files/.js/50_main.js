@@ -97,7 +97,6 @@ function fixImageUpload(um){
 	}
 }
 function fixTextArea(textarea){
-	console.log(textarea.innerHTML);
 	let inner = textarea.children[0];
 	let t = textarea.querySelector('[class*="textArea-"]');
 	Discord.Line.appendTo(t.nextElementSibling);
@@ -109,14 +108,14 @@ function fixTextArea(textarea){
 			inner.setAttribute("count", length);
 	}
 	t.addEventListener("input", function(e){
-		setLength(t.value.length);
+		setLength(t.textContent.length);
 	});
 	t.addEventListener("keydown", function(e){
 		if(e.altKey || e.ctrlKey || e.shiftKey) return;
 		if(e.key == "Enter")
 			setLength();
 	});
-	setLength(t.value.length);
+	setLength(t.textContent.length);
 }
 function fixModal(target){
 	let img = target.querySelector("img");
