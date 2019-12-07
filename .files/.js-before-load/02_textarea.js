@@ -1,9 +1,9 @@
-window.addEventListener('keypress', e => {
+window.addEventListener('keydown', e => {
 	let newValue = "";
 	let t = e.target;
 	let channel = discord.getCurrentChannel();
 	if(e.key!='Enter') return;
-	if(!t.matches || !t.matches('[class*="channelTextArea-"] [class*="textArea-"]')) return;
+	if(!t.matches || !t.matches('[class*="channelTextArea-"] [class*="textArea-"], [class*="channelTextArea-"] [class*="slateTextArea-"]')) return;
 	let channelTextArea = t.closest('[class*="channelTextArea-"]');
 	
 	// Quick fix for help command
@@ -21,29 +21,6 @@ window.addEventListener('keypress', e => {
 		e.stopImmediatePropagation();
 	}
 	
-	// The rest of this code removes any reference to the current text message
-	// on variables hidden throughout the DOM and on the localStorage
-	
-	t.blur(); // Blur textarea beforehand because discord resets message on blur
-	t.value = t.defaultValue = t.textContent = t.innerHTML = newValue;
-	t.style.height = "";
-	t._wrapperState.initialValue = newValue;
-	t._valueTracker.setValue(newValue);
-	
-	react = t.getReact();
-	react.memoizedProps.value = react.pendingProps.value = newValue;
-	
-	let parent = t.closest('[class*="channelTextArea-"]');
-	react = parent.getReact();
-	react.memoizedProps.value = react.memoizedState.prefix = react.stateNode.state.prefix = newValue;
-	
-	let form = t.closest("form");
-	react = form.getReact();
-	react.memoizedState.textValue = react.stateNode.state.textValue = newValue;
-	
-	let draftStore = JSON.parse(_localStorage.DraftStore);
-	delete draftStore._state[channel];
-	_localStorage.DraftStore = JSON.stringify(draftStore);
-	t.focus(); // Focus textarea so user doesn't lose control 
-	
+	document.execCommand("selectAll");
+	document.execCommand("delete");
 }, true);

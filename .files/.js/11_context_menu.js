@@ -14,6 +14,7 @@ Discord.ContextMenu = function(target){
 		message:null,
 		url:null
 	};
+	
 	switch(props.type){
 		case "NATIVE_IMAGE":{
 			context.type = Discord.ContextMenu.TYPE_LINK;
