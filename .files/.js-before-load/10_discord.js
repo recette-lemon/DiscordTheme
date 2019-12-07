@@ -56,6 +56,9 @@ window.Discord = function(){
 		} else {
 			size = "";
 		}
+		if(guild_icon.startsWith("a_")){
+			ext = "gif";
+		}
 		return "https://cdn.discordapp.com/icons/"+guild_id+"/"+guild_icon+"."+ext+size;
 	}
 	this.getCurrentChannel = function(){
