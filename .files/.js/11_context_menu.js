@@ -3,7 +3,8 @@ Discord.ContextMenu = function(target){
 		return false;
 	target = target.children[0];
 	let react = target.getReact();
-	if(!react.memoizedProps.type) react = react.return;
+	if(react.child.child.memoizedProps.type) react = react.child.child;
+	else if(react.return.memoizedProps.type) react = react.return;
 	let props = react.memoizedProps;
 	let type = null;
 	let context = {
