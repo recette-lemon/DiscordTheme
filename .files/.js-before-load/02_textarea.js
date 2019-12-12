@@ -7,7 +7,7 @@ window.addEventListener('keydown', e => {
 	
 	let channelTextArea = t.closest('[class*="channelTextArea-"]');
 	let inner = channelTextArea.children[0];
-	if(inner.querySelector('[class*="autocomplete-"]')) return;
+	if(channelTextArea.querySelector('[class*="autocomplete-"]')) return;
 	
 	document.execCommand("selectAll");
 	let textValue = window.getSelection().toString();
