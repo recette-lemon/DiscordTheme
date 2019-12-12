@@ -214,7 +214,7 @@ window.addEventListener("click", function(e){
 	});
 	
 	document.waitFor("#app-mount > [data-no-focus-lock]").then(zLayersParent => {
-		let contextMenuParent = zLayersParent.children[2];
+		let contextMenuParent = zLayersParent.querySelector('[class*="layerContainer-"]');
 		contextMenuParent.onMutation('addedNodes', e => {
 			Discord.ContextMenu(e);
 		});
