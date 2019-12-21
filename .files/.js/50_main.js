@@ -107,10 +107,11 @@ function fixTextArea(textarea){
 		else
 			inner.setAttribute("count", length);
 	}
-	t.addEventListener("input", function(e){
+	t.addEventListener("keydown", function(e){
 		let innerReact = inner.getReact();
 		let innerProps = innerReact.memoizedProps;
-		let realText = innerProps.preprocessInsertedText(innerProps.textValue);
+		//let realText = innerProps.preprocessInsertedText(innerProps.textValue);
+		let realText = innerProps.textValue;
 		setLength(realText.length);
 	});
 	t.addEventListener("keypress", function(e){

@@ -15,7 +15,9 @@ window.addEventListener('keydown', e => {
 	
 	let innerReact = inner.getReact();
 	let innerProps = innerReact.memoizedProps;
-	let message = innerProps.preprocessInsertedText(textValue);
+	
+	//let message = innerProps.preprocessInsertedText(textValue);
+	let message = textValue;
 	
 	// Quick fix for help command
 	// Can't think of a better way right now
