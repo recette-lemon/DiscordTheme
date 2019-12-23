@@ -107,10 +107,14 @@ function fixTextArea(textarea){
 		else
 			inner.setAttribute("count", length);
 	}
-	t.addEventListener("input", function(e){
-		setLength(t.textContent.length);
-	});
 	t.addEventListener("keydown", function(e){
+		let innerReact = inner.getReact();
+		let innerProps = innerReact.memoizedProps;
+		//let realText = innerProps.preprocessInsertedText(innerProps.textValue);
+		let realText = innerProps.textValue;
+		setLength(realText.length);
+	});
+	t.addEventListener("keypress", function(e){
 		if(e.altKey || e.ctrlKey || e.shiftKey) return;
 		if(e.key == "Enter")
 			setLength();
@@ -211,7 +215,7 @@ window.addEventListener("click", function(e){
 	});
 	
 	document.waitFor("#app-mount > [data-no-focus-lock]").then(zLayersParent => {
-		let contextMenuParent = zLayersParent.children[2];
+		let contextMenuParent = zLayersParent.querySelector('[class*="layerContainer-"]');
 		contextMenuParent.onMutation('addedNodes', e => {
 			Discord.ContextMenu(e);
 		});
