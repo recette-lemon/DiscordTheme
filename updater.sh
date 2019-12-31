@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 echo "
+
+#quit if something fails
+set -e
+
 echo 'downloading zip archive'
 wget -P /tmp/ 'https://github.com/recette-lemon/DiscordTheme/archive/master.zip' &> /dev/null
 
