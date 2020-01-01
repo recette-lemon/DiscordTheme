@@ -1,8 +1,4 @@
 #!/usr/bin/env bash
-
-#quit if something fails
-set -e
-
 if [ ! -x "$(command -v asar)" ]; then
 	echo >&2 "asar not installed."
 	exit 1

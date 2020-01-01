@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
-
-#quit if something fails
-set -e
-
-echo "finding asar location"
+echo "starting
+finding asar location"
 cd "$HOME/.config/discord/" &> /dev/null || cd "$HOME"/snap/discord/??/.config/discord
 cd "$(ls | grep -E ".\..\.." | sort | tail -n 1)/modules/discord_desktop_core" &> /dev/null || { echo >&2 "asar location not found. exiting"; exit 1; }
 
