@@ -97,9 +97,13 @@ function fixImageUpload(um){
 	}
 }
 function fixTextArea(textarea){
+	
 	let inner = textarea.children[0];
 	let t = textarea.querySelector('[class*="textArea-"]');
 	Discord.Line.appendTo(t.nextElementSibling);
+	
+	// Doesn't work
+	return;
 	function setLength(length){
 		if(!Discord.Settings.Raw.General.General.CharacterCount) return;
 		if(!length)
