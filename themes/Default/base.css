@@ -86,12 +86,16 @@ html [class*="app-"] > [style="opacity: 1;"],
 [class*="topSectionNormal-"],
 [class*="emojiPicker-"],
 [class*="stickyHeader-"],
-[id*="popout_"] [class*="container-"][role="menu"]{
+[id*="popout_"] [class*="container-"][role="menu"],
+[class*="message-"] [class*="container-"][class*="buttons-"] [class*="wrapper-"]{
 	background: var(--trans-main)!important;
 }
 html [class*="embedFull-"]{
 	background-color: var(--trans-clear);
   border-color: var(--trans-main);
+}
+[class*="message-"][class*="mentioned-"]{
+	background: #faa61a22 !important;
 }
 
 /* PADDINGS/MARGINS */
@@ -101,7 +105,12 @@ html [class*="embedFull-"]{
 [class*='channelTextArea-'] textarea{
 	padding-right: 20px !important;
 }
-
+[class*="channelTextArea-"] [class*="buttons-"]{
+	margin-right: 0px;
+}
+[class*="chatContent-"] > [class*="form-"]{
+	margin-top: 0;
+}
 
 /* BORDERS */
 [class*="sidebar-"],
@@ -126,7 +135,18 @@ html [class*="embedFull-"]{
 [class*="embedDescription-"]{
 	margin-bottom: 4px;
 }
-
+[class*="markup-"] {
+  line-height: 1.2em;
+}
+[class*="groupStart-"] [class*="markup-"],
+[class*="groupStart-"] [class*="headerCozy-"]{
+	transform: translateY(0.2em);
+}
+[class*="timestampCozyAlt-"]{
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}
 
 /* SCROLLBAR */
 ::-webkit-scrollbar{
@@ -151,11 +171,12 @@ html [class*="embedFull-"]{
 #theme-menu,
 .theme-dark,
 [class*="layer-"],
-[class*="container-"]:not([class*="isMentioned-"]),
+[class*="container-"]:not([class*="mentioned-"]),
 [class*="option-"]::after,
 [class*="channelSeparator-"] [class*="channelName-"],
 [class*="searchHeader-"],
 [class*="video-"],
+[class*="panels-"],
 [class*="modal-"] [class*="footer-"]{
 	background: none !important;
 }
