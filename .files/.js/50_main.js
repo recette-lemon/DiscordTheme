@@ -97,7 +97,6 @@ function fixImageUpload(um){
 	}
 }
 function fixTextArea(textarea){
-	
 	let inner = textarea.children[0];
 	let t = textarea.querySelector('[class*="textArea-"]');
 	Discord.Line.appendTo(t.nextElementSibling);
