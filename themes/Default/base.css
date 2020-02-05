@@ -139,13 +139,17 @@ html [class*="embedFull-"]{
   line-height: 1.2em;
 }
 [class*="groupStart-"] [class*="markup-"],
+[class*="groupStart-"] [class*="markup-"] + [class*="container-"],
 [class*="groupStart-"] [class*="headerCozy-"]{
-	transform: translateY(0.2em);
+	/*transform: translateY(0.2em);*/
 }
 [class*="timestampCozyAlt-"]{
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
+}
+[class*="message-"] > [class*="container-"]{
+	min-height: 1.2em !important;
 }
 
 /* SCROLLBAR */
