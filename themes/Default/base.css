@@ -22,6 +22,7 @@ body::before{
 	--background-primary: transparent;
 	--background-secondary: transparent;
 	--background-tertiary: transparent;
+	--background-message-hover: transparent;
 
 	--deprecated-panel-background: transparent;
 	--channeltextarea-background: rgba(255,255,255,0.15);
@@ -138,6 +139,9 @@ html [class*="embedFull-"]{
 [class*="markup-"] {
   line-height: 1.2em;
 }
+[class*="markup-"] code.inline{
+	line-height: 1.9em;
+}
 [class*="groupStart-"] [class*="markup-"],
 [class*="groupStart-"] [class*="markup-"] + [class*="container-"],
 [class*="groupStart-"] [class*="headerCozy-"]{
@@ -151,6 +155,7 @@ html [class*="embedFull-"]{
 [class*="message-"] > [class*="container-"]{
 	min-height: 1.2em !important;
 }
+
 
 /* SCROLLBAR */
 ::-webkit-scrollbar{
