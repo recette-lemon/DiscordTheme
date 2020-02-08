@@ -1,5 +1,5 @@
 let messageGroupClass = "[class*='containerCozy-'][class*='container-'], [class*='containerCompact-'][class*='container-']";
-let messageClass = "[class*='contentCozy-'][class*='content'], [class*='contentCompact-'][class*='content']";
+let messageClass = "[class*='message-']";
 let reactionClass = "[class*='reaction-'][class*='reactionMe-']";
 
 /* Auxiliary Functions */
@@ -8,52 +8,6 @@ function reverseEach(obj, fn){
 	for (let key in obj) {keys.unshift(key);}
 	for (let i=0;i<keys.length;i++) {
 		if(fn(keys[i], obj[keys[i]]) === false) return;
-	}
-}
-function checkMessageForOutput(child){
-	let react = child.getReact();
-	if(!react) return;
-	let nonce = react.memoizedProps.message.id;
-	if(Discord.Nonces.has(nonce)){
-		child.parentNode.parentNode.style.display = "none";
-		return true;
-	}
-}
-function checkMessageForGreenText(child){
-	if(!Discord.Settings.Raw.General.General.Greentext) return;
-	let markup = child.querySelector("[class*='markup-']");
-	if(!markup || markup.greentext || markup.editing) return;
-	markup.greentext = markup.cloneNode(true);
-	let textNodes = markup.greentext.childNodes;
-	let hasGreentext = false;
-	for(let i=0;i<textNodes.length;i++){
-		if(textNodes[i].nodeType != Node.TEXT_NODE) continue;
-		let tn = textNodes[i];
-		let t = tn.textContent.split(/(\n)/);
-		let div = document.createElement("div");
-		div.className = "greentext-container";
-		for(let j=0;j<t.length;j++){
-			if(t[j] == "\n"){
-				div.appendChild(document.createTextNode("\n"));
-			}else if(t[j].match(/^>.+$/)){
-				let span = document.createElement("span");
-				span.className = "greentext";
-				span.textContent = t[j];
-				div.appendChild(span);
-				hasGreentext = true;
-			}else{
-				let text = document.createTextNode(t[j]);
-				div.appendChild(text);
-			}
-		}
-		markup.greentext.replaceChild(div, tn);
-	}
-	if(hasGreentext){
-		let t = markup.innerHTML;
-		markup.innerHTML = markup.greentext.innerHTML;
-		markup.greentext.innerHTML = t;
-	}else{
-		markup.greentext = true;
 	}
 }
 function fixImageUpload(um){
@@ -197,8 +151,7 @@ window.addEventListener("click", function(e){
 	if(c) t = c;
 	if(t.matches(reactionClass)){
 		let msg = t.closest(messageClass);
-		let comment = msg.parentNode;
-		let index = Array.prototype.indexOf.call(comment.children, msg);
+		msg = msg.children[0].lastChild;
 		let message_id = msg.getReact().memoizedProps.message.id;
 		let message = Discord.ReactionMessages.get(message_id);
 		if(message){
@@ -244,42 +197,10 @@ window.addEventListener("click", function(e){
 				messagesParent.observer = messagesParent.onMutation('addedNodes', e => {
 					let textArea = e.querySelector('[class*="channelTextArea-"]');
 					if(textArea) fixTextArea(textArea);
-					
-					let scroller = e.querySelector('[class*="scroller-"]');
-					checkMessages(scroller);
-					observeMessages(scroller);
 				});
 			
 			let textArea = chat.querySelector('[class*="channelTextArea-"]');
 			if(textArea) fixTextArea(textArea);
-			let scroller = messagesParent.querySelector('[class*="scroller-"]');
-			checkMessages(scroller);
-			observeMessages(scroller);
-			function observeMessages(messagesContainer){
-				if(!messagesContainer.observer){
-					messagesContainer.observer = messagesContainer.onMutation('addedNodes', e => {
-						if(!e.matches(messageGroupClass)) return;
-						let msg = e.querySelectorAll(messageClass);
-						for(let i=0;i<msg.length;i++){
-							if(checkMessageForOutput(msg[i])) continue;
-							checkMessageForGreenText(msg[i]);
-						}
-						return;
-					});
-				}
-			}
-			function checkMessages(messageParent){
-				let mg = messageParent.querySelectorAll(messageGroupClass);
-				if(mg){
-					for(let i=0;i<mg.length;i++){
-						let msg = mg[i].querySelectorAll(messageClass);
-						for(let i=0;i<msg.length;i++){
-							if(checkMessageForOutput(msg[i])) continue;
-							checkMessageForGreenText(msg[i]);
-						}
-					}
-				}
-			}
 		}
 	});
 })();
