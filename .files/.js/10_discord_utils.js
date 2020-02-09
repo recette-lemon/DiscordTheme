@@ -397,8 +397,8 @@ Discord.Search.types = {
 		color:"#4885ed",
 		init: function(search){
 			return new Promise(function(succ){
-				Discord.Search.getRaw("https://www.google.pt/search?espv=2&biw=1366&bih=667&site=webhp&source=lnms&tbm=isch&sa=X&ei=XosDVaCXD8TasATItgE&ved=0CAcQ_AUoAg&q="+search).then(function(doc){
-					let elements = doc.match(/>{.+?}</g);
+				Discord.Search.getDocument("https://www.google.pt/search?espv=2&biw=1366&bih=667&site=webhp&source=lnms&tbm=isch&sa=X&ei=XosDVaCXD8TasATItgE&ved=0CAcQ_AUoAg&q="+search).then(function(doc){
+					let elements = doc.querySelectorAll('[jsaction] img');
 					succ(elements);
 				});
 			});
@@ -406,8 +406,7 @@ Discord.Search.types = {
 		get: function(elements, index){
 			return new Promise(function(succ){
 				let e = elements[index];
-				e = JSON.parse(e.substring(1, e.length-1));
-				succ(e.ou);
+				succ(e.dataset.iurl);
 			});
 		}
 	},
