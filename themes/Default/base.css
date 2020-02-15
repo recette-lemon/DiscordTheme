@@ -89,7 +89,8 @@ html [class*="app-"] > [style="opacity: 1;"],
 [class*="stickyHeader-"],
 [class*="markup-"] + [class*="container-"] > [class*="userSelectNone-"],
 [id*="popout_"] [class*="container-"][role="menu"],
-[class*="message-"] [class*="container-"][class*="buttons-"] [class*="wrapper-"]{
+[class*="message-"] [class*="container-"][class*="buttons-"] [class*="wrapper-"],
+[class*="messagesPopoutWrap-"]{
 	background: var(--trans-main)!important;
 }
 html [class*="embedFull-"]{
