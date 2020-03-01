@@ -17,7 +17,7 @@ Discord.Settings = function(target){
 	let notSelectedClass = "";//getClass(sidebar, "notSelected");
 	let selectedClass = getClass(sidebar, "selected");
 	let themedClass = getClass(sidebar, "themed");
-	let place = sidebar.children[sidebar.children.length-5];
+	let place = sidebar.children[sidebar.children.length-6];
 	let notSelectedClassName = [itemDefaultClass, itemClass, notSelectedClass, themedClass].join(" ");
 	let selectedClassName = [itemSelectedClass, itemClass, selectedClass, themedClass].join(" ");
 	
