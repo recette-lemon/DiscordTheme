@@ -7,48 +7,48 @@ Discord.Console = new (function(){
 	let commandWrapper;
 	let commandArrow;
 	let commandInput;
-	
+
 	this.init = function(){
 		let appMount = document.getElementById("app-mount");
-	
+
 		commandWrapper = document.createElement("div");
 		commandWrapper.id = "command-line";
 		commandWrapper.className = "hidden";
 		appMount.appendChild(commandWrapper);
-		
+
 		commandArrow = document.createElement("span");
 		commandArrow.textContent = ">";
 		commandWrapper.appendChild(commandArrow);
-		
+
 		commandInput = document.createElement("input");
 		commandWrapper.appendChild(commandInput);
-		
+
 		_this.show = function(text){
 			commandWrapper.classList.remove("hidden");
 			if(text) commandInput.value = text;
 			commandInput.focus();
 		}
-		
+
 		_this.hide = function(){
 			commandWrapper.classList.add("hidden");
 		}
-		
+
 		window.addEventListener("keydown", function(e) {
-			if(e.key == "F12") { 
+			if(e.key == "F12") {
 				_this.show();
 			} else if(e.key == "Escape") {
 				_this.hide();
 			}
 		}, true);
-		
+
 		commandInput.addEventListener("keypress", function(e) {
-			if(e.key == "Enter") { 
+			if(e.key == "Enter") {
 				_this.onCommand(this.value);
 				this.value = "";
 			}
 		});
 	}
-	
+
 });
 Discord.File = function(filename){
 	let _this = this;
@@ -60,7 +60,7 @@ Discord.File = function(filename){
 	if(_fs.lstatSync(this.filename).isDirectory()){
 		this.isDir = true;
 	}
-	
+
 	this.read = function(){
 		return new Promise(function(succ, error){
 			_this.readBlob().then(function(blob){
@@ -110,7 +110,7 @@ Discord.File = function(filename){
 			return _fs.readFileSync(_this.filename, "utf-8");
 		}
 	}
-	
+
 	this.listFolders = function(filter){
 		if(_this.isDir){
 			let folders = [];
@@ -129,7 +129,7 @@ Discord.File = function(filename){
 			return folders;
 		}
 	}
-	
+
 	this.list = function(filter){
 		if(_this.isDir){
 			let files = [];
@@ -145,12 +145,12 @@ Discord.File = function(filename){
 			return files;
 		}
 	}
-	
+
 }
 
 Discord.Date = new (function(){
 	let EPOCH = 1420070400000;
-	
+
 	this.fromId = function(id){
 		let binary = (+id).toString(2).padStart(64, '0');
 		let timestamp = parseInt(binary.substring(0, 42), 2) + EPOCH;
@@ -168,7 +168,7 @@ Discord.Date = new (function(){
 		let binary = `${(timestamp-EPOCH).toString(2).padStart(42, '0')}0000100000${(increment++).toString(2).padStart(12, '0')}`;
 		return parseInt(binary, 2);
 	}
-	
+
 	this.difference = function(d1, d2){
 		let diff = new Date(d1.getTime() - d2.getTime());
 		let years = diff.getUTCFullYear() - 1970;
@@ -187,17 +187,17 @@ Discord.Request = function(){
 	let _this = this;
 	let headers = {};
 	let method, uri;
-	
+
 	this.setHeader = function(header, value){
 		headers[header] = value;
 	}
 	this.setHeader("User-Agent", Discord.UserAgent);
-	
+
 	this.open = function(_method, _uri){
 		method=_method;
 		uri=_uri;
 	}
-	
+
 	this.send = function(body){
 		return new Promise(function(succ, error){
 			_request({
@@ -216,7 +216,7 @@ Discord.Request = function(){
 			});
 		});
 	}
-	
+
 	this.getBuffer = function(url){
 		return new Promise(function(succ, error){
 			let name = url.split("/").pop().split(/(\?|\#)/)[0];
@@ -227,7 +227,7 @@ Discord.Request = function(){
 			}).catch(error);
 		});
 	}
-	
+
 	this.getFile = function(url){
 		return new Promise(function(succ, error){
 			let name = url.split("/").pop().split(/(\?|\#)/)[0];
@@ -240,7 +240,7 @@ Discord.Request = function(){
 			}).catch(error);
 		});
 	}
-	
+
 	this.downloadFile = function(url, location){
 		let name = url.split("/").pop().split(/(\?|\#)/)[0];
 		let dir = DT.root+".files/.tmp/";
@@ -252,16 +252,18 @@ Discord.Request = function(){
 		let locationPromise;
 		if(!location){
 			locationPromise = new Promise(function(succ, err){
-				let location = _dialog.showSaveDialog({defaultPath:name});
-				if(location){
-					let location_extension = location.split(".");
-					if(location_extension.length==1 && extension){
-						location = location+"."+extension;
+				_dialog.showSaveDialog({defaultPath:name}).then(e => {
+					let location = e.filePath;
+					if(!e.canceled){
+						let location_extension = location.split(".");
+						if(location_extension.length==1 && extension){
+							location = location+"."+extension;
+						}
+						succ(location);
+					}else{
+						err();
 					}
-					succ(location);
-				}else{
-					err();
-				}
+				});
 			});
 		}
 		let stream = _request({
@@ -299,15 +301,15 @@ Discord.Request = function(){
 }
 Discord.RequestQueue = function(){
 	let requests = [];
-	
+
 	this.add = function(fn){
 		requests.push(fn);
 	}
-	
+
 	this.run = function(){
 		run();
 	}
-	
+
 	function run(){
 		let request = requests.shift();
 		if(request)
@@ -321,7 +323,7 @@ Discord.Search = function(type){
 	let channel, message, search;
 	let elements, index=0;
 	let types = Discord.Search.types;
-	
+
 	this.addType = function(name, type){
 		types[name] = type;
 	}
@@ -468,7 +470,7 @@ Discord.Search.getRaw = function(url){
 
 Discord.Translator = new (function(){
 	let url = "https://translate.google.com/m";
-	
+
 	this.translate = function(text, language){
 		return new Promise(function(succ){
 			let request = new Discord.Request();
@@ -486,7 +488,7 @@ Discord.Translator = new (function(){
 /* Messages */
 Discord.Nonces = new (function(){
 	let nonces = {};
-	
+
 	this.add = function(nonce){
 		nonces[nonce] = true;
 	}
@@ -496,7 +498,7 @@ Discord.Nonces = new (function(){
 })
 Discord.Messages = new (function(){
 	let messages = {};
-	
+
 	this.add = function(id){
 		messages[id] = true;
 	}
@@ -506,7 +508,7 @@ Discord.Messages = new (function(){
 })();
 Discord.ReactionMessages = new (function(){
 	let messages = {};
-	
+
 	this.add = function(id, obj){
 		messages[id] = obj;
 	}
@@ -521,7 +523,7 @@ Discord.ReactionMessages = new (function(){
 /* UI */
 Discord.Modal = function(modal, permanent){
 	modal.classList.add("dt-modal");
-	
+
 	let modalWrapper = document.createElement("div");
 	modalWrapper.className = "dt-modal-wrapper";
 	modalWrapper.appendChild(modal);
@@ -530,11 +532,11 @@ Discord.Modal = function(modal, permanent){
 			if(e.target == modalWrapper)
 				this.hide();
 		}.bind(this));
-	
+
 	this.show = function(){
 		document.body.appendChild(modalWrapper);
 	}
-	
+
 	this.hide = function(){
 		document.body.removeChild(modalWrapper);
 	}
@@ -544,7 +546,7 @@ Discord.FileDialog = function(file){
 	let fileDialog = document.createElement("div");
 	fileDialog.className = "dt-file-dialog";
 	let modal = new Discord.Modal(fileDialog, true);
-		
+
 	let wrapper = document.createElement("div");
 	wrapper.className = "dt-file-dialog-wrapper";
 	let image = document.createElement("div");
@@ -569,7 +571,7 @@ Discord.FileDialog = function(file){
 	wrapper.appendChild(image);
 	wrapper.appendChild(right);
 	fileDialog.appendChild(wrapper);
-	
+
 	let bottom = document.createElement("div");
 	bottom.className = "dt-file-dialog-bottom"
 	let uploadButton = document.createElement("div");
@@ -581,7 +583,7 @@ Discord.FileDialog = function(file){
 	bottom.appendChild(cancelButton);
 	bottom.appendChild(uploadButton);
 	fileDialog.appendChild(bottom);
-	
+
 	name.addEventListener("keydown", function(e){
 		if(e.key == "Enter")
 			uploadButton.click();
@@ -598,7 +600,7 @@ Discord.FileDialog = function(file){
 	cancelButton.addEventListener("click", function(){
 		modal.hide()
 	});
-	
+
 	this.show = function(){
 		modal.show();
 		text.focus();
@@ -673,7 +675,7 @@ Discord.Cookies = new (function(){
 		}
 		return defaultValue;
 	}
-	this.erase = function(name) {   
-		document.cookie = name+'=; Max-Age=-99999999;';  
+	this.erase = function(name) {
+		document.cookie = name+'=; Max-Age=-99999999;';
 	}
 })();
