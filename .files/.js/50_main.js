@@ -24,7 +24,7 @@ function fixImageUpload(um){
 			submit.click();
 		}
 	}, true);
-	
+
 	let props = um.getReact().memoizedProps;
 	let file, ext;
 	function waitFile(){
@@ -34,7 +34,7 @@ function fixImageUpload(um){
 		setFilename();
 	}
 	setTimeout(waitFile, 500);
-	
+
 	function setFilename(){
 		let filename = filenameElement.textContent;
 		if(!filename.match(/\..+/)){
@@ -54,7 +54,7 @@ function fixTextArea(textarea){
 	let inner = textarea.children[0];
 	let t = textarea.querySelector('[class*="textArea-"]');
 	Discord.Line.appendTo(t.nextElementSibling);
-	
+
 	// Doesn't work
 	return;
 	function setLength(length){
@@ -82,7 +82,7 @@ function fixModal(target){
 	let img = target.querySelector("img");
 	let nameTag = target.querySelector("[class*='nameTag-']");
 	let uploadModal = target.querySelector('[class*="uploadModal-"]');
-	
+
 	if(uploadModal){ /* Upload Modal */
 		fixImageUpload(uploadModal);
 	}else if(nameTag){ /* User Modal Date */
@@ -99,7 +99,7 @@ function fixModal(target){
 			let created = createdDate.toISOString().match(/(.+?)T(.+?)\./);
 			let createdDiff = Discord.Date.difference(new Date(), createdDate);
 			let text = created[1]+" ("+createdDiff+")";
-			
+
 			let before = userInfo.children[0];
 			let first = userInfo.children[0].cloneNode(true);
 			let second = userInfo.children[1].cloneNode(true);
@@ -108,7 +108,7 @@ function fixModal(target){
 			textArea.value = text;
 			textArea.style.height = "24px";
 			textArea.setAttribute("readonly", "true");
-			
+
 			userInfo.insertBefore(first, before);
 			userInfo.insertBefore(second, before);
 		}
@@ -152,7 +152,7 @@ window.addEventListener("click", function(e){
 	if(t.matches(reactionClass)){
 		let msg = t.closest(messageClass);
 		msg = msg.children[0].lastChild;
-		let message_id = msg.getReact().memoizedProps.message.id;
+		let message_id = msg.getReact(0).memoizedProps.message.id;
 		let message = Discord.ReactionMessages.get(message_id);
 		if(message){
 			let emoji = encodeURIComponent(t.querySelector("img").alt);
@@ -169,27 +169,27 @@ window.addEventListener("click", function(e){
 			Discord.Settings(e)
 		});
 	});
-	
+
 	document.waitFor("#app-mount > [data-no-focus-lock]").then(zLayersParent => {
 		let contextMenuParent = zLayersParent.querySelector('[class*="layerContainer-"]');
 		contextMenuParent.onMutation('addedNodes', e => {
 			Discord.ContextMenu(e);
 		});
-		
+
 		let modalsParent = zLayersParent.children[1];
 		modalsParent.onMutation('addedNodes', e => {
 			if(e.matches('[class*="backdrop-"] + [class*="modal-"]'))
 				fixModal(e);
 		});
 	});
-	
+
 	document.waitFor('[class*="chat-"]').then(chat => {
 		let chatParent = chat.parentNode;
 		chatParent.onMutation('addedNodes', e => {
 			if(e.matches('[class*="chat-"]'))
 				observeChat(e);
 		});
-		
+
 		observeChat(chat);
 		function observeChat(chat){
 			let messagesParent = chat.children[1];
@@ -198,7 +198,7 @@ window.addEventListener("click", function(e){
 					let textArea = e.querySelector('[class*="channelTextArea-"]');
 					if(textArea) fixTextArea(textArea);
 				});
-			
+
 			let textArea = chat.querySelector('[class*="channelTextArea-"]');
 			if(textArea) fixTextArea(textArea);
 		}
@@ -232,7 +232,7 @@ window.XMLHttpRequest = function(){
 	let send = xhr.send;
 	xhr.send = function(data){
 		let parts;
-		
+
 		/* Message being sent */
 		parts = requestUrl.match(/api\/v.\/channels\/(.+?)\/messages$/);
 		if(parts){
@@ -246,7 +246,7 @@ window.XMLHttpRequest = function(){
 				}
 			}
 		}
-		
+
 		/* Block Science */
 		if(!parts){
 			parts = requestUrl.match(/api\/v.\/science$/);
@@ -256,7 +256,7 @@ window.XMLHttpRequest = function(){
 				return blockRequest();
 			}
 		}
-		
+
 		/* Block Typing */
 		if(!parts){
 			parts = requestUrl.match(/api\/v.\/channels\/(.+?)\/typing$/);
@@ -285,8 +285,8 @@ window.XMLHttpRequest = function(){
 		xhr.setProperty("status", 200);
 		xhr.setProperty("readyState", 4);
 		xhr.setProperty("responseText", JSON.stringify({
-			"nonce": nonce, 
-			"timestamp": new Date().toISOString(), 
+			"nonce": nonce,
+			"timestamp": new Date().toISOString(),
 			"author": {
 				"id": "1",
 				"avatar": "clyde",
@@ -295,9 +295,9 @@ window.XMLHttpRequest = function(){
 			},
 			"id": nonce,
 			"embeds":[],
-			"mention_roles": [], 
-			"content": content, 
-			"mentions": [], 
+			"mention_roles": [],
+			"content": content,
+			"mentions": [],
 			"type": 0
 		}));
 		xhr.getResponseHeader = function(h){

@@ -16,9 +16,12 @@ HTMLElement.prototype.getReactReturn = function(num){
 		react = react.return;
 	return react;
 };
-HTMLElement.prototype.getReact = function(){
+HTMLElement.prototype.getReact = function(num){
 	let react;
-	react = this.getReactReturn(1);
+  if(num !== undefined)
+    react = this.getReactReturn(num);
+  if(!react)
+    react = this.getReactReturn(1);
 	if(!react)
 		react = this.getReactReturn(2);
 	return react;
@@ -56,7 +59,7 @@ document.waitFor = function(selector){
 		for(let selector in callbacks){
 			let element = document.querySelector(selector);
 			if(!element) continue
-			
+
 			let _callbacks = callbacks[selector];
 			while(_callbacks.length){
 				_callbacks.shift()(element);
@@ -78,7 +81,7 @@ HTMLElement.prototype.onMutation = function(type, callback, config){
 				[...value].forEach(v => callback(v, mutation));
 			}else{
 				callback(value, mutation);
-			}				
+			}
 		});
 	});
 	observer.observe(this, config||{childList:true});

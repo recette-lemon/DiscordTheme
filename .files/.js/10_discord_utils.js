@@ -399,8 +399,15 @@ Discord.Search.types = {
 		color:"#4885ed",
 		init: function(search){
 			return new Promise(function(succ){
-				Discord.Search.getDocument("https://www.google.pt/search?espv=2&biw=1366&bih=667&site=webhp&source=lnms&tbm=isch&sa=X&ei=XosDVaCXD8TasATItgE&ved=0CAcQ_AUoAg&q="+search).then(function(doc){
-					let elements = doc.querySelectorAll('[jsaction] img');
+				Discord.Search.getRaw("https://www.google.pt/search?espv=2&biw=1366&bih=667&site=webhp&source=lnms&tbm=isch&sa=X&ei=XosDVaCXD8TasATItgE&ved=0CAcQ_AUoAg&q="+search).then(function(doc){
+					let elements = doc.match(/\["(https?:\/\/.+?)",\d+?,\d+?\]/g);
+					elements = elements.reduce((cum, e) => {
+						let array = JSON.parse(e);
+						if(array[0].startsWith('https://encrypted')) return cum;
+
+						cum.push(array[0]);
+						return cum;
+					}, []);
 					succ(elements);
 				});
 			});
@@ -408,7 +415,7 @@ Discord.Search.types = {
 		get: function(elements, index){
 			return new Promise(function(succ){
 				let e = elements[index];
-				succ(e.dataset.iurl);
+				succ(e);
 			});
 		}
 	},
