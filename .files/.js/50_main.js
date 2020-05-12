@@ -183,6 +183,19 @@ window.addEventListener("click", function(e){
 		});
 	});
 
+	// Context menus no longer inside [data-no-focus-lock]
+	document.waitFor('#app-mount > [class*="layerContainer-"]').then(layersContainer => {
+		layersContainer.onMutation('addedNodes', e => {
+			Discord.ContextMenu(e);
+		});
+
+		let modalsParent = layersContainer.previousElementSibling.previousElementSibling;
+		modalsParent.onMutation('addedNodes', e => {
+			if(e.matches('[class*="backdrop-"] + [class*="modal-"]'))
+				fixModal(e);
+		});
+	});
+
 	document.waitFor('[class*="chat-"]').then(chat => {
 		let chatParent = chat.parentNode;
 		chatParent.onMutation('addedNodes', e => {

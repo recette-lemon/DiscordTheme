@@ -18,7 +18,7 @@ body::before{
 	--trans-primary: rgba(64,64,64,0.8);
 	--trans-secondary: rgba(32,32,32,0.8);
 	--trans-clear: rgba(255,255,255,0.08);
-	
+
 	--background-primary: transparent;
 	--background-secondary: transparent;
 	--background-tertiary: transparent;
@@ -26,7 +26,7 @@ body::before{
 
 	--deprecated-panel-background: transparent;
 	--channeltextarea-background: rgba(255,255,255,0.15);
-	
+
 	--elevation-low: none;
 	--elevation-high: none;
 }
@@ -76,7 +76,8 @@ code{
 html [class*="modal-"] [class*="modal-"],
 html [class*="container-"][class*="elevationHigh-"],
 html [class*="container-"][class*="invite-"],
-[class*="uploadModal-"]{
+[class*="uploadModal-"],
+[class*="elevationBorderHigh-"]{
 	background: var(--trans-secondary) !important;
 }
 [class*="members-"],
@@ -182,7 +183,7 @@ html [class*="embedFull-"]{
 #theme-menu,
 .theme-dark,
 [class*="layer-"],
-[class*="container-"]:not([class*="mentioned-"]),
+[class*="container-"]:not([class*="mentioned-"]):not([class*="elevationBorderHigh-"]),
 [class*="option-"]::after,
 [class*="channelSeparator-"] [class*="channelName-"],
 [class*="searchHeader-"],
