@@ -1,12 +1,21 @@
 Discord.ContextMenu = function(target){
-	if(!target.matches('[class*="layer-"]') || !target.children[0].matches('[class*="contextMenu-"]'))
+	if(!target.matches('[class*="layer-"]') || !target.children[0].matches('[class*="menu-"]'))
 		return false;
 	target = target.children[0];
+
+	/*
 	let react = target.getReact();
 	if(react.child.child.memoizedProps.type) react = react.child.child;
 	else if(react.return.memoizedProps.type) react = react.return;
 	let props = react.memoizedProps;
+	*/
+
+	let react = target.getReactReturn(0, 1);
+	let props = react.memoizedProps;
 	let type = null;
+	if(props.user)				type = "USER";
+	else if(props.guild)	type = "GUILD";
+
 	let context = {
 		type:null,
 		user:null,
@@ -15,8 +24,8 @@ Discord.ContextMenu = function(target){
 		message:null,
 		url:null
 	};
-	
-	switch(props.type){
+
+	switch(type){
 		case "NATIVE_IMAGE":{
 			context.type = Discord.ContextMenu.TYPE_LINK;
 			context.url = props.href?props.href:props.src;
@@ -36,16 +45,18 @@ Discord.ContextMenu = function(target){
 			context.content = props.message.content;
 			context.target = props.target;
 			context.user = props.message.author.id;
-			
+
 			context._user = props.message.author;
 			break;
 		}
+		case "GUILD":
 		case "GUILD_ICON_BAR":{
 			context.type = Discord.ContextMenu.TYPE_GUILD;
 			context.guild = props.guild.id;
 			context.channel = discord.getCurrentChannel();
 			break;
 		}
+		case "USER":
 		case "USER_GROUP_DM":
 		case "USER_CHANNEL_MEMBERS":
 		case "USER_CHANNEL_MESSAGE":
@@ -64,13 +75,16 @@ Discord.ContextMenu = function(target){
 		target.querySelector('[class*="'+c+'-"]').classList.forEach(x=>x.startsWith(c+"-")&&(name=x));
 		return name;
 	}
-	let groupClass = getClass(target, "itemGroup");
+	let targetParent = target.querySelector('[class*="scroller-"]');
+	let groupClass = "group";//getClass(target, "itemGroup");
 	let itemClass = getClass(target, "item");
-	let itemBaseClass = getClass(target, "itemBase");
-	let clickableClass = getClass(target, "clickable");
+	let itemBaseClass = "";//getClass(target, "itemBase");
+	let clickableClass = "";//getClass(target, "clickable");
+	let labelContainerClass = getClass(target, "labelContainer");
+
 	let group = document.createElement("div");
 	group.className = groupClass;
-	target.insertBefore(group, target.children[0]);
+	targetParent.insertBefore(group, targetParent.children[0]);
 	for(let i=0;i<extension.length;i++){
 		if(!createItem(extension[i], group))continue;
 	}
@@ -78,7 +92,7 @@ Discord.ContextMenu = function(target){
 	function createItem(e, parent){
 		if(e.filter && !e.filter(context)) return false;
 		let item = document.createElement("div");
-		item.className = `${itemClass} ${itemBaseClass} ${clickableClass}`;
+		item.className = `${itemClass} ${labelContainerClass} ${itemBaseClass} ${clickableClass}`;
 		if(e.sub){
 			item.className+=" itemSubMenu-1vN_Yn";//HARDCODED class name
 			let menu = document.createElement("div");
@@ -109,11 +123,30 @@ Discord.ContextMenu = function(target){
 				*/
 			};
 		}
+
 		let span = document.createElement("span");
 		span.innerHTML = e.name;
 		span.style.color = e.color;
 		item.appendChild(span);
 		parent.appendChild(item);
+
+		let color = e.color;
+		item.addEventListener('mouseover', e => {
+			let focused = targetParent.querySelector('[class*="focused-"]');
+			if(focused){
+				let fclass = getClass(targetParent, "focused");
+				focused.classList.remove(fclass);
+				target.getReactInstance().memoizedProps.onMouseLeave();
+			}
+
+			item.style.background = color;
+			span.style.color = "white";
+		});
+		item.addEventListener('mouseout', e => {
+			item.style.background = "";
+			span.style.color = color;
+		});
+
 		return true;
 	}
 	return true;
@@ -133,7 +166,7 @@ Discord.ContextMenu.COLOR_BLUE = "#0096cf";
 Discord.ContextMenu.COLOR_ORANGE = "#faa61a";
 
 (function(){
-	
+
 	/* Auxiliary Functions */
 	function downloadFile(context){
 		let r = new Discord.Request();
@@ -181,7 +214,7 @@ Discord.ContextMenu.COLOR_ORANGE = "#faa61a";
 		fn: function(context){
 			let ids = [context.guild, context.channel, context.message].join('/');
 			let url = "https://discordapp.com/channels/"+ids;
-			
+
 			let icon = discord.getUserIcon(context.user, context._user.avatar, 128, "webp");
 			let embed = new Discord.Embed();
 			embed.setAuthorName(context._user.username);
