@@ -1,0 +1,105 @@
+/* remove ugly roundening */
+*:not(rect){
+    border-radius: 0px !important;
+    mask: none;
+}
+
+
+/*
+    * CHANNELS *
+*/
+/* hide channel hash icons */
+[id^="channels"] [class*="containerDefault-"] svg[class*="icon-"]{
+    display: none;
+}
+/* indent channels and categories */
+[id^="channels"] {
+    margin-left: -3px;
+}
+[id^="channels"] h2{
+    margin-left: -8px;
+}
+/* move channels to the left */
+[class^="base-"]{
+    left: 60px;
+}
+/* hide manage channel and invite icons when channel isnt hovered over */
+[id^="channels"] [class*="containerDefault-"]:not(:hover) [class*="children-"]{
+    display: none;
+}
+/* decrease width */
+[class*="sidebar-"]{
+    width: 180px;
+}
+
+
+/*
+    * GUILDS *
+*/
+/* hide buttons below guilds */
+[class*="guilds-"] [class*="scrollerWrap-"] > div > div:nth-last-child(3),
+[class*="guilds-"] [class*="scrollerWrap-"] > div > div:nth-last-child(2),
+[class*="guilds-"] [class*="scrollerWrap-"] > div > div:nth-last-child(4){
+    display: none;
+}
+/* move guilds left */
+[class*="guilds-"]{
+    left: -10px;
+    width: 64px;
+}
+/* align unread pill thing */
+[class*="guilds-"] [class*="listItem-"] [class*="pill-"]{
+    left: 10px;
+    z-index: 100;
+}
+/* compact guild icons */
+[data-ref-id="guildsnav"] div{
+    margin: 1px;
+}
+
+
+/*
+    * CHANNEL TITLE BAR *
+*/
+/* shrink */
+[class^="title"]{
+    height: 35px;
+}
+/* delete everything but search in the panel */
+[class*="toolbar-"] > *:not([class*="search-"]){
+    /* shortcut keys dont work properly if these dont still exist, so just move them up */
+    position: absolute;
+    top: -100px;
+}
+/* hide useless hash */
+[class^="title"] [class*="iconWrapper-"]:nth-child(1){
+    display: none;
+}
+
+
+/*
+    * OTHER *
+*/
+/* remove text box buttons */
+[class^="channelTextArea-"] [class^="buttons-"]{
+    display: none;
+}
+/* remove timestamps */
+[class*="latin12CompactTimeStamp-"]{
+    display: none;
+}
+/* remove mute and deafen buttons */
+[class^="panels-"] [class^="flex-"] button:nth-child(1),
+[class^="panels-"] [class^="flex-"] button:nth-child(2){
+    display: none;
+}
+/* reduce guild title size */
+[class^="sidebar-"] [class^="header-"]{
+    height: 35px;
+}
+/* hide server boost and dropdown buttons (the entire thing is a button anyway) */
+[class^="header-"] [class^="guildIconContainer-"],
+[class^="header-"] [class^="button-"]{
+    display: none;
+}
+
