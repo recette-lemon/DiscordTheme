@@ -10,9 +10,10 @@ HTMLElement.prototype.getReactInstance = function(){
 		if(i.startsWith(start)) return this[i];
 	}
 };
-HTMLElement.prototype.getReactReturn = function(num){
+HTMLElement.prototype.getReactReturn = function(num, skip){
+  if(skip === undefined) skip = 0;
 	let react = this.getReactInstance();
-	while(react && react.tag!=num)
+	while(react && (react.tag!=num || skip--!=0))
 		react = react.return;
 	return react;
 };
