@@ -13,9 +13,10 @@ Discord.ContextMenu = function(target){
 	let react = target.getReactReturn(0, 1);
 	let props = react.memoizedProps;
 	let type = null;
-	if(props.user)				type = "USER";
-	else if(props.guild)	type = "GUILD";
+	if(props.user)					type = "USER";
+	else if(props.guild)		type = "GUILD";
 	else if(props.message)	type = "MESSAGE";
+	else if(props.src)			type = "NATIVE_IMAGE";
 
 	let context = {
 		type:null,
