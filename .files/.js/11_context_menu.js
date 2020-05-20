@@ -15,6 +15,7 @@ Discord.ContextMenu = function(target){
 	let type = null;
 	if(props.user)				type = "USER";
 	else if(props.guild)	type = "GUILD";
+	else if(props.message)	type = "MESSAGE";
 
 	let context = {
 		type:null,
@@ -32,6 +33,7 @@ Discord.ContextMenu = function(target){
 			context.target = props.target;
 			break;
 		}
+		case "MESSAGE":
 		case "MESSAGE_MAIN":{
 			if(props.attachment){
 				context.type = Discord.ContextMenu.TYPE_ATTACHMENT;
@@ -124,13 +126,13 @@ Discord.ContextMenu = function(target){
 			};
 		}
 
+		let color = e.color||Discord.ContextMenu.COLOR_WHITE;
 		let span = document.createElement("span");
 		span.innerHTML = e.name;
-		span.style.color = e.color;
+		span.style.color = color;
 		item.appendChild(span);
 		parent.appendChild(item);
 
-		let color = e.color;
 		item.addEventListener('mouseover', e => {
 			let focused = targetParent.querySelector('[class*="focused-"]');
 			if(focused){
@@ -139,7 +141,8 @@ Discord.ContextMenu = function(target){
 				target.getReactInstance().memoizedProps.onMouseLeave();
 			}
 
-			item.style.background = color;
+			let background = color.startsWith('var')?'#5c6fb1':color;
+			item.style.background = background;
 			span.style.color = "white";
 		});
 		item.addEventListener('mouseout', e => {
@@ -160,6 +163,7 @@ Discord.ContextMenu.TYPE_USER = 3;
 Discord.ContextMenu.TYPE_GUILD = 4;
 
 /* Context Menu Colors */
+Discord.ContextMenu.COLOR_WHITE = "var(--interactive-normal)";
 Discord.ContextMenu.COLOR_RED = "#ef4646";
 Discord.ContextMenu.COLOR_GREEN = "#43b55f";
 Discord.ContextMenu.COLOR_BLUE = "#0096cf";
