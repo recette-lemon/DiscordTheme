@@ -24,7 +24,7 @@
     left: 60px;
 }
 /* hide manage channel and invite icons when channel isnt hovered over */
-[id^="channels"] [class*="containerDefault-"]:not(:hover) [class*="children-"]{
+[id^="channels"] [class*="containerDefault-"]:not(:hover) [class*="children-"] [class^="icon"]{
     display: none;
 }
 /* decrease width */
