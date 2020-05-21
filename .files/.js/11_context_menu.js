@@ -67,7 +67,7 @@ Discord.ContextMenu = function(target){
 		case "USER_PRIVATE_CHANNELS_MESSAGE":{
 			context.type = Discord.ContextMenu.TYPE_USER;
 			context.user = props.user.id;
-			context.channel = props.channel.id;
+			context.channel = props.channelId||props.channel.id;
 			break;
 		}
 	}
