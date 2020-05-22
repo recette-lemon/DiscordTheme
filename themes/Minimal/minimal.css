@@ -4,6 +4,11 @@
     mask: none;
 }
 
+/* remove manuels ugly white border and enforce system monospace font */
+code{
+    border: none !important;
+    font-family: monospace;
+}
 
 /*
     * CHANNELS *
