@@ -1,7 +1,6 @@
 /* Electron */
 window._electron = require("electron");
-window._dialog = _electron.remote.dialog;
-window._remote = _electron.remote;
+//window._dialog = DT_Discord.dialog;
 window._request = require("request");
 window._http = require("http");
 window._fs = require("fs");
@@ -13,7 +12,7 @@ window._zlib = require("zlib");
 window.Discord = function(){
 	let _this = this;
 	this.headers = {};
-	
+
 	/* Utils */
 	this.getUserFromChannel = function(channel, user_id){
 		return new Promise(function(succ, err){
@@ -67,7 +66,7 @@ window.Discord = function(){
 	this.getCurrentGuild = function(){
 		return document.querySelector('[class*="guild-"][class*="selected-"]').getReact().memoizedProps.guild.id;
 	}
-	
+
 	/* Users */
 	this.getMe = function(){
 		return this.get("/users/@me");
@@ -75,7 +74,7 @@ window.Discord = function(){
 	this.getUser = function(user){
 		return this.get("/users/"+user);
 	}
-	
+
 	/* Guilds */
 	this.getGuild = function(guild){
 		return this.get("/guilds/"+guild);
@@ -83,12 +82,12 @@ window.Discord = function(){
 	this.getUserFromGuild = function(guild, user){
 		return this.get("/guilds/"+guild+"/members/"+user);
 	}
-	
+
 	/* Channels */
 	this.getChannel = function(channel){
 		return this.get("/channels/"+channel);
 	}
-	
+
 	/* Messages */
 	this.sendMessage = function(channel, data){
 		let content_type;
@@ -115,7 +114,7 @@ window.Discord = function(){
 	this.react = function(channel, message, reaction){
 		return this.put("/channels/"+channel+"/messages/"+message+"/reactions/"+reaction+"/@me");
 	}
-	
+
 	this.get = function(endpoint, data, content_type){
 		return this.call("GET", endpoint, data, content_type);
 	}
@@ -164,7 +163,7 @@ Discord.Embed = function(){
 	this.fields=[];
 	this.image={};
 	this.footer={};
-	
+
 	this.setColor = function(hex){
 		hex = hex.substring(1);
 		if(hex.length==3) hex = hex.replace(/(.)/g, "$1$1");
@@ -174,23 +173,23 @@ Discord.Embed = function(){
 		this.setColor("#7289DA");
 	}
 	this.setColor("#ffffff");
-	
+
 	this.setAuthorIcon = function(url){
 		this.author.icon_url = url;
 	};
 	this.setAuthorName = function(name){
 		this.author.name = name;
 	};
-	
+
 	this.addField = function(name, value, inline){
 		inline = !!inline;
 		this.fields.push({name, value, inline});
 	};
-	
+
 	this.setImage = function(url){
 		this.image.url=url;
 	}
-	
+
 	this.setFooterText = function(text){
 		this.footer.text = text;
 	};
@@ -201,7 +200,7 @@ Discord.Embed = function(){
 Discord.Emoji = new (function(){
 	this.arrow_forward = emoji("▶");
 	this.arrow_backward = emoji("◀");
-	
+
 	function emoji(emoji){
 		return encodeURIComponent(emoji);
 	}

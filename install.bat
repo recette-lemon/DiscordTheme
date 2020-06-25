@@ -80,7 +80,7 @@ echo Repacked "%d_core%\core.asar">>instalation.log
 
 :: cleanup
 del payload.js
-rmdir /s /q "%d_core%\core"
+:: rmdir /s /q "%d_core%\core"
 
 echo.
 echo --- SUCCESS ---
