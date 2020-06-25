@@ -243,60 +243,11 @@ Discord.Request = function(){
 
 	this.downloadFile = function(url, location){
 		let name = url.split("/").pop().split(/(\?|\#)/)[0];
-		let dir = DT.root+".files/.tmp/";
-		let tmp = dir+(new Date().getTime())+"_"+name;
-		if(!_fs.existsSync(dir)) _fs.mkdirSync(dir);
 		let extension = name.split(".");
 		extension = extension.length==1?undefined:extension.pop();
-		_this.open("GET", url);
-		let locationPromise;
-		if(!location){
-			locationPromise = new Promise(function(succ, err){
-				_dialog.showSaveDialog({defaultPath:name}).then(e => {
-					let location = e.filePath;
-					if(!e.canceled){
-						let location_extension = location.split(".");
-						if(location_extension.length==1 && extension){
-							location = location+"."+extension;
-						}
-						succ(location);
-					}else{
-						err();
-					}
-				});
-			});
-		}
-		let stream = _request({
-			encoding: _this.encoding,
-			headers,
-			uri,
-			method
-		}, function(error, response, body){
-			extension = response.headers["content-type"].split("/").pop();
-		}).pipe(_fs.createWriteStream(tmp));
-		stream.on('finish', function(){
-			if(locationPromise){
-				locationPromise.then(function(location){
-					moveFile(tmp, location);
-				}, function(){
-					_fs.unlink(tmp, function(){});
-				});
-			}else{
-				moveFile(tmp, location);
-			}
+		_this.getBuffer(url).then(buffer => {
+			DiscordNative.fileManager.saveWithDialog(buffer, name, location);
 		});
-		function moveFile(tmp, location){
-			_fs.rename(tmp, location, function(err){
-				if(err && err.code === 'EXDEV'){
-					let readStream = _fs.createReadStream(tmp);
-					let writeStream = _fs.createWriteStream(location);
-					readStream.on('close', function () {
-						_fs.unlink(tmp, function(){});
-					});
-					readStream.pipe(writeStream);
-				}
-			});
-		}
 	}
 }
 Discord.RequestQueue = function(){
