@@ -209,7 +209,7 @@ html [class*="embedFull-"]{
 /* REMOVE */
 [aria-label="Send a gift"],
 [aria-label="Send a gift"] + div,
-[class*="guilds-"] [class*="scroller-"] > [class*="listItem-"]:last-child,
+[aria-label="Servers"] + [class*="tutorialContainer-"] ~ *,
 [class*="gifFavoriteButton-"]{
 	display: none !important;
 }
