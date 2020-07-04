@@ -159,6 +159,19 @@ html [class*="embedFull-"]{
 	min-height: 1.2em !important;
 }
 
+/* Long Usernames */
+[class*="message-"] [class*="header-"]{
+	display: flex;
+}
+[class*="message-"] [class*="header-"] [class*="username-"]{
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+[class*="message-"] [class*="header-"] [class*="timestamp-"]{
+	flex-shrink: 0;
+}
+
 
 /* SCROLLBAR */
 ::-webkit-scrollbar{
