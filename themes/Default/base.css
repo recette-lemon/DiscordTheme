@@ -92,7 +92,8 @@ html [class*="app-"] > [style="opacity: 1;"],
 [id*="popout_"] [class*="container-"][role="menu"],
 [class*="message-"] [class*="container-"][class*="buttons-"] [class*="wrapper-"],
 [class*="messagesPopoutWrap-"],
-[class*="contentWrapper-"]{
+[class*="contentWrapper-"],
+#emoji-picker-tab-panel:first-child [class*="emojiPicker-"]{
 	background: var(--trans-main)!important;
 }
 html [class*="embedFull-"]{
@@ -203,7 +204,8 @@ html [class*="embedFull-"]{
 [class*="searchHeader-"],
 [class*="video-"],
 [class*="panels-"],
-[class*="modal-"] [class*="footer-"]{
+[class*="modal-"] [class*="footer-"],
+[class*="emojiPicker-"] [class*="inspector-"]{
 	background: none !important;
 }
 [class*="searchResult-"][class*="expanded-"] [class*="searchResultMessage-"]{
