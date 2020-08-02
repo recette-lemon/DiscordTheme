@@ -77,7 +77,8 @@ html [class*="modal-"] [class*="modal-"],
 html [class*="container-"][class*="elevationHigh-"],
 html [class*="container-"][class*="invite-"],
 [class*="uploadModal-"],
-[class*="elevationBorderHigh-"]{
+[class*="elevationBorderHigh-"],
+[class*="emojiSection-"]{
 	background: var(--trans-secondary) !important;
 }
 [class*="members-"],
@@ -86,12 +87,13 @@ html [class*="container-"][class*="invite-"],
 [href^="/channels/@me"] > [class*="childWrapper-"],
 html [class*="app-"] > [style="opacity: 1;"],
 [class*="topSectionNormal-"],
-[class*="emojiPicker-"],
 [class*="stickyHeader-"],
 [class*="markup-"] + [class*="container-"] > [class*="userSelectNone-"],
 [id*="popout_"] [class*="container-"][role="menu"],
 [class*="message-"] [class*="container-"][class*="buttons-"] [class*="wrapper-"],
-[class*="messagesPopoutWrap-"]{
+[class*="messagesPopoutWrap-"],
+[class*="contentWrapper-"],
+#emoji-picker-tab-panel:first-child [class*="emojiPicker-"]{
 	background: var(--trans-main)!important;
 }
 html [class*="embedFull-"]{
@@ -202,7 +204,8 @@ html [class*="embedFull-"]{
 [class*="searchHeader-"],
 [class*="video-"],
 [class*="panels-"],
-[class*="modal-"] [class*="footer-"]{
+[class*="modal-"] [class*="footer-"],
+[class*="emojiPicker-"] [class*="inspector-"]{
 	background: none !important;
 }
 [class*="searchResult-"][class*="expanded-"] [class*="searchResultMessage-"]{
