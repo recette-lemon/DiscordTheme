@@ -29,6 +29,9 @@ cd "$theme_root/.files"
 sed "s|{{PATH}}|$theme_root/|" injection-original.js > injection.js
 sed "s|{{FILE}}|$theme_root/.files/injection.js|" payload-original.js >> /tmp/discord_theme/app/mainScreenPreload.js
 
+sed -r -i "s/contextBridge\.exposeInMainWorld\('(.+?)', (.+?)\)/window\.\1 = \2/" /tmp/discord_theme/app/mainScreenPreload.js
+sed -i "s/contextIsolation: true/contextIsolation: false/" /tmp/discord_theme/app/mainScreen.js
+
 echo "repacking asar"
 rm "$asar_location/core.asar"
 asar p /tmp/discord_theme "$asar_location/core.asar"
