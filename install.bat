@@ -70,6 +70,39 @@ for /f "delims=^ tokens=1" %%b in (payload.js) do (
 )
 echo Applied payload to "%d_core%\core\app\mainScreenPreload.js">>instalation.log
 
+:: Remove contextBridge
+move "%d_core%\core\app\mainScreenPreload.js" "%d_core%\core\app\_mainScreenPreload.js"
+for /f "delims=" %%a in (%d_core%\core\app\_mainScreenPreload.js) do (
+	set _temp=%%a
+	SETLOCAL EnableDelayedExpansion
+		set modified=!_temp:contextBridge.exposeInMainWorld('DiscordNative', DiscordNative)=window.DiscordNative=DiscordNative!
+		echo !modified!>>"%d_core%\core\app\mainScreenPreload.js"
+	ENDLOCAL
+)
+del "%d_core%\core\app\_mainScreenPreload.js"
+
+:: Remove contextBridge
+move "%d_core%\core\app\mainScreenPreload.js" "%d_core%\core\app\_mainScreenPreload.js"
+for /f "delims=" %%a in (%d_core%\core\app\_mainScreenPreload.js) do (
+	set _temp=%%a
+	SETLOCAL EnableDelayedExpansion
+		set modified=!_temp:contextBridge.exposeInMainWorld('DiscordNative', DiscordNative)=window.DiscordNative=DiscordNative!
+		echo !modified!>>"%d_core%\core\app\mainScreenPreload.js"
+	ENDLOCAL
+)
+del "%d_core%\core\app\_mainScreenPreload.js"
+
+:: disable contextIsolation
+move "%d_core%\core\app\mainScreen.js" "%d_core%\core\app\_mainScreen.js"
+for /f "delims=" %%a in (%d_core%\core\app\_mainScreen.js) do (
+	set _temp=%%a
+	SETLOCAL EnableDelayedExpansion
+		set modified=!_temp:contextIsolation: true=contextIsolation: false!
+		echo !modified!>>"%d_core%\core\app\mainScreen.js"
+	ENDLOCAL
+)
+del "%d_core%\core\app\_mainScreen.js"
+
 :: close discord to apply changes
 taskkill /F /im discord.exe /T>nul
 echo Killed discord processes to repack Asar>>instalation.log
