@@ -75,17 +75,6 @@ move "%d_core%\core\app\mainScreenPreload.js" "%d_core%\core\app\_mainScreenPrel
 for /f "delims=" %%a in (%d_core%\core\app\_mainScreenPreload.js) do (
 	set _temp=%%a
 	SETLOCAL EnableDelayedExpansion
-		set modified=!_temp:contextBridge.exposeInMainWorld('DiscordNative', DiscordNative)=window.DiscordNative=DiscordNative!
-		echo !modified!>>"%d_core%\core\app\mainScreenPreload.js"
-	ENDLOCAL
-)
-del "%d_core%\core\app\_mainScreenPreload.js"
-
-:: Remove contextBridge
-move "%d_core%\core\app\mainScreenPreload.js" "%d_core%\core\app\_mainScreenPreload.js"
-for /f "delims=" %%a in (%d_core%\core\app\_mainScreenPreload.js) do (
-	set _temp=%%a
-	SETLOCAL EnableDelayedExpansion
 		set modified=!_temp:contextBridge.exposeInMainWorld('DiscordNative', DiscordNative^)=window.DiscordNative=DiscordNative!
 		echo !modified!>>"%d_core%\core\app\mainScreenPreload.js"
 	ENDLOCAL
