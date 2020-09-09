@@ -5,7 +5,7 @@ Discord.CommandParser = function(){
 	let aliasList = {};
 	let commands = {};
 	let shadowCommands = {};
-	
+
 	this.list = function(){
 		let list = [];
 		for(let name in commands){
@@ -16,7 +16,7 @@ Discord.CommandParser = function(){
 	this.listAliases = function(original){
 		return aliasList[original];
 	}
-	
+
 	/* A shadow command cannot be called directly, only through an alias. */
 	this.add = function(name, run, help, shadow){
 		name = name.toLowerCase();
@@ -29,7 +29,7 @@ Discord.CommandParser = function(){
 		if(!aliasList[original]) aliasList[original] = [];
 		aliasList[original].push(name);
 	}
-	
+
 	this.run = function(message, channel){
 		try{
 			if(message[0]=="/"){
@@ -56,7 +56,7 @@ Discord.CommandParser = function(){
 	this.else = function(){return false};
 	/* Run when the message is not a command (doesn't start with /) */
 	this.catch = function(){return false};
-	
+
 	this.help = function(name){
 		let n = alias[name]?alias[name]:name;
 		if(!shadowCommands[name] && commands[n])
@@ -181,9 +181,9 @@ commands.add("duck", function(channel, name, full, parts){
 						for(let angle=0;angle<360;angle+=angleStep){
 							ctx.fillText(
 								lines[i],
-								canvas.width/2 - measure.width/2 + 
+								canvas.width/2 - measure.width/2 +
 								Math.cos(toRadians(angle))*stroke,
-								canvas.height - 30*(lines.length-i) + size/2 + 
+								canvas.height - 30*(lines.length-i) + size/2 +
 								Math.sin(toRadians(angle))*stroke
 							);
 						}
@@ -199,9 +199,9 @@ commands.add("duck", function(channel, name, full, parts){
 					for(let angle=0;angle<360;angle+=angleStep){
 						ctx.fillText(
 							text,
-							canvas.width/2 - measure.width/2 + 
+							canvas.width/2 - measure.width/2 +
 							Math.cos(toRadians(angle))*stroke,
-							canvas.height - 30 + size/2 + 
+							canvas.height - 30 + size/2 +
 							Math.sin(toRadians(angle))*stroke
 						);
 					}
@@ -219,7 +219,7 @@ commands.add("duck", function(channel, name, full, parts){
 				form.append("file", new File([blob], "duck.jpg"));
 				discord.sendMessage(channel, form);
 			});
-			
+
 		}
 		image.src = b;
 	});
@@ -270,7 +270,7 @@ commands.add("info", function(channel, name, full, parts){
 commands.add("server", function(channel, name, full, parts){
 	let guild = parts[0];
 	if(!guild) guild = discord.getCurrentGuild();
-	
+
 	discord.getGuild(guild).then(function(guild){
 		let embed = new Discord.Embed();
 		let icon = discord.getGuildIcon(guild.id, guild.icon, 2048);
@@ -492,7 +492,7 @@ commands.add("loop", function(channel, name, full, parts){
 		rq.add(function(callback){
 			let data = commands.run(content, channel);
 			if(data) return callback();
-			
+
 			let newContent = content;
 			if(Discord.Settings.Raw.MessageModifiers.MessageModifiers.Modifiers){
 				newContent = Discord.MessageModifiers.modify(Discord.Settings.Raw.MessageModifiers.MessageModifiers.Modifiers, content);
@@ -612,8 +612,8 @@ commands.add("presence", function(channel, name, full, parts){
 	return text;
 });
 commands.catch = function(channel, message){
-	if(Discord.Settings.Raw.General.General.ImageLinks && 
-	   message.match(/^https?:\/\/[^ \r\n#]+(jpg|gif|png|jpeg)(\?[^ ]*)?$/i)){
+	// Check for images although its broken now i think but doesnt matter since discord does it natively
+	if(Discord.Settings.Raw.General.General.ImageLinks && message.match(/^https?:\/\/[^ \r\n#]+(jpg|gif|png|jpeg)(\?[^ ]*)?$/i)){
 		let r = new Discord.Request();
 		r.getFile(message.trim()).then(function(file){
 			if(Discord.Settings.Raw.General.General.ImageLinkDialog){
@@ -629,6 +629,18 @@ commands.catch = function(channel, message){
 			embed.setImage(message.trim());
 			discord.sendMessage(channel, {content:"", embed});
 		});
+		return true;
+	}
+
+	// Check for single emoji from another server
+	if(message.match(/^:[^\s]+:$/) || message.match(/^<:.+?:(.+?)>$/)){
+		let content = DT.parse(message);
+		let match = content.match(/^<:.+?:(.+?)>$/);
+		if(!match) return false;
+
+		let emote_id = match[1];
+		let url = `https://cdn.discordapp.com/emojis/${emote_id}.png?v=1&size=64`;
+		discord.sendMessage(channel, {content:url});
 		return true;
 	}
 };

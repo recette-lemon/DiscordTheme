@@ -16,12 +16,21 @@
 
 			// Intercept message parsing and call own message parser
 			let _parse = def.parse;
-			def.parse = function(){
+			def.parse = function(channel, content, bool1, bool2){
 				let result = _parse.apply(this, arguments);
-				let channel = arguments[0];
 				let message = result.content;
-				result.content = parseMessage(channel, result.content);
+
+				// These bools should be false if its not sending the message
+				if(bool1 !== false || bool2 !== false)
+					result.content = parseMessage(channel, result.content);
+
 				return result;
+			}
+
+			DT.parse = function(content){
+				let chat = document.querySelector('[class*="chat-"]');
+				let channel = chat.getReact().memoizedProps.channel;
+				return _parse(channel, content).content;
 			}
 
 			// After proxying message parser undo function call interception
