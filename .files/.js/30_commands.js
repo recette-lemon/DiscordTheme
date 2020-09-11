@@ -633,11 +633,11 @@ commands.catch = function(channel, message){
 	}
 
 	// Check for single emoji from another server
-	if(Discord.Settings.Raw.General.General.GlobalEmotes && (message.match(/^:[^\s]+:$/) || message.match(/^<a?:.+?:(.+?)>$/))){
+	if(Discord.Settings.Raw.General.General.GlobalEmotes && (message.match(/^:[^\s:]+:$/) || message.match(/^<a?:[^\s:]+?:([^\s:]+?)>$/))){
 		let content = DT.parse(message);
 		let match = content.match(/^<(a?):.+?:(.+?)>$/);
 		if(!match) return false;
-		
+
 		let emote_id = match[2];
 		let url = `https://cdn.discordapp.com/emojis/${emote_id}.${match[1]?'gif':'png'}?v=1&size=64`;
 		discord.sendMessage(channel, {content:url});
