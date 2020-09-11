@@ -20,12 +20,12 @@ Discord.Settings = function(target){
 	let place = sidebar.children[sidebar.children.length-6];
 	let notSelectedClassName = [itemDefaultClass, itemClass, notSelectedClass, themedClass].join(" ");
 	let selectedClassName = [itemSelectedClass, itemClass, selectedClass, themedClass].join(" ");
-	
+
 	let title = document.createElement("div");
 	title.className = headerClass;
 	title.innerHTML = Discord.Settings.Title;
 	sidebar.insertBefore(title, place);
-	
+
 	let content = settings.querySelector('[class*="contentColumn-"]');
 
 	sidebar.addEventListener("mousedown", function(e){
@@ -37,7 +37,7 @@ Discord.Settings = function(target){
 			content.customSettings=false;
 		}
 	}, true);
-	
+
 	Discord.Settings.Items.forEach(function(x){
 		let item = document.createElement("div");
 		item.className = notSelectedClassName;
@@ -52,7 +52,7 @@ Discord.Settings = function(target){
 		});
 		sidebar.insertBefore(item, place);
 	});
-	
+
 	let separator = sidebar.querySelector('[class*="separator"]').cloneNode();
 	sidebar.insertBefore(separator, place);
 	return true;
@@ -63,18 +63,18 @@ Discord.Settings.Title = "Theme Settings";
 Discord.Settings.Items = new (function(){
 	let tabsIndex = this.Tabs = {};
 	let tabs = [];
-	
+
 	function buildRaw(name){
 		return name.replace(/ +/g, "");
 	}
-	
+
 	function Tab(tab){
 		let rawTab = buildRaw(tab);
 		Discord.Settings.Raw[rawTab] = {};
-		
+
 		let groupIndex = this.Groups = {};
 		let groups = [];
-		
+
 		this.name = tab;
 		let tabDiv = this.div = document.createElement("div");
 		tabDiv.className = "dt-settings";
@@ -83,23 +83,23 @@ Discord.Settings.Items = new (function(){
 		title.className = "dt-settings-title";
 		title.textContent = tab;
 		tabDiv.appendChild(title);
-		
+
 		function Group(group){
 			let rawGroup = buildRaw(group);
 			Discord.Settings.Raw[rawTab][rawGroup] = {};
-		
+
 			this.name = group;
 			let div = this.div = document.createElement("div");
 			tabDiv.appendChild(div);
-			
+
 			function buildCookieName(name){
 				return Discord.Settings.Prefix + (rawTab+"-"+rawGroup+"-"+name.replace(/\s+/g, "_")).toUpperCase();
 			}
-			
+
 			function Options(name, cookie){
 				this.div = document.createElement("div");
 				let div = this.div;
-				
+
 				this.add = function(description, value, fn){
 					let item = document.createElement("label");
 					item.className = "dt-option";
@@ -124,7 +124,7 @@ Discord.Settings.Items = new (function(){
 					input.checked = (Discord.Settings.Raw[rawTab][rawGroup][name] == value);
 				}
 			}
-			
+
 			this.addText = function(name, description, defaultValue, fn){
 				name = buildRaw(name);
 				let cookie = buildCookieName(name);
@@ -182,14 +182,14 @@ Discord.Settings.Items = new (function(){
 				return options;
 			}
 		}
-		
+
 		this.addSeparator = function(name){
 			let title = document.createElement("div");
 			title.className = "dt-settings-title";
 			title.textContent = name;
 			tabDiv.appendChild(title);
 		}
-		
+
 		this.createGroup = function(group){
 			if(groupIndex[group]) return;
 			this.addSeparator(group);
@@ -198,7 +198,7 @@ Discord.Settings.Items = new (function(){
 			return t;
 		}
 	}
-	
+
 	this.createTab = function(tab){
 		if(tabsIndex[tab]) return;
 		let t = new Tab(tab);
@@ -217,6 +217,7 @@ let generalTab = Discord.Settings.Items.createTab("General");
 let general = generalTab.createGroup("General");
 general.addToggle("Image Links", "When posting an image link as a message, replace it with an upload instead.", false);
 general.addToggle("Image Link Dialog", "Show a dialog when posting an image link with the above option enabled.", false);
+general.addToggle("Global Emotes", "Use emotes from all servers and even animated ones.", false);
 general.addToggle("Character Count", "Add a character count to the bottom right of the textarea.", false);
 general.addToggle("Greentext", "Color lines beginning with > in green.", false);
 general.addToggle("Don't Send Typing", "Other users will stop seeing you type.", false);

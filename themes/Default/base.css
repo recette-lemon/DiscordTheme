@@ -78,7 +78,8 @@ html [class*="container-"][class*="elevationHigh-"],
 html [class*="container-"][class*="invite-"],
 [class*="uploadModal-"],
 [class*="elevationBorderHigh-"],
-[class*="emojiSection-"]{
+[class*="emojiSection-"],
+[class*="premiumPromo-"]{
 	background: var(--trans-secondary) !important;
 }
 [class*="members-"],
