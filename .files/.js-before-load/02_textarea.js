@@ -1,7 +1,20 @@
 (function(){
+
 	// Intercept discord code to proxy message parse library
+	// + look for own user and set premium
+	let n_of_calls = 2;
 	let _call = Function.prototype.call;
+	function reset(){if(--n_of_calls==0)Function.prototype.call=_call;}
 	Function.prototype.call = function(){
+
+		[...arguments].forEach(a => {
+			if(a&&a.user&&a.user.hasOwnProperty('premiumType')&&a.link=="/channels/@me"){
+				if(Discord.Settings.Raw.FakeNitro.General.FakeNitro)
+					a.user.premiumType = 2;
+				reset();
+			}
+		});
+
 		// Start by calling the function since I need the changes to the arguments
 		let result = _call.apply(this, arguments);
 
@@ -34,7 +47,7 @@
 			}
 
 			// After proxying message parser undo function call interception
-			Function.prototype.call = _call;
+			reset();
 		}
 
 		return result;

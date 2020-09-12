@@ -633,7 +633,7 @@ commands.catch = function(channel, message){
 	}
 
 	// Check for single emoji from another server
-	if(Discord.Settings.Raw.General.General.GlobalEmotes && (message.match(/^:[^\s:]+:$/) || message.match(/^<a?:[^\s:]+?:([^\s:]+?)>$/))){
+	if(Discord.Settings.Raw.FakeNitro.General.GlobalEmotes && (message.match(/^:[^\s:]+:$/) || message.match(/^<a?:[^\s:]+?:([^\s:]+?)>$/))){
 		let content = DT.parse(message);
 		let match = content.match(/^<(a?):.+?:(.+?)>$/);
 		if(!match) return false;
