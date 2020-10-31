@@ -216,9 +216,9 @@ Discord.Settings.Items = new (function(){
 let generalTab = Discord.Settings.Items.createTab("General");
 let general = generalTab.createGroup("General");
 general.addToggle("Image Links", "When posting an image link as a message, replace it with an upload instead.", false);
-general.addToggle("Image Link Dialog", "Show a dialog when posting an image link with the above option enabled.", false);
-general.addToggle("Character Count", "Add a character count to the bottom right of the textarea.", false);
-general.addToggle("Greentext", "Color lines beginning with > in green.", false);
+// general.addToggle("Image Link Dialog", "Show a dialog when posting an image link with the above option enabled.", false);
+// general.addToggle("Character Count", "Add a character count to the bottom right of the textarea.", false);
+// general.addToggle("Greentext", "Color lines beginning with > in green.", false);
 general.addToggle("Don't Send Typing", "Other users will stop seeing you type.", false);
 general.addToggle("Rainbow Text", "Color all messages in rainbow.", false, setRainbow);
 function setRainbow(){
