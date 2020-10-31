@@ -616,7 +616,7 @@ commands.catch = function(channel, message){
 	if(Discord.Settings.Raw.General.General.ImageLinks && message.match(/^https?:\/\/[^ \r\n#]+(jpg|gif|png|jpeg)(\?[^ ]*)?$/i)){
 		let r = new Discord.Request();
 		r.getFile(message.trim()).then(function(file){
-			if(Discord.Settings.Raw.General.General.ImageLinkDialog){
+			if(false && Discord.Settings.Raw.General.General.ImageLinkDialog){
 				(new Discord.FileDialog(file)).show();
 			}else{
 				let form = new FormData();
