@@ -227,10 +227,14 @@ Discord.ContextMenu.COLOR_ORANGE = "#faa61a";
 			embed.setDiscordColor();
 			embed.addField("Mention", `<@${context.user}>`, true);
 			embed.addField("Link", `[Go to Message](${url})`, true);
-			if(context.content)
+			if(context.content.match(/^https?:\/\/[^\s]+$/)){
+				embed.setImage(context.content);
+			}else{
+				if(context.content)
 				embed.addField("Message", context.content);
-			if(context.url)
+				if(context.url)
 				embed.setImage(context.url);
+			}
 			discord.sendMessage(context.channel, {content:"", embed});
 		}
 	};
