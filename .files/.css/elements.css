@@ -1,3 +1,105 @@
+/* Services */
+[class*="chatContent-"] [class*="form-"] > :first-child{
+	position: relative;
+}
+#dt-services-arrow{
+	position: absolute;
+	bottom: 100%;
+	transform: translateX(-100%);
+	width: 16px;
+	height: 30px;
+	cursor: pointer;
+	z-index: 2;
+}
+#dt-services-arrow.dt-show{
+	transform: translateX(-100%) translateX(4px) rotate(180deg);
+}
+#dt-services-arrow.dt-hidden{
+	display: none;
+}
+#dt-services-arrow::before,
+#dt-services-arrow::after{
+	content: "";
+	position: absolute;
+	display: block;
+	background: white;
+	top: 50%; left: 50%;
+}
+#dt-services-arrow::before {
+  width: 2px;
+  height: 10px;
+  transform-origin: center bottom;
+  transform: translate(-50%, -50%) translate(-3px, -5px) rotate(45deg);
+}
+#dt-services-arrow::after{
+  width: 2px;
+  height: 10px;
+  transform-origin: center top;
+  transform: translate(-50%, -50%) translate(-3px, 5px) rotate(-45deg);
+}
+#dt-services {
+	position: absolute;
+	bottom: 100%;
+	width: 100%;
+  padding: 5px 0px;
+	transform: translateX(-100%);
+	white-space: nowrap;
+	overflow: auto;
+	transition: transform 250ms ease-in-out;
+}
+#dt-services::-webkit-scrollbar {
+  height: 5px;
+}
+#dt-services.dt-show{
+	transform: translateX(0);
+}
+#dt-services.dt-hidden{
+	display: none;
+}
+.dt-service {
+  display: inline-flex;
+	margin-right: 5px;
+  font-size: 14px;
+	color: black;
+  pointer-events: all;
+}
+.dt-service > span:first-child {
+    padding: 0.2em 0.5em;
+    background: white;
+    border-radius: 1000px 0px 0px 1000px;
+    padding-right: 0.25em;
+}
+.dt-service > .dt-service-close {
+	position: relative;
+  width: 18px;
+  background: white;
+  margin-left: 1px;
+  border-radius: 0px 1000px 1000px 0px;
+	cursor: pointer;
+}
+.dt-service > .dt-service-close:hover{
+	background: #ddd;
+}
+.dt-service > .dt-service-close::before,
+.dt-service > .dt-service-close::after{
+	content: "";
+	position: absolute;
+	display: block;
+	background: black;
+}
+.dt-service > .dt-service-close::before{
+	top: 50%; left: 50%;
+	width: 1px;
+	height: 10px;
+	transform: translate(-50%, -50%) rotate(45deg);
+}
+.dt-service > .dt-service-close::after{
+	top: 50%; left: 50%;
+	width: 10px;
+	height: 1px;
+	transform: translate(-50%, -50%) rotate(45deg);
+}
+
 /* Greentext */
 .greentext-container{
 	display:inline;
@@ -12,7 +114,7 @@ html[rainbow] [class*="chat-"] [class*="markup"]{
 	background: linear-gradient(to right,
 		orange , yellow, green, cyan, blue, violet);
 	background-size: 200%;
-	
+
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 
@@ -87,7 +189,7 @@ html[rainbow] [class*="chat-"] [class*="markup"]{
 	border-radius:3px;
 	border: 1px solid #202225;
 	background: rgba(32,34,37,0.3);
-	
+
 	font-size:16px;
 	font-weight:500;
 	line-height:24px;
@@ -123,7 +225,7 @@ html[rainbow] [class*="chat-"] [class*="markup"]{
 	display:flex;
 	align-items:center;
 	justify-content:center;
-	
+
 	background:rgba(0,0,0,0.8);
 }
 .dt-modal{
@@ -334,7 +436,7 @@ html[rainbow] [class*="chat-"] [class*="markup"]{
 	text-align:center;
 	font-weight:500;
 	font-size:20px;
-	
+
 	color:white;
     /* background-color: rgba(47, 49, 54,0.8); */
 	transition:opacity 0.1s ease-in-out;
@@ -439,14 +541,14 @@ html[rainbow] [class*="chat-"] [class*="markup"]{
 #command-line {
 	display: flex;
 	align-items: center;
-	
+
 	height: 30px;
 	padding: 0 5px;
 	overflow: hidden;
-	
+
 	background-color: rgba(0,0,0,0.7);
 	border: none;
-	
+
 	transition: height 100ms ease-in-out;
 }
 #command-line.hidden {
@@ -454,7 +556,7 @@ html[rainbow] [class*="chat-"] [class*="markup"]{
 }
 #command-line span {
 	margin-right: 5px;
-	
+
 	font-family: Menlo,Consolas,Monaco,monospace;
 	font-size: 18px;
 	font-weight: bold;
@@ -465,7 +567,7 @@ html[rainbow] [class*="chat-"] [class*="markup"]{
 	background-color: transparent;
 	outline: none;
 	border: none;
-	
+
 	font-family: Menlo,Consolas,Monaco,monospace;
 	font-size: 14px;
 	color: white;
@@ -494,4 +596,3 @@ html[rainbow] [class*="chat-"] [class*="markup"]{
 	padding-bottom:5px;
 	color:white;
 }
-
