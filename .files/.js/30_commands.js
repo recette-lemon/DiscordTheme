@@ -303,7 +303,7 @@ commands.add("react", function(channel, name, full, parts){
 	for(let i=0;i<n;i++){
 		rq.add(function(callback){
 			discord.react(channel, message, letters[i]).then(callback);
-			Discord.Services.renameService(service, `loop (${n-i-1})`);
+			Discord.Services.renameService(service, `react (${n-i-1})`);
 		});
 	}
 	rq.run().then(_ => Discord.Services.removeService(service));
