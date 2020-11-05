@@ -252,21 +252,33 @@ Discord.Request = function(){
 }
 Discord.RequestQueue = function(){
 	let requests = [];
+	let _stop = false;
+	let succ;
 
 	this.add = function(fn){
 		requests.push(fn);
-	}
+	};
 
 	this.run = function(){
+		let promise = new Promise(s => succ = s);
 		run();
-	}
+		return promise;
+	};
+
+	this.stop = function(){
+		_stop = true;
+	};
 
 	function run(){
+		if(_stop) return succ();
+
 		let request = requests.shift();
 		if(request)
 			request(function(){
 				setTimeout(run, 1);
 			});
+		else
+			succ();
 	}
 }
 Discord.Search = function(type){

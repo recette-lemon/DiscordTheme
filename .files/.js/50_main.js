@@ -51,32 +51,37 @@ function fixImageUpload(um){
 	}
 }
 function fixTextArea(textarea){
+	Discord.Services.appendTo(textarea.parentNode);
+
 	let inner = textarea.children[0];
 	let t = textarea.querySelector('[class*="textArea-"]');
-	Discord.Line.appendTo(t.nextElementSibling);
-
-	// Doesn't work
-	return;
-	function setLength(length){
-		if(!Discord.Settings.Raw.General.General.CharacterCount) return;
-		if(!length)
-			inner.removeAttribute("count");
-		else
-			inner.setAttribute("count", length);
+	try{
+		Discord.Line.appendTo(t.nextElementSibling);
+	}catch(e){
+		// Do nothing
 	}
-	t.addEventListener("keydown", function(e){
-		let innerReact = inner.getReact();
-		let innerProps = innerReact.memoizedProps;
-		//let realText = innerProps.preprocessInsertedText(innerProps.textValue);
-		let realText = innerProps.textValue;
-		setLength(realText.length);
-	});
-	t.addEventListener("keypress", function(e){
-		if(e.altKey || e.ctrlKey || e.shiftKey) return;
-		if(e.key == "Enter")
-			setLength();
-	});
-	setLength(t.textContent.length);
+
+
+	// function setLength(length){
+	// 	if(!Discord.Settings.Raw.General.General.CharacterCount) return;
+	// 	if(!length)
+	// 		inner.removeAttribute("count");
+	// 	else
+	// 		inner.setAttribute("count", length);
+	// }
+	// t.addEventListener("keydown", function(e){
+	// 	let innerReact = inner.getReact();
+	// 	let innerProps = innerReact.memoizedProps;
+	// 	//let realText = innerProps.preprocessInsertedText(innerProps.textValue);
+	// 	let realText = innerProps.textValue;
+	// 	setLength(realText.length);
+	// });
+	// t.addEventListener("keypress", function(e){
+	// 	if(e.altKey || e.ctrlKey || e.shiftKey) return;
+	// 	if(e.key == "Enter")
+	// 		setLength();
+	// });
+	// setLength(t.textContent.length);
 }
 function fixModal(target){
 	let img = target.querySelector("img");
