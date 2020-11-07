@@ -505,15 +505,19 @@ commands.add("loop", function(channel, name, full, parts){
 		rq.add(function(callback){
 
 			let data = commands.run(content, channel);
-			if(data) return callback();
+			if(data) return cb();
 
 			let newContent = content;
 			if(Discord.Settings.Raw.MessageModifiers.MessageModifiers.Modifiers){
 				newContent = Discord.MessageModifiers.modify(Discord.Settings.Raw.MessageModifiers.MessageModifiers.Modifiers, content);
 			}
+
+			function cb(){
+				Discord.Services.renameService(service, `loop (${n-i-1})`);
+				callback();
+			}
 			discord.sendMessage(channel, {content:newContent})
-				.then(callback).catch(callback);
-			Discord.Services.renameService(service, `loop (${n-i-1})`);
+				.then(cb).catch(cb);
 		});
 	}
 	rq.run().then(_ => Discord.Services.removeService(service));
@@ -536,7 +540,7 @@ commands.add("time", function(channel, name, full, parts){
 		rq.add(function(callback){
 
 			let data = commands.run(content, channel);
-			if(data) return callback();
+			if(data) return cb();
 
 			let newContent = content;
 			if(Discord.Settings.Raw.MessageModifiers.MessageModifiers.Modifiers){
@@ -544,12 +548,12 @@ commands.add("time", function(channel, name, full, parts){
 			}
 
 			function cb(){
+				Discord.Services.renameService(service, `time (${n-i-1})`);
 				setTimeout(callback, time);
 			}
 			discord.sendMessage(channel, {content:newContent})
 				.then(cb).catch(cb);
 
-			Discord.Services.renameService(service, `time (${n-i-1})`);
 		});
 	}
 	rq.run().then(_ => Discord.Services.removeService(service));
