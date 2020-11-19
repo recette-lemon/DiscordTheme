@@ -647,6 +647,18 @@ commands.add("presence", function(channel, name, full, parts){
 	text += "Send no parameters to reset.\n";
 	return text;
 });
+commands.add("big", function(channel, name, full, parts){
+	content = [...full.toLowerCase()].reduce((cum, l) => {
+		if(l.match(/\s/)) return cum+l;
+		return cum+(l.match(/[a-z]/)?`:regional_indicator_${l}:`:'');
+	}, '');
+	discord.sendMessage(channel, {content:content});
+	return true;
+}, function(){
+	let text = "```\n/big <text>\n```\n";
+	text += "Replaces each letter with a big emoji letter.\n";
+	return text;
+});
 commands.catch = function(channel, message){
 	// Check for images although its broken now i think but doesnt matter since discord does it natively
 	if(Discord.Settings.Raw.General.General.ImageLinks && message.match(/^https?:\/\/[^ \r\n#]+(jpg|gif|png|jpeg)(\?[^ ]*)?$/i)){
