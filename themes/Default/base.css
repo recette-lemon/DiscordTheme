@@ -80,6 +80,7 @@ html [class*="container-"][class*="invite-"],
 [class*="elevationBorderHigh-"],
 [class*="elevationHigh-"],
 [class*="emojiSection-"],
+[id*="popout_"] [class*="container-"][role="dialog"],
 [class*="premiumPromo-"]{
 	background: var(--trans-secondary) !important;
 }
@@ -92,7 +93,6 @@ html [class*="app-"] > [style="opacity: 1;"],
 [class*="stickyHeader-"],
 [class*="markup-"] + [class*="container-"] > [class*="userSelectNone-"],
 [id*="popout_"] [class*="container-"][role="menu"],
-[id*="popout_"] [class*="container-"][role="dialog"],
 [class*="message-"] [class*="container-"][class*="buttons-"] [class*="wrapper-"],
 [class*="messagesPopoutWrap-"],
 [class*="contentWrapper-"],
