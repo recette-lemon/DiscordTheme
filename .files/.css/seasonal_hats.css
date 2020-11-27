@@ -31,7 +31,7 @@ html[hat="santa"] [class*=voiceUser-] [class*=smallAvatar-]::after {
 html[hat="santa"] [class*=message-][class*=groupStart-]{
   position: relative;
 }
-html[hat="santa"] [class*=message-][class*=groupStart-]:after{
+html[hat="santa"] [class*=message-][class*=groupStart-] [class*=contents-]:after{
   content: "";
   position: absolute;
   top:2px; left:18px;
@@ -43,4 +43,7 @@ html[hat="santa"] [class*=message-][class*=groupStart-]:after{
   background-repeat: no-repeat;
   background-size: 100%;
   pointer-events:none;
+}
+html[hat="santa"] [class*=message-][class*=groupStart-] [class*=repliedMessage-] + [class*=contents-]:after{
+  top: 30px;
 }
