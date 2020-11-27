@@ -2,7 +2,7 @@
 html[hat="santa"] svg [class*=avatar-]{
   position: static !important;
 }
-html[hat="santa"] :not([class*=layout-]):not([class*=avatarWrapper-]) > [class*=avatar-]:not([class*=avatar-uploader]){
+html[hat="santa"] :not([class*=layout-]):not([class*=avatarWrapper-]):not([class*=header-]) > [class*=avatar-]:not([class*=avatar-uploader]){
   position: absolute;
 }
 html[hat="santa"] [class*=avatar-],
