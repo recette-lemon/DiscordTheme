@@ -317,8 +317,9 @@ html[rainbow] [class*="chat-"] [class*="markup"]{
 	padding-right:74px;
 }
 .dt-line-trigger{
+	align-self: center;
 	width: 22px;
-	height: 100%;
+	height: 22px;
 	background-size: contain;
 	cursor: pointer;
 	filter: grayscale(100%);
