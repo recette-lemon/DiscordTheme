@@ -2,7 +2,7 @@
 html[hat="santa"] svg [class*=avatar-]{
   position: static !important;
 }
-html[hat="santa"] :not([class*=layout-]):not([class*=avatarWrapper-]):not([class*=header-]) > [class*=avatar-]:not([class*=avatar-uploader]){
+html[hat="santa"] :not([class*=userInfo-]):not([class*=layout-]):not([class*=avatarWrapper-]):not([class*=header-]) > [class*=avatar-]:not([class*=avatar-uploader]){
   position: absolute;
 }
 html[hat="santa"] [class*=avatar-],
@@ -46,4 +46,16 @@ html[hat="santa"] [class*=message-][class*=groupStart-] > [class*=contents-]:aft
 }
 html[hat="santa"] [class*=message-][class*=groupStart-] [class*=repliedMessage-] + [class*=contents-]:after{
   top: 26px;
+}
+html[hat="santa"] [class*=peopleList-] [class*=peopleListItem-]:hover{
+  padding: 10px;
+}
+html[hat="santa"] [class*=peopleList-] [class*=listItemContents-]{
+  display: grid;
+  grid-template-columns: 1fr min-content;
+}
+html[hat="santa"] [class*=peopleList-] [class*=listItemContents-] [class*=userInfo-]{
+  display: grid;
+  grid-template-columns: min-content 1fr;
+  overflow: visible;
 }
