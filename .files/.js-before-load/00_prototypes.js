@@ -5,7 +5,7 @@ String.prototype.capitalize = function() {
 
 /* HTMLElement Prototypes */
 HTMLElement.prototype.getReactInstance = function(){
-	let start = "__reactFiber$";
+	let start = "__reactInternalInstance$";
 	for(let i in this){
 		if(i.startsWith(start)) return this[i];
 	}
