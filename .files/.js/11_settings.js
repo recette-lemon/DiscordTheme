@@ -230,6 +230,35 @@ function setRainbow(){
 setRainbow();
 
 // NITRO
+let seasonTab = Discord.Settings.Items.createTab("Seasonal Appearance");
+let sHats = seasonTab.createGroup("Hats");
+let hatOptions = sHats.createOptions("Hat", "");
+hatOptions.add("None", "", function(){
+	document.documentElement.removeAttribute('hat');
+});
+hatOptions.add("Santa", "santa", function(){
+	document.documentElement.setAttribute('hat', 'santa');
+});
+if(Discord.Settings.Raw.SeasonalAppearance.Hats.Hat){
+	document.documentElement.setAttribute('hat', Discord.Settings.Raw.SeasonalAppearance.Hats.Hat);
+}
+
+let sEffects = seasonTab.createGroup("Effects");
+sEffects.addToggle("Xmas", "Add Xmas effects.", false, Xmas);
+function Xmas(){
+	if(Discord.Settings.Raw.SeasonalAppearance.Effects.Xmas){
+		document.documentElement.setAttribute("xmas", true);
+		snow.start();
+	}else{
+		document.documentElement.removeAttribute("xmas");
+		snow.pause();
+	}
+}
+Xmas();
+
+
+
+// NITRO
 let nitroTab = Discord.Settings.Items.createTab("Fake Nitro");
 let ngeneral = nitroTab.createGroup("General");
 ngeneral.addToggle("Fake Nitro", "[REQUIRES RESTART] Unlocks emote autocomplete among other nitro client side features.", false);

@@ -1,0 +1,62 @@
+/* Santa Hat */
+html[hat="santa"] svg [class*=avatar-]{
+  position: static !important;
+}
+html[hat="santa"] :not([class*=voiceUser-]) > :not([class*=content-]):not([class*=userInfo-]):not([class*=layout-]):not([class*=avatarWrapper-]):not([class*=header-]) > [class*=avatar-]:not([class*=avatar-uploader]){
+  position: absolute;
+}
+
+html[hat="santa"] [class*=avatar-],
+html[hat="santa"] [class*=avatarWrapper-],
+html[hat="santa"] [class*=voiceUser-] [class*=smallAvatar-],
+html[hat="santa"] [class*=emojiButton-] [class*=sprite-] {
+  position:relative;
+}
+html[hat="santa"] [class*=emojiButton-] [class*=sprite-]::after,
+html[hat="santa"] :not([class*=avatarWrapper-]) > [class*=avatar-]:not([class*=avatar-uploader])::after,
+html[hat="santa"] [class*=avatarWrapper-]::after,
+html[hat="santa"] [class*=voiceUser-] [class*=smallAvatar-]::after {
+  content: "";
+  position: absolute;
+  top:0; left:0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  transform: translate(15%, -20%);
+  background-image: url(https://i.imgur.com/P76k8Mh.png);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  pointer-events:none;
+}
+
+html[hat="santa"] [class*=message-][class*=groupStart-]{
+  position: relative;
+}
+html[hat="santa"] [class*=message-][class*=groupStart-] > [class*=contents-]:after{
+  content: "";
+  position: absolute;
+  top:2px; left:18px;
+  width: 2.5rem;
+  height: 2.5rem;
+  z-index: 2;
+  transform: translate(15%, -20%);
+  background-image: url(https://i.imgur.com/P76k8Mh.png);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  pointer-events:none;
+}
+html[hat="santa"] [class*=message-][class*=groupStart-] [class*=repliedMessage-] + [class*=contents-]:after{
+  top: 26px;
+}
+html[hat="santa"] [class*=peopleList-] [class*=peopleListItem-]:hover{
+  padding: 10px;
+}
+html[hat="santa"] [class*=peopleList-] [class*=listItemContents-]{
+  display: grid;
+  grid-template-columns: 1fr min-content;
+}
+html[hat="santa"] [class*=peopleList-] [class*=listItemContents-] [class*=userInfo-]{
+  display: grid;
+  grid-template-columns: min-content 1fr;
+  overflow: visible;
+}
