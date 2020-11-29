@@ -2,10 +2,14 @@
 if EXIST instalation.log del instalation.log>nul
 :: get discord executable
 :: done with a for cuz several processes but only save the first
-for /f "skip=1 delims=" %%a IN ('wmic process where "name='discord.exe'" get ExecutablePath') do (
-	if not defined d_exe (
-		set d_exe=%%a
+if "%~1" == "" (
+	for /f "skip=1 delims=" %%a IN ('wmic process where "name='discord.exe'" get ExecutablePath') do (
+		if not defined d_exe (
+			set d_exe=%%a
+		)
 	)
+) else (
+	set d_exe=%1
 )
 if "%d_exe%"=="" (
 	echo [ERROR!] Discord needs to be running...
@@ -24,7 +28,11 @@ for %%a IN ("%d_exe%") do set d_path=%%~dpa
 for /f "tokens=7 delims=\" %%a IN ("%d_path%") do set d_ver=%%a
 for /f "tokens=2 delims=-" %%a IN ("%d_ver%") do set d_ver=%%a
 :: set discord core path
-set d_core=%APPDATA%\discord\%d_ver%\modules\discord_desktop_core
+if "%~3" == "" (
+	set d_core=%APPDATA%\discord\%d_ver%\modules\discord_desktop_core
+) else (
+	set d_core=%APPDATA%\%3\%d_ver%\modules\discord_desktop_core
+)
 
 :: make a backup if it doesnt already exist
 if NOT EXIST "%d_core%\core.asar.bak" (
@@ -93,7 +101,11 @@ for /f "usebackq delims=" %%a in ("%d_core%\core\app\_mainScreen.js") do (
 del "%d_core%\core\app\_mainScreen.js"
 
 :: close discord to apply changes
-taskkill /F /im discord.exe /T>nul
+if "%~2" == "" (
+	taskkill /F /im discord.exe /T>nul
+) else (
+	taskkill /F /im %2 /T>nul
+)
 echo Killed discord processes to repack Asar>>instalation.log
 
 :: pack asar
@@ -108,6 +120,10 @@ echo.
 echo --- SUCCESS ---
 
 :: restart discord
-start "" "%d_path%Discord.exe"
+if "%~2" == "" (
+	start "" "%d_path%Discord.exe"
+) else (
+	start "" "%d_path%%2"
+)
 
 :EOF
