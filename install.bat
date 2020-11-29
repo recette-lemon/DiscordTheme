@@ -81,12 +81,12 @@ for /f "usebackq delims=" %%a in ("%d_core%\core\app\_mainScreenPreload.js") do 
 )
 del "%d_core%\core\app\_mainScreenPreload.js"
 
-:: disable contextIsolation
+:: disable contextIsolation and enable worldSafeExecuteJavaScript
 move "%d_core%\core\app\mainScreen.js" "%d_core%\core\app\_mainScreen.js"
 for /f "usebackq delims=" %%a in ("%d_core%\core\app\_mainScreen.js") do (
 	set _temp=%%a
 	SETLOCAL EnableDelayedExpansion
-		set modified=!_temp:contextIsolation^: true=contextIsolation^: false!
+		set modified=!_temp:contextIsolation^: true=worldSafeExecuteJavaScript^: true, contextIsolation^: false!
 		echo !modified!>>"%d_core%\core\app\mainScreen.js"
 	ENDLOCAL
 )
