@@ -60,3 +60,7 @@ html[hat="santa"] [class*=peopleList-] [class*=listItemContents-] [class*=userIn
   grid-template-columns: min-content 1fr;
   overflow: visible;
 }
+
+[class*=newMessagesBar-]{
+  z-index: 10;
+}

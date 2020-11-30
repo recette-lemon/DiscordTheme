@@ -68,6 +68,8 @@ code{
 	background: #7289daaa;
 }
 
+[class*="popout-"] [class*="option-"]:hover,
+[class*="popout-"] [class*="option-"]:focus,
 [class*="modal-"] [class*="root-"],
 [class*="searchResultMessage-"],
 [class*="quickswitcher"],
@@ -89,6 +91,8 @@ html [class*="container-"][class*="invite-"],
 	background: var(--trans-secondary) !important;
 }
 
+[class*="select-"],
+[class*="popout-"],
 [class*="members-"],
 [class*="search-"] [class*="searchBar-"],
 [class*="searchResultsWrap-"],
