@@ -344,7 +344,7 @@ html[rainbow] [class*="chat-"] [class*="markup"]{
 	height:600px;
 	padding:0px 5px;
 	box-sizing:border-box;
-	background:#2f3136;
+	background: rgba(255, 255, 255, 0.1);
 }
 .dt-line-container:not([root])::before {
     content: "Shift + click - add an optional message";

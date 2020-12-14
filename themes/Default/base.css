@@ -91,6 +91,7 @@ html [class*="container-"][class*="invite-"],
 	background: var(--trans-secondary) !important;
 }
 
+[class*="channelTextArea-"] > [class*="container-"],
 [class*="select-"],
 [class*="popout-"],
 [class*="members-"],
@@ -215,7 +216,7 @@ html [class*="embedFull-"]{
 #theme-menu,
 .theme-dark,
 [class*="layer-"],
-:not([class*="control-"]) > [class*="container-"]:not([class*="mentioned-"]):not([class*="elevationBorderHigh-"]):not([class*="elevationHigh-"]):not([role="dialog"]),
+:not([class*="control-"]):not([class*="channelTextArea-"]) > [class*="container-"]:not([class*="mentioned-"]):not([class*="elevationBorderHigh-"]):not([class*="elevationHigh-"]):not([role="dialog"]),
 [class*="option-"]::after,
 [class*="channelSeparator-"] [class*="channelName-"],
 [class*="searchHeader-"],
@@ -223,7 +224,7 @@ html [class*="embedFull-"]{
 [class*="panels-"],
 [class*="modal-"] [class*="footer-"],
 [class*="emojiPicker-"] [class*="inspector-"]{
-	background: none !important;
+	background: transparent !important;
 }
 [class*="searchResult-"][class*="expanded-"] [class*="searchResultMessage-"]{
 	border: none !important;
