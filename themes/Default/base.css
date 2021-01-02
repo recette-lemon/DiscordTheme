@@ -68,6 +68,8 @@ code{
 	background: #7289daaa;
 }
 
+[class*="popout-"] [class*="option-"]:hover,
+[class*="popout-"] [class*="option-"]:focus,
 [class*="modal-"] [class*="root-"],
 [class*="searchResultMessage-"],
 [class*="quickswitcher"],
@@ -89,6 +91,10 @@ html [class*="container-"][class*="invite-"],
 	background: var(--trans-secondary) !important;
 }
 
+[class*=userLimit-] [class*=users-],
+[class*="channelTextArea-"] > [class*="container-"],
+[class*="select-"],
+[class*="popout-"],
 [class*="members-"],
 [class*="search-"] [class*="searchBar-"],
 [class*="searchResultsWrap-"],
@@ -103,10 +109,14 @@ html [class*="app-"] > [style="opacity: 1;"],
 	background: var(--trans-main)!important;
 }
 
+[class*=userLimit-] [class*=total-],
 :not([class*="control-"]) > [class*="container-"][class*="recentMentionsPopout-"]:not([class*="mentioned-"]):not([class*="elevationBorderHigh-"]):not([class*="elevationHigh-"]):not([role="dialog"]),
 [class*="contentWrapper-"],
 [class*="messagesPopoutWrap-"]{
 	background: var(--trans-dark)!important;
+}
+[class*=userLimit-] [class*=total-]::after{
+	border-right-color: var(--trans-dark)!important;
 }
 
 html [class*="embedFull-"]{
@@ -116,6 +126,10 @@ html [class*="embedFull-"]{
 [class*="message-"][class*="mentioned-"]{
 	background: #faa61a22 !important;
 }
+[class*="repliedMessage-"]:before{
+	border-color: rgba(255, 255, 255, 0.5) !important;
+}
+
 
 /* PADDINGS/MARGINS */
 [class*="sidebar-"]{
@@ -211,7 +225,7 @@ html [class*="embedFull-"]{
 #theme-menu,
 .theme-dark,
 [class*="layer-"],
-:not([class*="control-"]) > [class*="container-"]:not([class*="mentioned-"]):not([class*="elevationBorderHigh-"]):not([class*="elevationHigh-"]):not([role="dialog"]),
+:not([class*="control-"]):not([class*="channelTextArea-"]) > [class*="container-"]:not([class*="mentioned-"]):not([class*="elevationBorderHigh-"]):not([class*="elevationHigh-"]):not([role="dialog"]),
 [class*="option-"]::after,
 [class*="channelSeparator-"] [class*="channelName-"],
 [class*="searchHeader-"],
@@ -219,7 +233,7 @@ html [class*="embedFull-"]{
 [class*="panels-"],
 [class*="modal-"] [class*="footer-"],
 [class*="emojiPicker-"] [class*="inspector-"]{
-	background: none !important;
+	background: transparent !important;
 }
 [class*="searchResult-"][class*="expanded-"] [class*="searchResultMessage-"]{
 	border: none !important;
