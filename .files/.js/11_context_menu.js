@@ -181,6 +181,7 @@ Discord.ContextMenu.COLOR_ORANGE = "#faa61a";
 		Discord.Console.show("/react "+context.message+" ");
 	}
 	function isImg(context){return context.target.tagName=="IMG";}
+	function isVideo(context){return context.target.tagName=="VIDEO";}
 
 	/* Auxiliary Objects */
 	let reverseImageGoogle = {
@@ -238,6 +239,14 @@ Discord.ContextMenu.COLOR_ORANGE = "#faa61a";
 			discord.sendMessage(context.channel, {content:"", embed});
 		}
 	};
+	let loop = {
+		name:"Loop Video",
+		filter:isVideo,
+		color:Discord.ContextMenu.WHITE,
+		fn: function(context){
+			context.target.loop = true;
+		}
+	};
 
 	/* Extensions */
 	Discord.ContextMenu.Extension = {};
@@ -256,6 +265,7 @@ Discord.ContextMenu.COLOR_ORANGE = "#faa61a";
 		reverseImageIQDB,
 		quote,
 		react,
+		loop,
 		{
 			name:"Save Attachment As",
 			color:Discord.ContextMenu.COLOR_BLUE,

@@ -91,6 +91,7 @@ html [class*="container-"][class*="invite-"],
 	background: var(--trans-secondary) !important;
 }
 
+
 [class*=userLimit-] [class*=users-],
 [class*="channelTextArea-"] > [class*="container-"],
 [class*="select-"],
@@ -225,7 +226,7 @@ html [class*="embedFull-"]{
 #theme-menu,
 .theme-dark,
 [class*="layer-"],
-:not([class*="control-"]):not([class*="channelTextArea-"]) > [class*="container-"]:not([class*="mentioned-"]):not([class*="elevationBorderHigh-"]):not([class*="elevationHigh-"]):not([role="dialog"]),
+:not([class*="control-"]):not([class*="channelTextArea-"]):not([class*=animatorRight-]) > [class*="container-"]:not([class*="mentioned-"]):not([class*="elevationBorderHigh-"]):not([class*="elevationHigh-"]):not([role="dialog"]),
 [class*="option-"]::after,
 [class*="channelSeparator-"] [class*="channelName-"],
 [class*="searchHeader-"],
