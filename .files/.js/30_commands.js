@@ -649,7 +649,7 @@ commands.add("presence", function(channel, name, full, parts){
 });
 commands.add("big", function(channel, name, full, parts){
 	content = [...full.toLowerCase()].reduce((cum, l) => {
-		if(l.match(/\s/)) return cum+l;
+		if(l.match(/\s/)) return cum+'　';
 		return cum+(l.match(/[a-z]/)?`:regional_indicator_${l}:`:'');
 	}, '');
 	discord.sendMessage(channel, {content:content});
@@ -680,7 +680,7 @@ commands.catch = function(channel, message){
 		return true;
 	}
 
-	// Check for single emoji from another server
+	// Check for single emoji
 	if(Discord.Settings.Raw.FakeNitro.General.GlobalEmotes && (message.match(/^:[^\s:]+:$/) || message.match(/^<a?:[^\s:]+?:([^\s:]+?)>$/))){
 		let content = DT.parse(message);
 		let match = content.match(/^<(a?):.+?:(.+?)>$/);
