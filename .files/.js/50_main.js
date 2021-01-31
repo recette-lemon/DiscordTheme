@@ -111,7 +111,7 @@ function fixModal(target){
 			let textArea = second.children[0];
 			first.textContent = "Creation Date";
 			textArea.value = text;
-			textArea.style.height = "24px";
+			textArea.style.height = "40px";
 			textArea.setAttribute("readonly", "true");
 
 			userInfo.insertBefore(first, before);

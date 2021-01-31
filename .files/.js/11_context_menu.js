@@ -49,6 +49,7 @@ Discord.ContextMenu = function(target){
 			context.target = props.target;
 			context.user = props.message.author.id;
 
+			context._message = props.message;
 			context._user = props.message.author;
 			break;
 		}
@@ -221,6 +222,8 @@ Discord.ContextMenu.COLOR_ORANGE = "#faa61a";
 			let ids = [context.guild, context.channel, context.message].join('/');
 			let url = "https://discordapp.com/channels/"+ids;
 
+			console.log(context);
+
 			let icon = discord.getUserIcon(context.user, context._user.avatar, 128, "webp");
 			let embed = new Discord.Embed();
 			embed.setAuthorName(context._user.username);
@@ -232,9 +235,14 @@ Discord.ContextMenu.COLOR_ORANGE = "#faa61a";
 				embed.setImage(context.content);
 			}else{
 				if(context.content)
-				embed.addField("Message", context.content);
+					embed.addField("Message", context.content);
+
+				if(context._message.embeds && context._message.embeds.length && context._message.embeds[0].image)
+					embed.setImage(context._message.embeds[0].image.url);
+
 				if(context.url)
-				embed.setImage(context.url);
+					embed.setImage(context.url);
+
 			}
 			discord.sendMessage(context.channel, {content:"", embed});
 		}
