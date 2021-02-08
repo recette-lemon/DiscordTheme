@@ -64,6 +64,14 @@ code{
 }
 
 /* BACKGROUND */
+[class^=backdropWithLayer],
+[class*="messagesPopoutWrap-"],
+[class*="backdrop-"],
+[class*="elevationBorderHigh-"],
+[class*="contentWrapper-"]{
+	backdrop-filter: blur(5px);
+}
+
 [class*="topSectionPlaying-"]{
 	background: #7289daaa;
 }
@@ -77,13 +85,11 @@ code{
 	background: var(--trans-primary) !important;
 }
 
-[class*="categorySection-"]:first-child > [class*="header-"],
 [class*="popouts-"] > [class*="popout-"],
 html [class*="modal-"] [class*="modal-"],
 html [class*="container-"][class*="elevationHigh-"],
 html [class*="container-"][class*="invite-"],
 [class*="uploadModal-"],
-[class*="elevationBorderHigh-"],
 [class*="elevationHigh-"],
 [class*="emojiSection-"],
 [id*="popout_"] [class*="container-"][role="dialog"],
@@ -91,7 +97,8 @@ html [class*="container-"][class*="invite-"],
 	background: var(--trans-secondary) !important;
 }
 
-
+[class*="elevationBorderHigh-"],
+[class*="categorySection-"]:first-child > [class*="header-"],
 [class*=userLimit-] [class*=users-],
 [class*="channelTextArea-"] > [class*="container-"],
 [class*="select-"],
@@ -106,14 +113,16 @@ html [class*="app-"] > [style="opacity: 1;"],
 [class*="markup-"] + [class*="container-"] > [class*="userSelectNone-"],
 [id*="popout_"] [class*="container-"][role="menu"],
 [class*="message-"] [class*="container-"][class*="buttons-"] [class*="wrapper-"],
-#emoji-picker-tab-panel:first-child [class*="emojiPicker-"]{
+#emoji-picker-tab-panel:first-child [class*="emojiPicker-"],
+[class*="messagesPopoutWrap-"],
+[class*="contentWrapper-"]{
 	background: var(--trans-main)!important;
 }
 
 [class*=userLimit-] [class*=total-],
 :not([class*="control-"]) > [class*="container-"][class*="recentMentionsPopout-"]:not([class*="mentioned-"]):not([class*="elevationBorderHigh-"]):not([class*="elevationHigh-"]):not([role="dialog"]),
-[class*="contentWrapper-"],
-[class*="messagesPopoutWrap-"]{
+[class^=backdropWithLayer],
+[class*="backdrop-"]{
 	background: var(--trans-dark)!important;
 }
 [class*=userLimit-] [class*=total-]::after{

@@ -5,19 +5,20 @@ Discord.Line = new (function(){
 	file.readBase64().then(function(b64){
 		trigger.style.backgroundImage = "url("+b64+")";
 	});
-	
+
 	let lineContainer = document.createElement("div");
 	lineContainer.className = "dt-line-container";
 	let current;
-	
+
 	let modal = new Discord.Modal(lineContainer);
-	trigger.addEventListener("click", function(){
+	trigger.addEventListener("click", triggerClick);
+	function triggerClick(){
 		lineContainer.removeChild(current);
 		lineContainer.appendChild(current=lineContainer.elements);
 		lineContainer.setAttribute("root", true);
 		modal.show();
-	});
-	
+	}
+
 	let back = document.createElement("div");
 	back.className = "dt-line-back";
 	back.innerHTML = `
@@ -26,17 +27,20 @@ Discord.Line = new (function(){
 		</svg>
 	`;
 	lineContainer.appendChild(back);
-	
+
 	back.addEventListener("click", function(){
 		lineContainer.removeChild(current);
 		lineContainer.appendChild(current=lineContainer.elements);
 		lineContainer.setAttribute("root", true);
 	});
-	
+
 	this.appendTo = function(place){
 		place.insertBefore(trigger, place.children[0]);
 	};
-	
+
+	this.open = triggerClick;
+	this.close = modal.hide;
+
 	//Building Stickers
 	let packs = new Discord.File("line").listFolders();
 	lineContainer.elements = document.createElement("div");
@@ -102,3 +106,8 @@ Discord.Line = new (function(){
 	}
 	lineContainer.appendChild(current=lineContainer.elements);
 })();
+
+window.addEventListener('keydown', e => {
+	if(e.ctrlKey && e.key == 'l') Discord.Line.open();
+	if(e.key == 'Escape') Discord.Line.close();
+});
