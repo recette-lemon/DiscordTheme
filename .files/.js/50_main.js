@@ -201,10 +201,10 @@ window.addEventListener("click", function(e){
 		});
 	});
 
-	document.waitFor('[class*="chat-"]').then(chat => {
+	document.waitFor('[class*="chatContent-"]').then(chat => {
 		let chatParent = chat.parentNode;
 		chatParent.onMutation('addedNodes', e => {
-			if(e.matches('[class*="chat-"]'))
+			if(e.matches('[class*="chatContent-"]'))
 				observeChat(e);
 		});
 

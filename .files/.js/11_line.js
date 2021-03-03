@@ -35,7 +35,7 @@ Discord.Line = new (function(){
 	});
 
 	this.appendTo = function(place){
-		place.insertBefore(trigger, place.children[0]);
+		place.prepend(trigger);
 	};
 
 	this.open = triggerClick;
