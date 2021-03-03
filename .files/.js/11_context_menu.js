@@ -261,12 +261,12 @@ Discord.ContextMenu.COLOR_ORANGE = "#faa61a";
 	Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_LINK] = [
 		reverseImageGoogle,
 		reverseImageIQDB,
-		{
-			name:"Save Link As",
-			color:Discord.ContextMenu.COLOR_BLUE,
-			fn:downloadFile
-		},
-		clipboard
+		// {
+		// 	name:"Save Link As",
+		// 	color:Discord.ContextMenu.COLOR_BLUE,
+		// 	fn:downloadFile
+		// },
+		// clipboard
 	];
 	Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_ATTACHMENT] = [
 		reverseImageGoogle,
@@ -274,12 +274,12 @@ Discord.ContextMenu.COLOR_ORANGE = "#faa61a";
 		quote,
 		react,
 		loop,
-		{
-			name:"Save Attachment As",
-			color:Discord.ContextMenu.COLOR_BLUE,
-			fn:downloadFile
-		},
-		clipboard
+		// {
+		// 	name:"Save Attachment As",
+		// 	color:Discord.ContextMenu.COLOR_BLUE,
+		// 	fn:downloadFile
+		// },
+		// clipboard
 	];
 	Discord.ContextMenu.Extension[Discord.ContextMenu.TYPE_MESSAGE] = [
 		react,
