@@ -358,7 +358,7 @@ Discord.Search = function(type){
 Discord.Search.types = {
 	gi:{
 		name:"Google Images",
-		icon:"https://i.imgur.com/JHeQgVA.png",
+		icon:"https://i.imgur.com/OKMO4JI.png",
 		color:"#4885ed",
 		init: function(search){
 			return new Promise(function(succ){

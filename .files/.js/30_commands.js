@@ -348,7 +348,7 @@ commands.add("fortune", function(channel, name, full, parts){
 	full = full?full:"What is my fortune?";
 	let answer = answers[(Math.random()*answers.length)|0];
 	let embed = new Discord.Embed();
-	embed.setAuthorIcon("https://i.imgur.com/Lp9JIbf.png");
+	embed.setAuthorIcon("https://i.imgur.com/U4LHwg6.png");
 	embed.setAuthorName("Fortune");
 	embed.setColor(answer.color);
 	embed.addField(full, answer.name);
@@ -471,7 +471,7 @@ commands.add("roll", function(channel, name, full, parts){
 	let number = (Math.random()*1000000000)|0;
 	let digits = (number+"").match(/((.)\2+)$/g);
 	let embed = new Discord.Embed();
-	embed.setAuthorIcon("https://i.imgur.com/m9DpkTr.jpg");
+	embed.setAuthorIcon("https://i.imgur.com/fmFrGE4.png");
 	embed.setAuthorName("Rolled "+number);
 	embed.description = full;
 	if(digits){
