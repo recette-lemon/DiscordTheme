@@ -222,8 +222,6 @@ Discord.ContextMenu.COLOR_ORANGE = "#faa61a";
 			let ids = [context.guild, context.channel, context.message].join('/');
 			let url = "https://discordapp.com/channels/"+ids;
 
-			console.log(context);
-
 			let icon = discord.getUserIcon(context.user, context._user.avatar, 128, "webp");
 			let embed = new Discord.Embed();
 			embed.setAuthorName(context._user.username);
@@ -231,19 +229,31 @@ Discord.ContextMenu.COLOR_ORANGE = "#faa61a";
 			embed.setDiscordColor();
 			embed.addField("Mention", `<@${context.user}>`, true);
 			embed.addField("Link", `[Go to Message](${url})`, true);
-			if(context.content.match(/^https?:\/\/[^\s]+$/)){
-				embed.setImage(context.content);
-			}else{
-				if(context.content)
-					embed.addField("Message", context.content);
 
-				if(context._message.embeds && context._message.embeds.length && context._message.embeds[0].image)
-					embed.setImage(context._message.embeds[0].image.url);
-
-				if(context.url)
-					embed.setImage(context.url);
-
+			let useContent = true;
+			if(context._message.embeds && context._message.embeds.length){
+				let embeds = context._message.embeds;
+				for(let i=0;i<embeds.length;i++){
+					let e = embeds[i];
+					if(e.image){
+						useContent = !context.content.match(/^https?:\/\/[^\s]+$/);
+						embed.setImage(e.image.url);
+						break;
+					}
+					if(e.thumbnail){
+						embed.setImage(e.thumbnail.url);
+						break;
+					}
+				}
 			}
+
+			if(context.url)
+				embed.setImage(context.url);
+
+
+			if(useContent && context.content)
+				embed.addField("Message", context.content);
+
 			discord.sendMessage(context.channel, {content:"", embed});
 		}
 	};
