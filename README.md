@@ -1,4 +1,4 @@
-# Discord Theme
+# Discord Theme (Dropped/Stopped working)
 
 This theme enables you to set custom css and js to run inside discord.
 
