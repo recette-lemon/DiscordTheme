@@ -81,14 +81,10 @@ if "%~2" == "" (
 echo Killed discord processes to change files>>instalation.log
 
 :: move files
-copy .files\index.js %d_core%\>nul
-move preload.js %d_core%\>nul
-xcopy .files\.node\* %d_core%\ /s /y>nul
-echo Repacked "%d_core%\core.asar">>instalation.log
-
-:: cleanup
-del payload.js
-:: rmdir /s /q "%d_core%\core"
+copy .files\index.js "%d_core%\">nul
+move preload.js "%d_core%\">nul
+xcopy .files\.node\* "%d_core%\" /s /y>nul
+echo Moved files to "%d_core%">>instalation.log
 
 echo.
 echo --- SUCCESS ---
