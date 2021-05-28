@@ -26,6 +26,10 @@ for /f "tokens=2 delims=-" %%a IN ("%d_ver%") do set d_ver=%%a
 :: set discord core path
 set d_core=%APPDATA%\discord\%d_ver%\modules\discord_desktop_core
 
+
+:: New path
+set d_core=%d_path%modules\discord_desktop_core-1\discord_desktop_core
+
 :: kill discord to be able to replace the file
 taskkill /F /im discord.exe /T>nul
 

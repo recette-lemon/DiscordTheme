@@ -34,30 +34,30 @@ if "%~3" == "" (
 	set d_core=%APPDATA%\%3\%d_ver%\modules\discord_desktop_core
 )
 
+:: New path
+set d_core=%d_path%modules\discord_desktop_core-1\discord_desktop_core
+
+
 :: make a backup if it doesnt already exist
-if NOT EXIST "%d_core%\core.asar.bak" (
-	copy "%d_core%\core.asar" "%d_core%\core.asar.bak">nul
-	echo Backed up to "%d_core%\core.asar.bak">>instalation.log
+if NOT EXIST "%d_core%\index.js.bak" (
+	move "%d_core%\index.js" "%d_core%\index.js.bak">nul
+	echo Backed up to "%d_core%\index.js.bak">>instalation.log
 ) else (
-	echo Backup already exists at "%d_core%\core.asar.bak">>instalation.log
+	echo Backup already exists at "%d_core%\index.js.bak">>instalation.log
 )
 
-:: unpack asar with 7z + asar plugin
-:: always unpack from backup to get unmodified files
-.files\.7z\7z.exe x "%d_core%\core.asar.bak" -o"%d_core%\core\" -aoa>nul
-echo Unpacked Asar to "%d_core%\core\">>instalation.log
-
 :: modify files to point to current dir
-if EXIST payload.js del payload.js>nul
-for /f "delims=" %%a in (.files\payload-original.js) do (
+if EXIST preload.js del preload.js>nul
+for /f "delims=" %%a in (.files\preload-original.js) do (
 	set _temp=%%a
 	SETLOCAL EnableDelayedExpansion
 		set modified=!_temp:{{FILE}}=%~dp0.files\injection.js!
 		set modified=!modified:\=\\!
-		echo !modified!>>payload.js
+		echo !modified!>>preload.js
 	ENDLOCAL
 )
-echo Modified payload.js to point to "%~dp0.files\injection.js">>instalation.log
+echo Modified preload.js to point to "%~dp0.files\injection.js">>instalation.log
+
 if EXIST .files\injection.js del .files\injection.js>nul
 for /f "delims=" %%a in (.files\injection-original.js) do (
 	set _temp=%%a
@@ -71,34 +71,6 @@ for /f "delims=" %%a in (.files\injection-original.js) do (
 )
 echo Modified injection.js to point to "%~dp0">>instalation.log
 
-:: apply payload to mainScreenPreload
-echo.>>"%d_core%\core\app\mainScreenPreload.js"
-for /f "delims=^ tokens=1" %%b in (payload.js) do (
-	echo %%b>>"%d_core%\core\app\mainScreenPreload.js"
-)
-echo Applied payload to "%d_core%\core\app\mainScreenPreload.js">>instalation.log
-
-:: Remove contextBridge
-move "%d_core%\core\app\mainScreenPreload.js" "%d_core%\core\app\_mainScreenPreload.js"
-for /f "usebackq delims=" %%a in ("%d_core%\core\app\_mainScreenPreload.js") do (
-	set _temp=%%a
-	SETLOCAL EnableDelayedExpansion
-		set modified=!_temp:contextBridge.exposeInMainWorld('DiscordNative', DiscordNative^)=window.DiscordNative=DiscordNative!
-		echo !modified!>>"%d_core%\core\app\mainScreenPreload.js"
-	ENDLOCAL
-)
-del "%d_core%\core\app\_mainScreenPreload.js"
-
-:: disable contextIsolation and enable worldSafeExecuteJavaScript
-move "%d_core%\core\app\mainScreen.js" "%d_core%\core\app\_mainScreen.js"
-for /f "usebackq delims=" %%a in ("%d_core%\core\app\_mainScreen.js") do (
-	set _temp=%%a
-	SETLOCAL EnableDelayedExpansion
-		set modified=!_temp:contextIsolation^: true=worldSafeExecuteJavaScript^: true, contextIsolation^: false!
-		echo !modified!>>"%d_core%\core\app\mainScreen.js"
-	ENDLOCAL
-)
-del "%d_core%\core\app\_mainScreen.js"
 
 :: close discord to apply changes
 if "%~2" == "" (
@@ -106,10 +78,12 @@ if "%~2" == "" (
 ) else (
 	taskkill /F /im %2 /T>nul
 )
-echo Killed discord processes to repack Asar>>instalation.log
+echo Killed discord processes to change files>>instalation.log
 
-:: pack asar
-.files\.7z\7z a "%d_core%\core.asar" "%d_core%\core\*">nul
+:: move files
+copy .files\index.js %d_core%\>nul
+move preload.js %d_core%\>nul
+xcopy .files\.node\* %d_core%\ /s /y>nul
 echo Repacked "%d_core%\core.asar">>instalation.log
 
 :: cleanup
