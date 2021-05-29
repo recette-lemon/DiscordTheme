@@ -267,7 +267,7 @@ ngeneral.addToggle("Global Emotes", "Messages with a single emote will be posted
 //THEME
 let themeTab = Discord.Settings.Items.createTab("Theme");
 let theme = themeTab.createGroup("Theme");
-let themeOptions = theme.createOptions("Theme", "default");
+let themeOptions = theme.createOptions("Theme", "Default");
 let themesFolder = DT.root+"themes/";
 let themes = window._fs.readdirSync(themesFolder);
 function changeTheme(newTheme){
