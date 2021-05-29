@@ -17,7 +17,7 @@ fi
 echo "creating injection.js and deploying preload and index"
 cd "$theme_root/.files"
 sed "s|{{PATH}}|$theme_root/|" injection-original.js > injection.js
-sed "s|{{FILE}}|$theme_root/.files/injection.js|" preload-original.js >> "$asar_location/preload.js"
+sed "s|{{FILE}}|$theme_root/.files/injection.js|" preload-original.js > "$asar_location/preload.js"
 cp index.js "$asar_location/index.js"
 cp -r .node/* "$asar_location/"
 
