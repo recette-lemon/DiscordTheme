@@ -15,7 +15,7 @@ process.kill = originalKill;
 (function(){
 	context.webFrame = electron.webFrame;
 	context.require = require;
-	context._erlpack = require('../../discord_erlpack-1/discord_erlpack');
+	context._erlpack = require('../discord_erlpack');
 	let _fs = require('fs');
 	let injection = _fs.readFileSync('{{FILE}}', 'utf-8');
 	electron.webFrame.executeJavaScript(injection);
