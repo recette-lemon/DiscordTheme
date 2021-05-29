@@ -204,6 +204,7 @@ window.addEventListener("click", function(e){
 	document.waitFor('[class*="chatContent-"]').then(chat => {
 		let chatParent = chat.parentNode;
 		chatParent.onMutation('addedNodes', e => {
+			// console.log('MUT', e);
 			if(e.matches && e.matches('[class*="chatContent-"]'))
 				observeChat(e);
 		});
