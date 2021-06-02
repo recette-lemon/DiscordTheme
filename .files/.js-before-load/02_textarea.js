@@ -4,11 +4,13 @@
 	// + look for own user and set premium
 	let n_of_calls = 2;
 	let _call = Function.prototype.call;
+	let uid = JSON.parse(_localStorage.user_id_cache);
 	function reset(){if(--n_of_calls==0)Function.prototype.call=_call;}
 	Function.prototype.call = function(){
 
 		[...arguments].forEach(a => {
-			if(a&&a.user&&a.user.hasOwnProperty('premiumType')&&a.link=="/channels/@me"){
+			if(a&&a.user&&a.user.hasOwnProperty('premiumType')&&a.user.id==uid){
+				console.log('LOOK', arguments);
 				if(Discord.Settings.Raw.FakeNitro.General.FakeNitro)
 					a.user.premiumType = 2;
 				reset();
