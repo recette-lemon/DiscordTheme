@@ -207,3 +207,4 @@ Discord.Emoji = new (function(){
 })();
 
 window.discord = new Discord();
+window.discord.user = JSON.parse(_localStorage.user_id_cache);
